@@ -1,0 +1,5 @@
+webtaxi_main:
+    resource: "@WebtaxiMainBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
