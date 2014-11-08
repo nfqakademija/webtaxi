@@ -18,11 +18,18 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Webtaxi\MainBundle\WebtaxiMainBundle(),
+<<<<<<< HEAD
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
            # $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
+=======
+            new Webtaxi\MapBundle\WebtaxiMapBundle(),
+        );
+
+        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+>>>>>>> b464095f60d54ec0918a218f6e9340bc89c74419
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
