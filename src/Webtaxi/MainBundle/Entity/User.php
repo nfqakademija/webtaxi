@@ -3,6 +3,7 @@
 namespace Webtaxi\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * User
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class User
+class User extends BaseUser
 {
     /**
      * @var integer
@@ -19,35 +20,23 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
+
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="firstName", type="string", length=255)
      */
-    private $email;
+    protected $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="lastName", type="string", length=255)
      */
-    private $name;
+    protected $lastName;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="surname", type="string", length=255)
-     */
-    private $surname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
-     */
-    private $password;
 
     /**
      * @var string
@@ -59,24 +48,29 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="location_longitude", type="decimal")
+     * @ORM\Column(name="location_longitude", nullable=true, type="decimal")
      */
     private $locationLongitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="location_latitude", type="decimal")
+     * @ORM\Column(name="location_latitude", nullable=true, type="decimal")
      */
     private $locationLatitude;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="location_updated_at", type="datetimetz")
+     * @ORM\Column(name="location_updated_at", nullable=true, type="datetimetz")
      */
     private $locationUpdatedAt;
 
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Get id
@@ -114,12 +108,12 @@ class User
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $firstName
      * @return User
      */
-    public function setName($name)
+    public function setFirstName($firstName)
     {
-        $this->name = $name;
+        $this->firstName = $firstName;
 
         return $this;
     }
@@ -129,20 +123,20 @@ class User
      *
      * @return string 
      */
-    public function getName()
+    public function getFirstName()
     {
-        return $this->name;
+        return $this->firstName;
     }
 
     /**
      * Set surname
      *
-     * @param string $surname
+     * @param string $lastName
      * @return User
      */
-    public function setSurname($surname)
+    public function setLastName($lastName)
     {
-        $this->surname = $surname;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -152,9 +146,9 @@ class User
      *
      * @return string 
      */
-    public function getSurname()
+    public function getLastName()
     {
-        return $this->surname;
+        return $this->lastName;
     }
 
     /**
