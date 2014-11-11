@@ -16,9 +16,15 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             new Webtaxi\MainBundle\WebtaxiMainBundle(),
-
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         );
+
+        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            # $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
+            #new Webtaxi\MapBundle\WebtaxiMapBundle();
+        }
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();

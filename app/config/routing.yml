@@ -3,6 +3,12 @@ webtaxi_main:
     type:     annotation
     prefix:   /
 
-#_webtaxi_map:
-#    path:     /
-#    defaults: { _controller: WebtaxiMainBundle:Map:index }
+
+_webtaxi_map:
+    path:     /
+    defaults: { _controller: WebtaxiMainBundle:Map:index }
+
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
