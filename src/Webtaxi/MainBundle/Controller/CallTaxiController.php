@@ -5,8 +5,9 @@ namespace Webtaxi\MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use \FOS\UserBundle\Controller\SecurityController as BaseController;
 
-class CallTaxiController extends Controller
+class CallTaxiController extends BaseController
 {
     /**
      * @Route("/calltaxi")

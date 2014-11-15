@@ -13,4 +13,13 @@
         </service>
     </services>
     -->
+
+    <services>
+
+        <service id="webtaxi_user.registration.form.type" class="Webtaxi\MainBundle\Form\Type\RegistrationFormType">
+            <tag name="form.type" alias="webtaxi_user_registration" />
+        </service>
+
+    </services>
+
 </container>

@@ -75,3 +75,6 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Webtaxi\MainBundle\Entity\User
+    registration:
+            form:
+                type: webtaxi_user_registration

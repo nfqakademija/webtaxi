@@ -12,3 +12,7 @@ _webtaxi_map:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
+fos_user_registration_confirmed:
+    path:     /
+    defaults: { _controller: WebtaxiMainBundle:Map:index }
+

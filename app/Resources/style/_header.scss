@@ -8,5 +8,36 @@ input {
 
 form#userSettings div.cell {
   display: inline-block;
-
 }
+
+//#chooseUserPhoto {
+//  display: none;
+//}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  color: black;
+  width: auto !important;
+}
+
+.input-group-form {
+  @extend .input-group;
+  margin-bottom: 5px;
+}
+
+.invisible-item {
+  visibility: hidden;
+}
+
+a {
+  color: yellow !important;
+}
+
+.navbar-inverse a {
+  color: #777 !important;
+}
+
+.navbar-inverse a:active, .navbar-inverse a:hover {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
