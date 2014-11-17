@@ -9,13 +9,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class LoginController extends Controller
 {
     /**
-     * @Route("/login")
+     * @Route("/login2")
      * @Template()
      */
     public function indexAction()
     {
-        $args = array("name" => "Greta");
-        $response = $this->render('WebtaxiMainBundle:Login:index.html.twig', $args);
+
+        $response = $this->render('WebtaxiMainBundle:Login:index.html.twig');
         return $response;
     }
 }

@@ -1,7 +1,11 @@
 {
     "app.js": [
         "../../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js",
+<<<<<<< HEAD
         "map.js"
+=======
+        "alerter.js"
+>>>>>>> 7a2ba226dd9ae6b3cdb896feb46008fd79dacf56
     ],
     "jquery.js": [
         "../../../bower_components/jquery/dist/jquery.min.js"

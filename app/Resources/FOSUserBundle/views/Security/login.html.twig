@@ -1,0 +1,41 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% set inputSize = '50' %}
+{% block fos_user_content %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+
+        <div class="input-group-form">
+            <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_user.png') }}"/></span>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required"
+                   class="form-control" size="{{ inputSize }}" placeholder="Username"/>
+        </div>
+
+
+        <div class="input-group-form">
+            <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_key.png') }}"/></span>
+            <input type="password" id="password" name="_password" value="{{ last_username }}" required="required"
+                   class="form-control" size="{{ inputSize }}" placeholder="Password"/>
+        </div>
+
+        {#<div class="input-group-form">#}
+        {#<span class="input-group-addon"><input type="checkbox" id="remember_me" name="_remember_me" value="on"></span>#}
+        {#<span  class="form-control">Remember me?</span>#}
+        {#</div>#}
+
+        <input type="checkbox" id="remember_me" name="_remember_me" value="on">
+        <label for="remember_me" class="checkbox-inline">Remember me?</label>
+        <br><br>
+
+        <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"
+               class="btn btn-default btn-lg"/>
+    </form>
+
+    <h2>Do not have an account? <a href="{{ path('fos_user_registration_register') }}">Register</a></h2>
+{% endblock fos_user_content %}
