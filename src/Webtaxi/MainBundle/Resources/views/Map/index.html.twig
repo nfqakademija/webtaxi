@@ -2,7 +2,11 @@
 
 {% block content %}
 
-<h1> MAP </h1>
+    <p>
+        <label for="distance">Distance (km): </label>
+        <input type="text" name="distance" id="distance" readonly="true" />
+    </p>
+
     <div id="map-canvas"></div>
     <div>
         <label> Išvykimas </label>
@@ -11,7 +15,68 @@
     </div>
     <div>
         <label> Atvykimas </label>
-        <input id="address" type="textbox" value="Vilnius">
-        <input type="button" value="Rodyti" onclick="codeAddress()">
+        <input id="dest_address" type="textbox" value="Vilnius">
+        <input  type="button" value="Rodyti" onclick="codeAddress()">
     </div>
+<div>  <input id="Kviesti" type="button" value="Kviesti" >  </div>
+
+
+    <div>
+        <ul>
+            <li id="dropdown" class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Kuriomis dienomis vykstu<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">Pirmadienis
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">Antradienis
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">Trečiadienis
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">Ketvirtadienis
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">Penktadienis
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">Šeštadienis
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">Sekmadienis
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+    </div>
+
+
 {% endblock %}
