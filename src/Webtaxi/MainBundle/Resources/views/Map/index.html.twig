@@ -13,70 +13,41 @@
         <input id="address" type="textbox" value="Vilnius">
         <input type="button" value="Rodyti" onclick="codeAddress()">
     </div>
+
     <div>
         <label> Atvykimas </label>
         <input id="dest_address" type="textbox" value="Vilnius">
         <input  type="button" value="Rodyti" onclick="codeAddress()">
     </div>
-<div>  <input id="Kviesti" type="button" value="Kviesti" >  </div>
+
+            <label> Laikas: nuo </label>
+            <input id="timeFrom" type="textbox" value="">
+            <label> iki </label>
+            <input id="timeDue" type="textbox" value="">
+
+    </div>
+
+    <div>
+        <label> Siūloma kaina </label>
+        <input id="price" type="textbox" value="">
+        <label> LT </label>
+    </div>
+
+<div>  <input id="Kviesti" type="button" value="Pateikti" >  </div>
 
 
     <div>
-        <ul>
-            <li id="dropdown" class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Kuriomis dienomis vykstu<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">Pirmadienis
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">Antradienis
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">Trečiadienis
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">Ketvirtadienis
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">Penktadienis
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">Šeštadienis
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">Sekmadienis
-                            </label>
-                        </div>
-                    </li>
-                </ul>
-            </li>
+        <label> Išvykimas </label>
+        <input id="start_lat" type="textbox" value="">
+        <input id="start_lng" type="textbox" value="">
     </div>
+    <div>
+        <label> Atvykimas </label>
+        <input id="dest_lat" type="textbox" value="">
+        <input id="dest_lng" type="textbox" value="">
+    </div>
+
+
 
 
 {% endblock %}
