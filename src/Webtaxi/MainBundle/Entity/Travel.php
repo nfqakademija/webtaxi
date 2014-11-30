@@ -3,6 +3,7 @@
 namespace Webtaxi\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Travel
@@ -31,28 +32,32 @@ class Travel
     /**
      * @var string
      *
-     * @ORM\Column(name="source_longitude", type="decimal")
+     * @ORM\Column(name="source_longitude", type="decimal", precision=11, scale=8)
+     * @Assert\NotBlank()
      */
     private $sourceLongitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="source_latitude", type="decimal")
+     * @ORM\Column(name="source_latitude", type="decimal", precision=10, scale=8)
+     * @Assert\NotBlank()
      */
     private $sourceLatitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="destination_longitude", type="decimal")
+     * @ORM\Column(name="destination_longitude", type="decimal", precision=11, scale=8)
+     * @Assert\NotBlank()
      */
     private $destinationLongitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="destination_latitude", type="decimal")
+     * @ORM\Column(name="destination_latitude", type="decimal", precision=10, scale=8)
+     * @Assert\NotBlank()
      */
     private $destinationLatitude;
 
@@ -60,6 +65,7 @@ class Travel
      * @var string
      *
      * @ORM\Column(name="source_address", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $sourceAddress;
 
@@ -67,6 +73,7 @@ class Travel
      * @var string
      *
      * @ORM\Column(name="destination_address", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $destinationAddress;
 
@@ -91,7 +98,14 @@ class Travel
     /**
      * @var string
      *
-     * @ORM\Column(name="price", type="decimal")
+     * @ORM\Column(name="price", type="decimal", precision=4, scale=2)
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 1000,
+     *      minMessage = "Kaina negali būti mažesnė nei 1 litas",
+     *      maxMessage = "Kaina negali būti didesnė nei 1000 litų"
+     * )
      */
     private $price;
 
@@ -106,13 +120,21 @@ class Travel
      * @var integer
      *
      * @ORM\Column(name="passenger_count", type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 10,
+     *      minMessage = "Keleivių skaičius negali būti mažesnis nei 1",
+     *      maxMessage = "Keleivių negali būti daugiau nei 10"
+     * )
      */
     private $passengerCount;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="distance", type="decimal")
+     * @ORM\Column(name="distance", type="decimal", precision=5, scale=1)
+     * @Assert\NotBlank()
      */
     private $distance;
 

@@ -2,52 +2,96 @@
 
 {% block content %}
 
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
     <p>
-        <label for="distance">Distance (km): </label>
-        <input type="text" name="distance" id="distance" readonly="true" />
+
+        {#<input type="text" name="distance" id="distance" readonly="true" />#}
+
+    <div class="form-group">
+        <div class="form-inline">
+            <div class="form-group">
+                {{ form_label(form.distance) }}
+                {{ form_widget(form.distance, { 'attr': {'class': 'form-control'} , 'id': 'distance', 'value':'', 'read_only':true}  ) }}
+            </div>
+        </div>
+    </div>
     </p>
 
     <div id="map-canvas"></div>
+    <br>
     <div>
-        <label> Išvykimas </label>
-        <input id="address" type="textbox" value="Vilnius">
-        <input type="button" value="Rodyti" onclick="codeAddress()">
-    </div>
+        <div class="form-group">
+            <div class="form-inline">
+                <div class="form-group">
+                    {{ form_label(form.sourceAddress) }}
+                    {{ form_widget(form.sourceAddress, { 'attr': {'class': 'form-control'} , 'id': 'address', 'value':'Vilnius'} ) }}
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Rodyti" class="form-control btn" onclick="codeAddress()">
+                </div>
 
-    <div>
-        <label> Atvykimas </label>
-        <input id="dest_address" type="textbox" value="Vilnius">
-        <input  type="button" value="Rodyti" onclick="codeAddress()">
-    </div>
-
-            <label> Laikas: nuo </label>
-            <input id="timeFrom" type="textbox" value="">
-            <label> iki </label>
-            <input id="timeDue" type="textbox" value="">
-
+            </div>
+        </div>
     </div>
 
     <div>
-        <label> Siūloma kaina </label>
-        <input id="price" type="textbox" value="">
-        <label> LT </label>
+        <div class="form-group">
+            <div class="form-inline">
+                <div class="form-group">
+                    {{ form_label(form.destinationAddress) }}
+                    {{ form_widget(form.destinationAddress, { 'attr': {'class': 'form-control'} , 'id': 'dest_address', 'value':'Vilnius'} ) }}
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Rodyti" class="form-control btn" onclick="codeAddress()">
+                </div>
+
+            </div>
+        </div>
     </div>
 
-<div>  <input id="Kviesti" type="button" value="Pateikti" >  </div>
+    {#For now paliekam sita, veliau sugalvosim ir ikomponuosim:#}
+    {#<label> Laikas: nuo </label>#}
+    {#<input id="timeFrom" type="textbox" value="">#}
+    {#<label> iki </label>#}
+    {#<input id="timeDue" type="textbox" value="">#}
+    {#END OF kolkas paliekam#}
 
 
     <div>
-        <label> Išvykimas </label>
-        <input id="start_lat" type="textbox" value="">
-        <input id="start_lng" type="textbox" value="">
+        <div class="form-group">
+            <div class="form-inline">
+                <div class="form-group">
+                    {{ form_label(form.price) }}
+                    {{ form_widget(form.price, { 'attr': {'class': 'form-control'} , 'id': 'price', 'value':''} ) }}
+                    <span> Lt </span>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div>
-        <label> Atvykimas </label>
-        <input id="dest_lat" type="textbox" value="">
-        <input id="dest_lng" type="textbox" value="">
+        <div class="form-group">
+            <div class="form-inline">
+                <div class="form-group">
+                    {{ form_label(form.passengerCount) }}
+                    {{ form_widget(form.passengerCount, { 'attr': {'class': 'form-control'} , 'id': 'passengerCount', 'value':''} ) }}
+                </div>
+            </div>
+        </div>
     </div>
 
-
-
+    <div>
+        <div class="form-group">
+            <div class="form-inline">
+                <div class="form-group">
+                    {{ form_widget(form.save, { 'attr': {'class': 'form-control form-control btn'}, }) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+    </div>
 
 {% endblock %}

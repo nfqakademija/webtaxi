@@ -52,7 +52,7 @@
                         {% else %}
                             <span>
                         {% endif %}
-                        <a href="{{ path('webtaxi_main_usersettings_index') }}">{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a href="{{ path('fos_user_profile_edit') }}">{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
                             {% endif %}</a>
 
@@ -86,7 +86,7 @@
 
 
 
-    <div class="container">
+    <div class="container" id="container">
         {% block content %}{% endblock %}
     </div>
 {% endblock %}

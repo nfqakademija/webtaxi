@@ -87,13 +87,13 @@
             if (marker.title == 'start') {
                 document.getElementById('address').value = address;
                 start = marker.getPosition();
-                document.getElementById('start_lat').value =marker.getPosition().lat();
-                document.getElementById('start_lng').value =marker.getPosition().lng();
+                document.getElementById('travel_sourceLatitude').value =marker.getPosition().lat();
+                document.getElementById('travel_sourceLongitude').value =marker.getPosition().lng();
             } else {
                 document.getElementById('dest_address').value = address;
                 dest = marker.getPosition()
-                document.getElementById('dest_lat').value =marker.getPosition().lat();
-                document.getElementById('dest_lng').value =marker.getPosition().lng();
+                document.getElementById('travel_destinationLatitude').value =marker.getPosition().lat();
+                document.getElementById('travel_destinationLongitude').value =marker.getPosition().lng();
             }
 
             calcRoute(start, dest);
