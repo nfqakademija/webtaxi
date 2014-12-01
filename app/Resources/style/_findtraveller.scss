@@ -1,0 +1,13 @@
+#travelsList, #travelsList th {
+  text-align: center;
+}
+
+#loadingMore, #noMoreToLoad {
+  display: none;
+}
+
+table tr#travelTableLastLine td a#loadMore {
+  color: #000000 !important;
+  font-weight: bold;
+  text-decoration: none;
+}

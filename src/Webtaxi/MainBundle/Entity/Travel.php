@@ -3,15 +3,17 @@
 namespace Webtaxi\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use Doctrine\ORM\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Travel
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Webtaxi\MainBundle\Model\TravelRepository")
  */
-class Travel
+class Travel implements JsonSerializable
 {
     /**
      * @var integer
@@ -137,6 +139,14 @@ class Travel
      * @Assert\NotBlank()
      */
     private $distance;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profit", type="decimal", precision=4, scale=2)
+     */
+    private $profit;
 
 
     /**
@@ -446,5 +456,53 @@ class Travel
     public function getDistance()
     {
         return $this->distance;
+    }
+
+    /**
+     * Set profit
+     *
+     * @param string $distance
+     * @return Travel
+     */
+    public function setProfit($profit)
+    {
+        $this->profit = $profit;
+
+        return $this;
+    }
+
+    /**
+     * Get profit
+     *
+     * @return string
+     */
+    public function getProfit()
+    {
+        return $this->profit;
+    }
+
+    /**
+     * @return array|mixed encoded json (for travel table)
+     */
+    public function jsonSerialize() {
+        $timeCallFormated = "";
+        if (date('Ymd') == date('Ymd', $this->timeCall->getTimestamp())) {
+            //today, show only time:
+            $timeCallFormated = $this->timeCall->format("H:i");
+        } else {
+            $timeCallFormated = $this->timeCall->format("n-d H:i");
+        }
+        return [
+            'id' => $this->id,
+            'timeCall' => $timeCallFormated,
+            'sourceAddress' => $this->sourceAddress,
+            'client' => $this->clientId,
+            'destinationAddress' => $this->destinationAddress,
+            'price' => $this->price,
+            'passengerCount' => $this->passengerCount,
+            'distance' => $this->distance,
+            'isMyTravel' => false,
+            'profit' => $this->profit
+        ];
     }
 }

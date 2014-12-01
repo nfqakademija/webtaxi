@@ -3,6 +3,7 @@
 namespace Webtaxi\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
@@ -11,7 +12,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  * @ORM\Table()
  * @ORM\Entity
  */
-class User extends BaseUser
+class User extends BaseUser implements JsonSerializable
 {
     /**
      * @var integer
@@ -264,5 +265,17 @@ class User extends BaseUser
     public function getLocationUpdatedAt()
     {
         return $this->locationUpdatedAt;
+    }
+
+    /**
+     * @return array|mixed encoded json (for travel table)
+     */
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName
+        ];
     }
 }

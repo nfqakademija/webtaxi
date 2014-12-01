@@ -36,6 +36,7 @@ class MapController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $travel->setTimeCall(new \DateTime());
                 $travel->setIsClosed(false);
+                $travel->setProfit($travel->getPrice() / $travel->getDistance());
 
                 //probably apskritai neiliseim i si puslapi, jei user null ?
                 if ($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {

@@ -2,6 +2,45 @@
 
 {% block content %}
 <h1>Find</h1>
+
+    <div class="table-responsive" id="travelsList">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Laikas</th>
+                <th>Išvykimas</th>
+                <th>Atvykimas</th>
+                <th>Kvietėjas</th>
+                <th>Kaina</th>
+                <th>Keleiviai</th>
+                <th>Atstumas</th>
+                <th>Pelningumas</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="travelsTBody">
+
+            <tr id="travelTableLastLine">
+
+                <td colspan="9">
+                    <a id="loadMore" href="#">
+                        Įkelti dar
+                    </a>
+                    <div id="loadingMore">
+                        <img src="{{ asset('bundles/webtaximain/images/load.gif') }}" />
+                    </div>
+                    <div id="noMoreToLoad">
+                        Daugiau kelionių nėra
+                    </div>
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
 {% endblock %}
 
 
