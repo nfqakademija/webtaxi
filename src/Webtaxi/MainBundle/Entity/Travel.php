@@ -150,6 +150,14 @@ class Travel implements JsonSerializable
 
 
     /**
+     * @var boolean
+     *
+     *
+     */
+    private $isMyTravel;
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -482,6 +490,29 @@ class Travel implements JsonSerializable
     }
 
     /**
+     * Set isMyTravel
+     *
+     * @param string $distance
+     * @return Travel
+     */
+    public function setIsMyTravel($isMyTravel)
+    {
+        $this->isMyTravel = $isMyTravel;
+
+        return $this;
+    }
+
+    /**
+     * Get isMyTravel
+     *
+     * @return string
+     */
+    public function getIsMyTravel()
+    {
+        return $this->isMyTravel;
+    }
+
+    /**
      * @return array|mixed encoded json (for travel table)
      */
     public function jsonSerialize() {
@@ -502,7 +533,8 @@ class Travel implements JsonSerializable
             'passengerCount' => $this->passengerCount,
             'distance' => $this->distance,
             'isMyTravel' => false,
-            'profit' => $this->profit
+            'profit' => $this->profit,
+            'isMyTravel' => $this->isMyTravel
         ];
     }
 }

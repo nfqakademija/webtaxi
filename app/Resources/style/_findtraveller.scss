@@ -6,8 +6,16 @@
   display: none;
 }
 
-table tr#travelTableLastLine td a#loadMore {
+#travelsList table tr#travelTableLastLine td a#loadMore {
   color: #000000 !important;
   font-weight: bold;
   text-decoration: none;
+}
+
+#travelsList table tr:not(#travelTableFirstLine):not(#travelTableLastLine):hover {
+  background-color: #D3D3D3;
+}
+
+#travelsList table tr.myTravel {
+  background-color: #f9ffe2;
 }
