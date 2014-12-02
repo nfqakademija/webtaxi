@@ -41,31 +41,46 @@ class FindTravellerController extends Controller
         if ($paramsString != null)
         {
             $params = explode("&", $paramsString);
-            for ($i=0; $i < count($params) ; $i++) {
+            for ($i=0; $i < count($params) ; $i++)
+            {
                 $pair = explode("=", $params[$i]);
                 $name = $pair[0];
                 $value = $pair[1];
-                if ($name == "count") {
+                if ($name == "count")
+                {
                     $queryLimit = (int) $value;
-                }
+                } else
                 if ($name == "fromId") {
                     $idFrom = (int) $value;
                 }
             }
         }
 
-        if ($idFrom >= 0) {
+        if ($idFrom >= 0)
+        {
             $travels = $this->getDoctrine()->
                 getRepository('WebtaxiMainBundle:Travel')
                 ->getTravelsAfterId($idFrom, (int) $queryLimit);
-        } else {
+        } else
+        {
             $travels = $this->getDoctrine()
                 ->getRepository('WebtaxiMainBundle:Travel')
                 ->findBy(array(),
                     array('timeCall' => 'DESC'),
-                    (int) $queryLimit
-                )
-            ;
+                    (int) $queryLimit);
+        }
+
+        // loop through travels and check if current travel is my travel:
+        // if its true, it should highlighted in list
+        // and also it should be ability to delete it [ToDo]
+        $userCurrent = $this->container->get('security.context')->getToken()->getUser();
+        for($i = 0; $i < count($travels); $i++)
+        {
+            $t = $travels[$i];
+            if ($t->getClientId() == $userCurrent)
+            {
+                $t->setIsMyTravel(true);
+            }
         }
 
         $response = new Response(json_encode(array("travels"=>$travels)));

@@ -67,6 +67,10 @@
                         td.appendChild(text);
                         tr.appendChild(td);
 
+                        if (t.isMyTravel) {
+                            tr.className += " myTravel";
+                        }
+
                         tableBody.insertBefore(tr, tableBody.childNodes[tableBody.childNodes.length-2]);
                         lastId = travels[i].id;
                     }
