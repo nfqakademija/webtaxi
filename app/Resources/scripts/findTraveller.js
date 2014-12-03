@@ -9,7 +9,7 @@
         $('#loadingMore').show();
         $.ajax({
             url: 'loadMoreTravels',
-            type: 'POST',
+            type: 'GET',
             data: { count : count, fromId : lastId },
             contentType: 'application/json; charset=utf-8',
             onload: function () {
@@ -61,14 +61,22 @@
                         text = document.createTextNode(t.distance);
                         td.appendChild(text);
                         tr.appendChild(td);
-                        //yield:
+                        //profit:
                         td = document.createElement("td");
                         text = document.createTextNode(t.profit);
                         td.appendChild(text);
                         tr.appendChild(td);
-
+                        //action:
+                        td = document.createElement("td");
+                        var img = document.createElement("img");
                         if (t.isMyTravel) {
-                            tr.className += " myTravel";
+                            tr.className += " myTravel ";
+                            img.src = "http://webtaxi.dev/bundles/webtaximain/images/remove.png";
+                            $( img ).click(createRemoveFunction(t.id));
+                            td.appendChild(img);
+                            tr.appendChild(td);
+                        } else {
+
                         }
 
                         tableBody.insertBefore(tr, tableBody.childNodes[tableBody.childNodes.length-2]);
@@ -87,7 +95,7 @@
 
             error: function () {
                 $('#loadingMore').hide();
-                alert('Nenumatyta klaida. Praneškite aplie klaidą');
+                alert('Nenumatyta klaida. Praneškite apie klaidą');
             }
         });
 
@@ -99,4 +107,34 @@
     });
 
 
+    function createRemoveFunction(travelId) {
+        return function() {
+            $.ajax({
+                url: 'removeMyTravel/' + travelId,
+                type: 'DELETE',
+
+                contentType: 'application/json; charset=utf-8',
+                onload: function () {
+                    showLoading
+                },
+                success: function (response) {
+                    console.log(response);
+                    var json = response;
+                    var obj = JSON && JSON.parse(json) || $.parseJSON(json);
+                    var status = obj.status;
+                    // we dont care about status, just reloadin page;
+                },
+                complete: function(){
+                    window.location.reload(true);
+                },
+
+                error: function () {
+                    alert('Nenumatyta klaida. Praneškite apie klaidą');
+                }
+            });
+        }
+    }
+
+
 })(window.jQuery);
+

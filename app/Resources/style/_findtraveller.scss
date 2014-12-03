@@ -19,3 +19,14 @@
 #travelsList table tr.myTravel {
   background-color: #f9ffe2;
 }
+
+#travelsList table tr.myTravel:hover {
+  background-color: #f9ffb2 !important;
+}
+
+.ui-widget-header, .ui-state-default, .ui-button{
+  background:#b9cd6d;
+  border: 1px solid #b9cd6d;
+  color: #FFFFFF;
+  font-weight: bold;
+}
