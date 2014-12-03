@@ -3,7 +3,8 @@
         "../../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js",
         "map.js",
         "user_settings.js",
-        "findTraveller.js"
+        "findTraveller.js",
+        "main_js.js"
     ],
     "jquery.js": [
         "../../../bower_components/jquery/dist/jquery.min.js"
