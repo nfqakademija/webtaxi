@@ -77,7 +77,7 @@ class FindTravellerController extends Controller
         for($i = 0; $i < count($travels); $i++)
         {
             $t = $travels[$i];
-            if ($t->getClientId() == $userCurrent)
+            if ($t->getClient() == $userCurrent)
             {
                 $t->setIsMyTravel(true);
             }

@@ -40,7 +40,7 @@ class MapController extends Controller
 
                 //probably apskritai neiliseim i si puslapi, jei user null ?
                 if ($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-                    $travel->setClientId($this->container->get('security.context')->getToken()->getUser());
+                    $travel->setClient($this->container->get('security.context')->getToken()->getUser());
                     $em->persist($travel);
                     $em->flush();
 //                exit(\Doctrine\Common\Util\Debug::dump($user));

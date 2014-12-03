@@ -27,7 +27,7 @@ class Travel implements JsonSerializable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time_call", type="datetimetz")
+     * @ORM\Column(name="time_call", type="datetime")
      */
     private $timeCall;
 
@@ -80,13 +80,13 @@ class Travel implements JsonSerializable
     private $destinationAddress;
 
     /**
-     * @var integer
+     * @var User
      *
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="users")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
-    private $clientId;
+    private $client;
 
     /**
      * @var integer
@@ -101,7 +101,7 @@ class Travel implements JsonSerializable
      * @var string
      *
      * @ORM\Column(name="price", type="decimal", precision=4, scale=2)
-     * @Assert\NotBlank
+     *
      * @Assert\Range(
      *      min = 1,
      *      max = 1000,
@@ -329,49 +329,49 @@ class Travel implements JsonSerializable
     }
 
     /**
-     * Set clientId
+     * Set client
      *
-     * @param integer $clientId
+     * @param user $client
      * @return Travel
      */
-    public function setClientId($clientId)
+    public function setClient($client)
     {
-        $this->clientId = $clientId;
+        $this->client = $client;
 
         return $this;
     }
 
     /**
-     * Get clientId
+     * Get client
      *
-     * @return integer 
+     * @return User
      */
-    public function getClientId()
+    public function getClient()
     {
-        return $this->clientId;
+        return $this->client;
     }
 
     /**
      * Set driverId
      *
-     * @param integer $driverId
+     * @param User $driver
      * @return Travel
      */
-    public function setDriverId($driverId)
+    public function setDriver($driver)
     {
-        $this->driverId = $driverId;
+        $this->driver = $driver;
 
         return $this;
     }
 
     /**
-     * Get driverId
+     * Get User $driver
      *
-     * @return integer 
+     * @return User
      */
-    public function getDriverId()
+    public function getDriver()
     {
-        return $this->driverId;
+        return $this->driver;
     }
 
     /**
@@ -527,7 +527,7 @@ class Travel implements JsonSerializable
             'id' => $this->id,
             'timeCall' => $timeCallFormated,
             'sourceAddress' => $this->sourceAddress,
-            'client' => $this->clientId,
+            'client' => $this->client,
             'destinationAddress' => $this->destinationAddress,
             'price' => $this->price,
             'passengerCount' => $this->passengerCount,
