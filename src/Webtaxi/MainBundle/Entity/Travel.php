@@ -95,7 +95,7 @@ class Travel implements JsonSerializable
      * @ORM\ManyToOne(targetEntity="User", inversedBy="user")
      * @ORM\JoinColumn(name="driver_id", nullable=true, referencedColumnName="id")
      */
-    private $driverId;
+    private $driver;
 
     /**
      * @var string
