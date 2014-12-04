@@ -40,7 +40,6 @@ class MapController extends Controller
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $travel->setTimeCall(new \DateTime());
-                $travel->setIsClosed(false);
                 $travel->setProfit($travel->getPrice() / $travel->getDistance());
 
                 //probably apskritai neiliseim i si puslapi, jei user null ?

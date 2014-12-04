@@ -113,13 +113,6 @@ class Travel implements JsonSerializable
     private $price;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_closed", type="boolean")
-     */
-    private $isClosed;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="passenger_count", type="integer")
@@ -404,29 +397,6 @@ class Travel implements JsonSerializable
     public function getPrice()
     {
         return $this->price;
-    }
-
-    /**
-     * Set isClosed
-     *
-     * @param boolean $isClosed
-     * @return Travel
-     */
-    public function setIsClosed($isClosed)
-    {
-        $this->isClosed = $isClosed;
-
-        return $this;
-    }
-
-    /**
-     * Get isClosed
-     *
-     * @return boolean 
-     */
-    public function getIsClosed()
-    {
-        return $this->isClosed;
     }
 
     /**
