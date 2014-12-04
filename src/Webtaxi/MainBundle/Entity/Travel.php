@@ -101,7 +101,8 @@ class Travel implements JsonSerializable
      * @var string
      *
      * @ORM\Column(name="price", type="decimal", precision=4, scale=2)
-     *
+     * @Assert\Type(type="double", message="Įveskite kainą skaičiais")
+     * @Assert\NotBlank(message="Įveskite kainą skaičiais")
      * @Assert\Range(
      *      min = 1,
      *      max = 1000,
@@ -122,7 +123,8 @@ class Travel implements JsonSerializable
      * @var integer
      *
      * @ORM\Column(name="passenger_count", type="integer")
-     * @Assert\NotBlank()
+     * @Assert\Type(type="integer", message="Įveskite keleivių skaičių skaičiais")
+     * @Assert\NotBlank(message="Įveskite keleivių skaičių")
      * @Assert\Range(
      *      min = 1,
      *      max = 10,
@@ -136,7 +138,14 @@ class Travel implements JsonSerializable
      * @var string
      *
      * @ORM\Column(name="distance", type="decimal", precision=5, scale=1)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Nurodykite teisingus išvykimo ir atvykimo taškus")
+     * @Assert\Type(type="double", message="Šis atstumas turi būti apskaičiuotas automatiškai")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 500,
+     *      minMessage = "Negalima skelbti kelionių, kurių atstumas mažesnis nei 1km",
+     *      maxMessage = "Negalima skelbti kelionių, kurių atstumas didesnis nei 500km"
+     * )
      */
     private $distance;
 

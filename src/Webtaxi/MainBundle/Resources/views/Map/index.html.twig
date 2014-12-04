@@ -3,7 +3,8 @@
 {% block content %}
 
     {{ form_start(form) }}
-    {{ form_errors(form) }}
+    {#{% form_theme form 'WebtaxiMainBundle:Form:form_errors.html.twig' %}#}
+    {% form_theme form 'WebtaxiMainBundle:Form:bootstrap_3_layout.html.twig' %}
 
     <p>
 
@@ -14,6 +15,7 @@
             <div class="form-group">
                 {{ form_label(form.distance) }}
                 {{ form_widget(form.distance, { 'attr': {'class': 'form-control'} , 'id': 'distance', 'value':'', 'read_only':true}  ) }}
+                {{ form_errors(form.distance) }}
             </div>
         </div>
     </div>
@@ -65,7 +67,7 @@
                 <div class="form-group">
                     {{ form_label(form.price) }}
                     {{ form_widget(form.price, { 'attr': {'class': 'form-control'} , 'id': 'price', 'value':''} ) }}
-                    <span> Lt </span>
+                    {{ form_errors(form.price) }}
                 </div>
             </div>
         </div>
@@ -77,6 +79,7 @@
                 <div class="form-group">
                     {{ form_label(form.passengerCount) }}
                     {{ form_widget(form.passengerCount, { 'attr': {'class': 'form-control'} , 'id': 'passengerCount', 'value':''} ) }}
+                    {{ form_errors(form.passengerCount) }}
                 </div>
             </div>
         </div>
