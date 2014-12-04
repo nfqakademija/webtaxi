@@ -25,6 +25,11 @@ class MapController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if (!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $response = $this->render('WebtaxiMainBundle:Main:index.html.twig');
+            return $response;
+        }
+
         $travel = new Travel();
 
         $form = $this->createForm(new TravelFormType(), $travel);
