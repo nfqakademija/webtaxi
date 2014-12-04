@@ -7,16 +7,42 @@ namespace Webtaxi\MainBundle\Model;
  * Time: 20:25
  */
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Translation\Tests\String;
 
 
 class TravelRepository extends EntityRepository
 {
+    /**
+     * @param $id
+     * @param $queryLimit
+     * @return array all travels followed by id
+     */
     public function getTravelsAfterId($id, $queryLimit)
     {
+
         return $this->getEntityManager()
             ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t WHERE t.id < ' . $id .  ' ORDER BY t.timeCall DESC')
             ->setMaxResults($queryLimit)
             ->getResult();
 
     }
+
+    /**
+     * @param $id
+     * @param $queryLimit
+     * @return array travels with no drivers followed by id
+     */
+    public function getNotAcceptedTravelsAfterId($id, $queryLimit)
+    {
+
+        return $this->getEntityManager()
+            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t
+            WHERE t.id < ' . $id .
+                ' AND t.driver is null' .
+                ' ORDER BY t.timeCall DESC')
+            ->setMaxResults($queryLimit)
+            ->getResult();
+
+    }
+
 }

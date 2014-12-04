@@ -39,17 +39,12 @@ class FindTravellerController extends Controller
         $queryLimit = $request->query->get('count', 10);
 
 
-        if ($idFrom >= 0) {
-            $travels = $this->getDoctrine()->
-            getRepository('WebtaxiMainBundle:Travel')
-                ->getTravelsAfterId($idFrom, (int) $queryLimit);
-        } else {
-            $travels = $this->getDoctrine()
-                ->getRepository('WebtaxiMainBundle:Travel')
-                ->findBy(array(),
-                    array('timeCall' => 'DESC'),
-                    (int) $queryLimit);
+        if ($idFrom <= 0) {
+            $idFrom = PHP_INT_MAX;
         }
+        $travels = $this->getDoctrine()->
+        getRepository('WebtaxiMainBundle:Travel')
+            ->getNotAcceptedTravelsAfterId($idFrom, (int) $queryLimit);
 
         // loop through travels and check if current travel is my travel:
         // if its true, it should highlighted in list
@@ -93,6 +88,36 @@ class FindTravellerController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($travel);
+        $em->flush();
+        return new Response(json_encode(array("status" => 1)));
+
+    }
+
+
+    /**
+     * ajax function for accepting a travel
+     * Checks if travel exists, if client is current user and if it does not have a driver.
+     *
+     * @Route("/acceptTravel/{travel}")
+     * @param Travel $travel
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function acceptTravelAction(Travel $travel)
+    {
+        if ($travel == null) {
+            return new Response(json_encode(array("status" => -1)));
+        }
+        //if travel client is current user, error:
+        if ($travel->getClient() == $this->getUser()) {
+            return new Response(json_encode(array("status" => -4)));
+        }
+        //if travel already has a driver, it could not be accepted, error:
+        if ($travel->getDriver() != null) {
+            return new Response(json_encode(array("status" => -5)));
+        }
+        $travel->setDriver($this->getUser());
+
+        $em = $this->getDoctrine()->getManager();
         $em->flush();
         return new Response(json_encode(array("status" => 1)));
 

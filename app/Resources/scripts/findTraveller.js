@@ -73,11 +73,13 @@
                             tr.className += " myTravel ";
                             img.src = "http://webtaxi.dev/bundles/webtaximain/images/remove.png";
                             $( img ).click(createRemoveFunction(t.id));
-                            td.appendChild(img);
-                            tr.appendChild(td);
-                        } else {
 
+                        } else {
+                            img.src = "http://webtaxi.dev/bundles/webtaximain/images/tick.png";
+                            $( img ).click(createTravelAcceptFunction(t.id));
                         }
+                        td.appendChild(img);
+                        tr.appendChild(td);
 
                         tableBody.insertBefore(tr, tableBody.childNodes[tableBody.childNodes.length-2]);
                         lastId = travels[i].id;
@@ -122,7 +124,37 @@
                     var json = response;
                     var obj = JSON && JSON.parse(json) || $.parseJSON(json);
                     var status = obj.status;
-                    // we dont care about status, just reloadin page;
+                    // for now, we dont care about status, just reload page;
+                    //ToDo deal with response
+                },
+                complete: function(){
+                    window.location.reload(true);
+                },
+
+                error: function () {
+                    alert('Nenumatyta klaida. Praneškite apie klaidą');
+                }
+            });
+        }
+    }
+
+    function createTravelAcceptFunction(travelId) {
+        return function() {
+            $.ajax({
+                url: 'acceptTravel/' + travelId,
+                type: 'PUT',
+
+                contentType: 'application/json; charset=utf-8',
+                onload: function () {
+                    showLoading
+                },
+                success: function (response) {
+                    console.log(response);
+                    var json = response;
+                    var obj = JSON && JSON.parse(json) || $.parseJSON(json);
+                    var status = obj.status;
+                    // for now, we dont care about status, just reload page;
+                    //ToDo deal with response
                 },
                 complete: function(){
                     window.location.reload(true);
