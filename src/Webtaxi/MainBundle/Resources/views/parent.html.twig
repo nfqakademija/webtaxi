@@ -5,17 +5,11 @@
     <nav class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <a  href="#">  <img src="{{ asset('bundles/webtaximain/images/LOGO.png') }}" /> </a>
-
+                <span class="navbar-brand">
+                    <img alt="Brand" src="{{ asset('bundles/webtaximain/images/LOGO.png') }}">
+                </span>
             </div>
+
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     {% if app.request.attributes.get('_route') == 'webtaxi_main_map_index' %}
@@ -51,8 +45,6 @@
                         <a href="{{ path('fos_user_security_logout') }}">{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                 &nbsp; <img src="{{ asset('bundles/webtaximain/images/ic_logout.png') }}" />
                             {% endif %}</a>
-
-
 
 
                         </span>
