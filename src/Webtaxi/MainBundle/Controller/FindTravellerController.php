@@ -74,29 +74,26 @@ class FindTravellerController extends Controller
      */
     public function removeMyTravelAction(Travel $travel)
     {
-        if ($travel == null) {
-            return new Response(json_encode(array("status" => -1)));
-        }
         //if travel client is not current user, error:
         if ($travel->getClient() != $this->getUser()) {
-            return new Response(json_encode(array("status" => -2)));
+            return new Response(json_encode(array("status" => -2, "message" => "Jūs negalite trinti ne savo kelionę")));
         }
         //if traval has a driver, it could not be canceled, error:
         if ($travel->getDriver() != null) {
-            return new Response(json_encode(array("status" => -3)));
+            return new Response(json_encode(array("status" => -3, "message" => "Ši kelionė jau priimta, jos trinti nebegalima")));
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($travel);
         $em->flush();
-        return new Response(json_encode(array("status" => 1)));
+        return new Response(json_encode(array("status" => 1, "message" => "Jūsų kelionė buvo sėkmingai ištrinta")));
 
     }
 
 
     /**
      * ajax function for accepting a travel
-     * Checks if travel exists, if client is current user and if it does not have a driver.
+     * Checks if travel exists, if client is not a current user and if it does not have a driver.
      *
      * @Route("/acceptTravel/{travel}")
      * @param Travel $travel
@@ -104,22 +101,19 @@ class FindTravellerController extends Controller
      */
     public function acceptTravelAction(Travel $travel)
     {
-        if ($travel == null) {
-            return new Response(json_encode(array("status" => -1)));
-        }
         //if travel client is current user, error:
         if ($travel->getClient() == $this->getUser()) {
-            return new Response(json_encode(array("status" => -4)));
+            return new Response(json_encode(array("status" => -4, "message" => "Negalite priimti savo paties kelionės")));
         }
         //if travel already has a driver, it could not be accepted, error:
         if ($travel->getDriver() != null) {
-            return new Response(json_encode(array("status" => -5)));
+            return new Response(json_encode(array("status" => -5, 'message' => "Deja, ši kelionė jau turi vairuotoją")));
         }
         $travel->setDriver($this->getUser());
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return new Response(json_encode(array("status" => 1)));
+        return new Response(json_encode(array("status" => 1, 'message' => "Jūs priėmėte šią kelionę")));
 
     }
 }
