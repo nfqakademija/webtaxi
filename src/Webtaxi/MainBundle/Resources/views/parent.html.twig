@@ -22,7 +22,7 @@
                 {% else %}
                     <li>
                         {% endif %}
-                        <a href="{{ path('webtaxi_main_map_index') }}">Map</a>
+                        <a href="{{ path('webtaxi_main_map_index') }}">Rask vežėją</a>
                     </li>
 
                     {% if app.request.attributes.get('_route') == 'webtaxi_main_findtraveller_index' %}
@@ -30,7 +30,7 @@
                 {% else %}
                     <li>
                         {% endif %}
-                        <a href="{{ path('webtaxi_main_findtraveller_index') }}">Find traveller</a>
+                        <a href="{{ path('webtaxi_main_findtraveller_index') }}">Rask pakeleivį</a>
                     </li>
 
                 </ul>
@@ -44,7 +44,7 @@
                             <span>
                         {% endif %}
                         <a href="{{ path('fos_user_profile_edit') }}">{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                                Prisijungęs kaip {{ app.security.getToken().getUser() }}
                             {% endif %}</a>
 
                         <a href="{{ path('fos_user_security_logout') }}">{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
@@ -61,7 +61,7 @@
                         {% else %}
                             <span>
                         {% endif %}
-                        <a href="{{ path('fos_user_security_login') }}">Login</a>
+                        <a href="{{ path('fos_user_security_login') }}">Jungtis</a>
                         </span>
                     {% endif %}
 
