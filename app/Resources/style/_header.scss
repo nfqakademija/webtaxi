@@ -1,5 +1,6 @@
 body {
   background: #ccc;
+  height: 100%;
 }
 
 input {
@@ -9,10 +10,6 @@ input {
 form#userSettings div.cell {
   display: inline-block;
 }
-
-//#chooseUserPhoto {
-//  display: none;
-//}
 
 input[type="text"], input[type="password"], input[type="email"] {
   color: black;
@@ -39,5 +36,42 @@ a {
 .navbar-inverse a:active, .navbar-inverse a:hover {
   color: #fff !important;
   text-decoration: none !important;
+}
+
+
+.formlbl{
+  width: 100px;
+}
+
+.wrap{
+  height: 100%;
+  height: auto;
+  margin-bottom: -60px;
+}
+
+.wrap:after{
+  content: "";
+  display: block;
+  height: 60px;
+}
+
+.navbar{
+  background-color: black;
+  height: 30px;
+}
+
+.formlbl{
+  width: 200px;
+}
+
+.form-control{
+  vertical-align:middle;
+  height: 3em;
+}
+
+.btn{
+  height: 3em;
+  color: #000000;
+  padding-bottom: 10px;
 }
 

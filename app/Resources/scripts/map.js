@@ -16,10 +16,41 @@
         var destinationMarkerCreated = false,
             destinationMarker,
             currentLocation  = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+
+        var style = [
+            {
+                stylers: [
+                    { saturation: "-100" },
+                    { lightness: "20" }
+                ]
+            },{
+                featureType: "poi",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },{
+                featureType: "transit",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },{
+                featureType: "road",
+                stylers: [
+                    { lightness: "50" },
+                    { visibility: "on" }
+                ]
+            },{
+                featureType: "landscape",
+                stylers: [
+                    { lightness: "50" }
+                ]
+            }
+        ]
         map = new google.maps.Map(document.getElementById("map-canvas"), {
             center: currentLocation,
             zoom: 14,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            styles: style
         });
 
         directionsDisplay.setMap(map);

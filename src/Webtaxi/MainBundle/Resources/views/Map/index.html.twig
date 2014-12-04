@@ -1,19 +1,23 @@
 {% extends 'WebtaxiMainBundle::parent.html.twig' %}
 
+
 {% block content %}
 
     {{ form_start(form) }}
     {#{% form_theme form 'WebtaxiMainBundle:Form:form_errors.html.twig' %}#}
     {% form_theme form 'WebtaxiMainBundle:Form:bootstrap_3_layout.html.twig' %}
 
+
+    <div class="container">
     <p>
 
         {#<input type="text" name="distance" id="distance" readonly="true" />#}
 
+
     <div class="form-group">
         <div class="form-inline">
             <div class="form-group">
-                {{ form_label(form.distance) }}
+                {{ form_label(form.distance, null, { 'label_attr': {'class': 'formlbl'} }) }}
                 {{ form_widget(form.distance, { 'attr': {'class': 'form-control'} , 'id': 'distance', 'value':'', 'read_only':true}  ) }}
                 {{ form_errors(form.distance) }}
             </div>
@@ -23,32 +27,28 @@
 
     <div id="map-canvas"></div>
     <br>
-    <div>
-        <div class="form-group">
-            <div class="form-inline">
-                <div class="form-group">
-                    {{ form_label(form.sourceAddress) }}
-                    {{ form_widget(form.sourceAddress, { 'attr': {'class': 'form-control'} , 'id': 'address', 'value':'Vilnius'} ) }}
-                </div>
-                <div class="form-group">
-                    <input type="button" value="Rodyti" class="form-control btn" onclick="codeAddress()">
-                </div>
 
+        <div>
+            <div class="form-group">
+                <div class="form-inline">
+                    <div class="form-group">
+                    {{ form_label(form.sourceAddress, null, { 'label_attr': {'class': 'formlbl'} }) }}
+                    {{ form_widget(form.sourceAddress, { 'attr': {'class': 'form-control '} , 'id': 'address', 'value':'Vilnius'} ) }}
+                    <input type="button" value="Rodyti" class="btn" onclick="codeAddress()">
+                 </div>
             </div>
         </div>
     </div>
 
+
     <div>
         <div class="form-group">
             <div class="form-inline">
                 <div class="form-group">
-                    {{ form_label(form.destinationAddress) }}
-                    {{ form_widget(form.destinationAddress, { 'attr': {'class': 'form-control'} , 'id': 'dest_address', 'value':'Vilnius'} ) }}
+                    {{ form_label(form.destinationAddress, null, { 'label_attr': {'class': 'formlbl'} }) }}
+                    {{ form_widget(form.destinationAddress, { 'attr': {'class': 'form-control '} , 'id': 'dest_address', 'value':'Vilnius'} ) }}
+                    <input type="button" value="Rodyti" class="btn" onclick="codeAddress()">
                 </div>
-                <div class="form-group">
-                    <input type="button" value="Rodyti" class="form-control btn" onclick="codeAddress()">
-                </div>
-
             </div>
         </div>
     </div>
@@ -65,9 +65,12 @@
         <div class="form-group">
             <div class="form-inline">
                 <div class="form-group">
-                    {{ form_label(form.price) }}
+
+                    {{ form_label(form.price, null, { 'label_attr': {'class': 'formlbl'} }) }}
                     {{ form_widget(form.price, { 'attr': {'class': 'form-control'} , 'id': 'price', 'value':''} ) }}
                     {{ form_errors(form.price) }}
+
+
                 </div>
             </div>
         </div>
@@ -77,9 +80,11 @@
         <div class="form-group">
             <div class="form-inline">
                 <div class="form-group">
-                    {{ form_label(form.passengerCount) }}
+
+                    {{ form_label(form.passengerCount, null, { 'label_attr': {'class': 'formlbl'} }) }}
                     {{ form_widget(form.passengerCount, { 'attr': {'class': 'form-control'} , 'id': 'passengerCount', 'value':''} ) }}
                     {{ form_errors(form.passengerCount) }}
+
                 </div>
             </div>
         </div>
@@ -89,12 +94,14 @@
         <div class="form-group">
             <div class="form-inline">
                 <div class="form-group">
-                    {{ form_widget(form.save, { 'attr': {'class': 'form-control form-control btn'}, }) }}
+                    {{ form_widget(form.save, { 'attr': {'class': 'form-control form-control btn'} }) }}
                 </div>
             </div>
         </div>
     </div>
     {{ form_end(form) }}
+    </div>
+
     </div>
 
 {% endblock %}
