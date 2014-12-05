@@ -30,6 +30,122 @@
   text-shadow: 2px 2px 2px #D3D3D3;
 }
 
+ @media all and (max-width: 2000px) {
+   #fore-word-img {
+     width: 650px;
+     height: auto;
+   }
+   #fore-word-content {
+     top: 90px;
+     left: 280px;
+     width: 340px;
+     line-height: 170%;
+     font-size: large;
+   }
+   #fore-word-logo {
+     top:65px;
+     left: 95px;
+   }
+   #join-us {
+     margin-top: 40px;
+   }
+ }
+
+ @media all and (max-width: 950px) {
+   #fore-word-img {
+     width: 500px;
+     height: auto;
+   }
+   #fore-word-content {
+     top: 70px;
+     left: 225px;
+     width: 240px;
+     line-height: 130%;
+   }
+   #fore-word-logo {
+     top: 50px;
+     left: 85px;
+   }
+   #join-us {
+     margin-top: 20px;
+   }
+ }
+
+ @media all and (max-width: 650px) {
+   #fore-word-img {
+     width: 450px;
+     height: auto;
+   }
+   #fore-word-content {
+     top: 70px;
+     left: 190px;
+     width: 240px;
+     line-height: 90%;
+     line-height: 115%;
+     font-size: medium;
+   }
+   #fore-word-logo {
+     top: 45px;
+     left: 75px;
+   }
+   #join-us {
+     margin-top: 20px;
+   }
+ }
+
+ @media all and (max-width: 480px) {
+   #fore-word-img {
+     width: 370px;
+     height: auto;
+   }
+   #fore-word-content {
+     top: 50px;
+     left: 155px;
+     width: 200px;
+     font-size: small;
+
+   }
+   #fore-word-logo {
+     top: 30px;
+     left: 50px;
+   }
+   #join-us {
+     margin-top: 5px;
+   }
+ }
+
+ #fore-word-img, #fore-word-content, #fore-word-logo {
+   position: absolute;
+ }
+
+ #fore-word {
+   position: relative;
+
+   color: #ffffff;
+   font-size: 100%;
+   font-family: Arial, Helvetica, sans-serif;
+ }
+
+ #join-opportunities {
+   text-align: center;
+ }
+
+ #join-opportunities ul {
+   list-style: none;
+   -webkit-padding-start: 0;
+   padding: 0;
+ }
+
+ #join-opportunities ul li {
+   display: inline;
+   -webkit-padding-start: 0;
+   padding: 0;
+ }
+
+ #join-opportunities ul li form {
+   display: inline;
+ }
+
  .infobox {
    border:2px solid black;
    margin-top: 8px;
