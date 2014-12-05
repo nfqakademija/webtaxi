@@ -11,6 +11,11 @@
 
     <link rel="shortcut icon" href="{{ asset('bundles/webtaximain/images/favicon.ico') }}" />
 
+    {% if app.request.attributes.get('_route') == '_webtaxi_map' %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    {% endif %}
+
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {% endblock %}

@@ -2,38 +2,31 @@
 
 {% block contentParent %}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-
     <div class="container">
         <div id="map-canvas_main" ></div>
 
-
-        <div class="container-fluid">
-
-            <div id="transbox">
-                <div class="page-header">
-                    <h1 class="info"> Prisijunk dabar! </h1>
+        <div id="fore-word">
+            <img src="{{ asset('bundles/webtaximain/images/foreword-bg.png') }}" id="fore-word-img" >
+            <img src="{{ asset('bundles/webtaximain/images/LOGO.png') }}" id="fore-word-logo" >
+            <div id="fore-word-content">
+                <span>Ieškai pakeleivių?</span><br>
+                <span>Ieškai vairuotojo?</span><br>
+                <span>Tau rūpi Tavo saugumas?</span>
+                <br>
+                <div id="join-us">Sistema nemokama. Prisijunk prie mūsų!</div>
+                <br>
+                <div id="join-opportunities">
                     <ul>
-                        <li> <h3 class="info"> Keliauk greitai ir patogiai </h3></li>
-                        <li> <h3 class="info"> Nemokama dabar ir visados </h3></li>
-                        <li> <h3 class="info"> Nemokama dabar ir visados </h3></li>
-
+                        <li>
+                            <input type="button" class="btn" value="Jungtis" onclick="window.location.href='{{ path('fos_user_security_login') }}'">
+                        </li>
+                        <li>
+                            <input type="button" class="btn btn-default" value="Registruotis" onclick="window.location.href='{{ path('fos_user_registration_register') }}'">
+                        </li>
                     </ul>
-
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Registruotis</button>
-
-                    <button type="button" class="btn btn-default btn-lg btn-block">Prisijungti</button>
                 </div>
-
-
             </div>
-
         </div>
-
     </div>
-
-
-
 
 {% endblock %}
