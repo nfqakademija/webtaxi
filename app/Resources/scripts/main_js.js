@@ -32,58 +32,63 @@ jQuery(document).ready(function () {
         }
     ];
 
-
-
-    var locat = [
-        [54.709098, 25.295504],
-        [54.675461, 25.251474],
-        [54.674918, 25.304431],
-        [54.685183, 25.287270],
-        [54.673727, 25.270613],
-        [54.700766, 25.233706],
-        [54.700766, 25.233706],
-        [54.672188, 25.332583]
+    var locations = [
+        [54.724392, 25.323830],
+        [54.729844, 25.269756],
+        [54.707337, 25.224781],
+        [54.713188, 25.245380],
+        [54.675886, 25.286579],
+        [54.683428, 25.245895],
+        [54.684123, 25.294991],
+        [54.724590, 25.280571]
     ];
 
     var strings = [
-        'Labas',
-        'Sveiki',
-        'Hey',
-        'Laba diena',
-        'Aloha',
-        'Labukas',
-        'Sveiki',
-        'Hai'
+        'Labas, pavežėkit iki Užupio :) ',
+        'Sveiki, kas į Saulėtekį?',
+        'Hey, gal kam Akropolis pakeliui? :) ',
+        'Laba diena, gal kas iki Rotušės pametės?',
+        'Aloha, varom kartu į pajūrį!',
+        'Labukas, pametėsit į Senamiestį? ',
+        'Sveiki, yra norinčių į Kauną? :) ',
+        'Hai, vykstu į Lazdynus, kas su manim? '
+    ];
+
+    var icons = [
+
+        'http://webtaxi.dev/bundles/webtaximain/images/user_1_marker.png',
+        'http://webtaxi.dev/bundles/webtaximain/images/user_2_marker.png',
+        'http://webtaxi.dev/bundles/webtaximain/images/user_3_marker.png',
+        'http://webtaxi.dev/bundles/webtaximain/images/user_4_marker.png'
     ];
 
     var markers = [];
 
    function addMarkers() {
         var i;
-        for ( i=0; i<locat.length; i++) {
-            var locatio =locat[i];
+        for ( i=0; i<locations.length; i++) {
+            var location =locations[i];
             var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locatio[0], locatio[1]),
+                position: new google.maps.LatLng(location[0], location[1]),
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 title: 'Tomas',
-                icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_1_marker.png'
+                icon: icons[Math.floor(Math.random() * icons.length)]
             });
             markers.push(marker);
         }
-    }
+   }
 
     var infoBoxes = [];
     var boxTextArray = [];
+
     function createInfoBoxes(){
         var i;
         for ( i=0; i<strings.length; i++) {
 
             boxTextArray[i] = document.createElement("div");
-            boxTextArray[i].style.cssText ="border:2px solid black; background:#333; color:#FFF; box-shadow: 0 0 8px #000; text-shadow:0 -1px #000000;-webkit-border-radius: 2px;" +
-            "-moz-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 0 0  8px #000;";
+            boxTextArray[i].className = "infobox";
             boxTextArray[i].innerHTML = strings[i];
-
 
             var infobox = new InfoBox({
                 content: boxTextArray[i],
@@ -104,10 +109,8 @@ jQuery(document).ready(function () {
         }
     }
 
-
-
     var options = {
-        zoom: 14,
+        zoom: 13,
         center:  new google.maps.LatLng(54.6833, 25.2833),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true
@@ -118,124 +121,56 @@ jQuery(document).ready(function () {
         styles: style
     });
 
+    var idArray = [null, null, null, null];
+    var check;
 
-
-  function randomMarkerAppearance(){
-    var first, second, third, oldFirst, oldSecond, oldThird;
-          setInterval(function () {
-              first = Math.floor(Math.random() * markers.length);
-              second = Math.floor(Math.random() * markers.length);
-              third = Math.floor(Math.random() * markers.length);
-
-              if (oldFirst != null) {
-                  markers[oldFirst].setMap(null);
-                  markers[oldSecond].setMap(null);
-                  markers[oldThird].setMap(null);
-                  infoBoxes[oldFirst].close();
-                  infoBoxes[oldSecond].close();
-                  infoBoxes[oldThird].close();
-              }
-
-              markers[first].setAnimation(google.maps.Animation.DROP);
-              markers[second].setAnimation(google.maps.Animation.DROP);
-              markers[third].setAnimation(google.maps.Animation.DROP);
-
-
-
-
-              markers[second].setMap(map);
-              infoBoxes[second].open(map,  markers[second]);
-              markers[third].setMap(map);
-              infoBoxes[third].open(map,  markers[third]);
-              markers[first].setMap(map);
-              infoBoxes[first].open(map,  markers[first]);
-
-              oldFirst = first;
-              oldSecond = second;
-              oldThird= third;
-          }, 5000);
+    function openInfoBox(infobox, marker){
+        infobox.open(map,  marker);
     }
 
 
+    function isInArray(array, search)
+    {
+        var i;
+        var result = false;
+        for (i=0; i<array.length-1; i++){
+            if (search === array[i]) result = true;
+        }
+        return result;
+    }
 
 
-  /*  var image = 'web/bundles/webtaximain/images/person.png';
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.675461, 25.251474),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Tomas',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_1_marker.png',
-        map: map
-    });
+    function setMarker(marker, infobox, id) {
+        idArray[0] = idArray[1];
+        idArray[1] = idArray[2];
+        idArray[2] = idArray[3];
+        idArray[3] = id;
 
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.685183, 25.287270),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Jonas',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_2_marker.png',
-        map: map
-    });
+        if (idArray[0] != null) {
+            check = isInArray(idArray, id);
+            if(!check) {
+                markers[idArray[0]].setMap(null);
+                infoBoxes[idArray[0]].close();
+            }
+        }
 
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.674918, 25.304431),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Petras',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_3_marker.png',
-        map: map
-    });
+        if(!check){
+            marker.setAnimation(google.maps.Animation.DROP);
+            marker.setMap(map);
+            setTimeout(function () {
+                openInfoBox(infobox, marker)
+            }, 1000);
+        }
+    }
 
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.673727, 25.270613),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Mantas',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_4_marker.png',
-        map: map
-    });
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.700766, 25.233706),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Giedrius',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_1_marker.png',
-        map: map
-    });
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.664643, 25.246066),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Vilius',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_2_marker.png',
-        map: map
-    });
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.709098, 25.295504),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Marius',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_3_marker.png',
-        map: map
-    });
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(54.672188, 25.332583),
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        title: 'Juozas',
-        icon: 'http://webtaxi.dev/bundles/webtaximain/images/user_4_marker.png',
-        map: map
-    });
-*/
-
-
-
-
+  function randomMarkerAppearance(){
+      var first, second, third, oldFirst, oldSecond, oldThird;
+      setInterval(function () {
+          first = Math.floor(Math.random() * markers.length);
+          setMarker(markers[first], infoBoxes[first], oldFirst);
+          oldFirst=first;
+      }, 2000);
+  }
 
     var center;
     function calculateCenter() {
