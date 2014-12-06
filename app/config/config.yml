@@ -78,3 +78,7 @@ fos_user:
     registration:
             form:
                 type: webtaxi_user_registration
+
+    profile:
+            form:
+                 type: webtaxi_user_profile

@@ -14,10 +14,25 @@
     </services>
     -->
 
+    <parameters>
+        <parameter key="webtaxi.mainbundle.entity.user.class">Webtaxi\MainBundle\Entity\User</parameter>
+        <parameter key="webtaxi.mainbundle.entity.travel.class">Webtaxi\MainBundle\Entity\Travel</parameter>
+    </parameters>
+
     <services>
 
         <service id="webtaxi_user.registration.form.type" class="Webtaxi\MainBundle\Form\Type\RegistrationFormType">
             <tag name="form.type" alias="webtaxi_user_registration" />
+        </service>
+
+        <service id="webtaxi_user.profile.form.type" class="Webtaxi\MainBundle\Form\Type\ProfileFormType">
+            <argument>Webtaxi\MainBundle\Entity\User</argument>
+            <tag name="form.type" alias="webtaxi_user_profile" />
+        </service>
+
+        <service id="webtaxi_user.travel.form.type" class="Webtaxi\MainBundle\Form\Type\TravelFormType">
+            <argument>Webtaxi\MainBundle\Entity\Travel</argument>
+            <tag name="form.type" alias="webtaxi_travel" />
         </service>
 
     </services>

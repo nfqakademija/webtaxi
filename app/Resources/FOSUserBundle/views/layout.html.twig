@@ -3,10 +3,7 @@
 {% block content %}
     <div>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-            <a href="{{ path('fos_user_security_logout') }}">
-                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-            </a>
+
         {% else %}
             <h1>
                 {% if app.request.attributes.get('_route') == 'fos_user_registration_register' %}
