@@ -9,7 +9,7 @@ class WebtaxiMainBundle extends Bundle
     /**
      * not accepted travel expires in TRAVEL_EXPIRE_TIME minutes
      */
-    const TRAVEL_EXPIRE_TIME = 30;
+    const TRAVEL_EXPIRE_TIME = 60;
 
     public function getParent()
     {
