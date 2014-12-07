@@ -1,0 +1,17 @@
+{% extends 'WebtaxiMainBundle::grandparent.html.twig' %}
+
+{% block contentParent %}
+
+    <div class="container">
+        <div id="map-canvas_main" ></div>
+
+        <div id="fore-word">
+            <img src="{{ asset('bundles/webtaximain/images/foreword-bg.png') }}" id="fore-word-img" >
+            <img src="{{ asset('bundles/webtaximain/images/LOGO.png') }}" id="fore-word-logo" >
+            {% block forewordParent %}
+            {% endblock %}
+
+        </div>
+    </div>
+
+{% endblock %}
