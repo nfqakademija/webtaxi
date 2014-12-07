@@ -1,41 +1,50 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-
+{% extends 'WebtaxiMainBundle::grandparent.html.twig' %}
 {% trans_default_domain 'FOSUserBundle' %}
-{% set inputSize = '50' %}
-{% block fos_user_content %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+{% set inputSize = '17' %}
 
-    <form action="{{ path("fos_user_security_check") }}" method="post">
+{% block contentParent %}
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+    <div class="container">
+        <div id="map-canvas_main" ></div>
 
-        <div class="input-group-form">
-            <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_user.png') }}"/></span>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required"
-                   class="form-control" size="{{ inputSize }}" placeholder="Username"/>
+        <div id="fore-word">
+            <img src="{{ asset('bundles/webtaximain/images/foreword-bg.png') }}" id="fore-word-img" >
+            <img src="{{ asset('bundles/webtaximain/images/LOGO.png') }}" id="fore-word-logo" >
+            {% block forewordParent %}
+            <div id="fore-word-content">
+                <form action="{{ path("fos_user_security_check") }}" id="loginForm" method="post">
+                    {% if error %}
+                    <div id="loginErrors">Prisijungti nepavyko</div>
+                    {% endif %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+
+                    <div class="input-group-form">
+                        <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_user.png') }}"/></span>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required"
+                               class="form-control" size="{{ inputSize }}" placeholder="Naudotojo vardas"/>
+                    </div>
+
+
+                    <div class="input-group-form">
+                        <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_lock.png') }}"/></span>
+                        <input type="password" id="password" name="_password" value="{{ last_username }}" required="required"
+                               class="form-control" size="{{ inputSize }}" placeholder="Slaptažodis"/>
+                    </div>
+
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on">
+                    <label for="remember_me" class="checkbox-inline">Prisiminti mane?</label>
+                    <br><br>
+
+                    <input type="submit" id="_submit" name="_submit" value="Jungtis"
+                           class="btn btn-default btn-lg"/>
+                </form>
+
+                <span id="doNotHaveAccount">Neturite paskyros? <a href="{{ path('fos_user_registration_register') }}">Registruokitės</a></span>
+
+                </div>
+            {% endblock %}
+
         </div>
+    </div>
 
-
-        <div class="input-group-form">
-            <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_key.png') }}"/></span>
-            <input type="password" id="password" name="_password" value="{{ last_username }}" required="required"
-                   class="form-control" size="{{ inputSize }}" placeholder="Password"/>
-        </div>
-
-        {#<div class="input-group-form">#}
-        {#<span class="input-group-addon"><input type="checkbox" id="remember_me" name="_remember_me" value="on"></span>#}
-        {#<span  class="form-control">Remember me?</span>#}
-        {#</div>#}
-
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on">
-        <label for="remember_me" class="checkbox-inline">Remember me?</label>
-        <br><br>
-
-        <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"
-               class="btn btn-default btn-lg"/>
-    </form>
-
-    <h2>Do not have an account? <a href="{{ path('fos_user_registration_register') }}">Register</a></h2>
-{% endblock fos_user_content %}
+{% endblock %}
