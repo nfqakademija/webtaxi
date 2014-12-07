@@ -127,7 +127,7 @@
                                     }
                                 }
                             } else {
-                                name = '(' + t.driver.username + ') ' + t.client.firstName + ' ' + t.client.lastName;
+                                name = '(' + t.client.username + ') ' + t.client.firstName + ' ' + t.client.lastName;
                             }
                             text = document.createTextNode(name);
                             if (isTravelExpired) {
