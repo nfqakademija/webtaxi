@@ -48,7 +48,7 @@ class MapController extends Controller
                     $em->persist($travel);
                     $em->flush();
 //                exit(\Doctrine\Common\Util\Debug::dump($user));
-                    return $this->redirect($this->generateUrl('webtaxi_main_findtraveller_index'));
+                    return $this->redirect($this->generateUrl('webtaxi_main_mytravelhistory_index'));
                 }
             }
 //            if ($form->isSubmitted() === true) {

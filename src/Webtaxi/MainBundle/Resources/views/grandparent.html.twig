@@ -1,6 +1,27 @@
 {% extends '::base.html.twig' %}
-
 {% block body %}
+    {#START OF JAVASCIPT PARAMS#}
+    {% set loadMoreTravelsLink = '' %}
+    {% set isMyTravels = true %}
+    {% set imageLinkAlert = asset('bundles/webtaximain/images/alert.png') %}
+    {% set imageLinkRemove = asset('bundles/webtaximain/images/remove.png') %}
+    {% set imageLinkTick = asset('bundles/webtaximain/images/tick.png') %}
+    {% set imageLinkInfo = asset('bundles/webtaximain/images/info.png') %}
+    {% set imageLinkTraveler = asset('bundles/webtaximain/images/traveler.png') %}
+    {% set imageLinkSteeringWheel = asset('bundles/webtaximain/images/steering_wheel.png') %}
+    {% if app.request.attributes.get('_route') == 'webtaxi_main_findtraveller_index' %}
+        {% set loadMoreTravelsLink = path('webtaxi_main_findtraveller_loadmoretravels' )  %}
+        {% set isMyTravels = false %}
+    {% else %}
+        {% set loadMoreTravelsLink = path('webtaxi_main_mytravelhistory_loadmoretravels' ) %}
+    {% endif %}
+    <span id="parameters" data-loadMoreTravelsLink="{{ loadMoreTravelsLink }}" data-isMyTravels="{{ isMyTravels }}"
+            data-imageLinkAlert="{{ imageLinkAlert }}" data-imageLinkRemove="{{ imageLinkRemove }}"
+            data-imageLinkTick="{{ imageLinkTick }}" data-imageLinkInfo="{{ imageLinkInfo }}"
+            data-imageLinkTraveler="{{ imageLinkTraveler }}" data-imageLinkSteeringWheel="{{ imageLinkSteeringWheel }}"
+            >
+    </span>
+    {#END OF JAVASCIPT PARAMS#}
     <div class="wrap">
         <nav class="navbar navbar-inverse" role="navigation">
             <div class="container">
@@ -28,19 +49,27 @@
                 <div id="navbar" class="collapse navbar-collapse ">
                     <ul class="nav navbar-nav">
                         {% if app.request.attributes.get('_route') == 'webtaxi_main_map_index' %}
-                        <li class="active">
-                    {% else %}
-                        <li>
-                            {% endif %}
-                            <a href="{{ path('webtaxi_main_map_index') }}">Rask vežėją</a>
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                        <a href="{{ path('webtaxi_main_map_index') }}">Rask vežėją</a>
                         </li>
 
                         {% if app.request.attributes.get('_route') == 'webtaxi_main_findtraveller_index' %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                        <a href="{{ path('webtaxi_main_findtraveller_index') }}">Rask pakeleivį</a>
+                        </li>
+
+                        {% if app.request.attributes.get('_route') == 'webtaxi_main_mytravelhistory_index' %}
                         <li class="active">
                             {% else %}
                         <li>
                             {% endif %}
-                            <a href="{{ path('webtaxi_main_findtraveller_index') }}">Rask pakeleivį</a>
+                            <a href="{{ path('webtaxi_main_mytravelhistory_index') }}">Mano kelionės</a>
                         </li>
 
                     </ul>

@@ -34,7 +34,6 @@ class TravelRepository extends EntityRepository
      */
     public function getNotAcceptedTravelsAfterId($id, $queryLimit)
     {
-
         return $this->getEntityManager()
             ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t
             WHERE t.id < ' . $id .
@@ -42,7 +41,24 @@ class TravelRepository extends EntityRepository
                 ' ORDER BY t.timeCall DESC')
             ->setMaxResults($queryLimit)
             ->getResult();
+    }
 
+    /**
+     * @param $user
+     * @param $id
+     * @param $queryLimit
+     * @return array travels followed by $id related with $user
+     */
+    public function getMyTravels($user, $id, $queryLimit)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t
+            WHERE t.id < ' . $id .
+                ' AND ( t.client = ' . $user->getId() .
+                ' OR t.driver = ' . $user->getId() . ' ) ' .
+                ' ORDER BY t.timeCall DESC')
+            ->setMaxResults($queryLimit)
+            ->getResult();
     }
 
 }

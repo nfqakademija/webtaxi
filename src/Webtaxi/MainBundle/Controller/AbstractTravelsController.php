@@ -1,0 +1,105 @@
+<?php
+
+namespace Webtaxi\MainBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Webtaxi\MainBundle\Entity\CommunicationHelper\TravelResponse;
+use Webtaxi\MainBundle\Entity\Travel;
+
+
+abstract class AbstractTravelsController extends Controller
+{
+    abstract protected function indexAction();
+
+    abstract protected function getTravels($idFrom, $queryLimit);
+
+    abstract protected function loadMoreTravelsAction(Request $request);
+
+    final public function loadMoreTravels(Request $request)
+    {
+        //setting params to default values:
+        $idFrom = $request->query->get('fromId', -1);
+        $queryLimit = $request->query->get('count', 10);
+
+
+        if ($idFrom <= 0) {
+            $idFrom = PHP_INT_MAX;
+        }
+
+        $travels = $this->getTravels((int) $idFrom, (int) $queryLimit);
+
+        //converting travels entity to response entity:
+        $travels = $this->travelsToResponse($travels);
+
+        // loop through travels and check if current travel is my travel:
+        // if its true, it should highlighted in list
+        // and also it should be ability to delete it [ToDo]
+        $userCurrent = $this->container->get('security.context')->getToken()->getUser();
+        for($i = 0; $i < count($travels); $i++)
+        {
+            $t = $travels[$i];
+
+            //creator of the travel is current user:
+            if ($t->getClient() == $userCurrent)
+            {
+                $t->setIsMyTravel(true);
+            }
+
+            //this travel is related to current user:
+            if ($t->getClient() == $userCurrent || $t->getDriver() == $userCurrent)
+            {
+                $t->setIsMyRelatedTravel(true);
+            }
+        }
+
+        $response = new Response(json_encode(array("travels"=>$travels)));
+        return $response;
+
+    }
+
+    /**
+     * ajax function for removing my (current user) travel.
+     * Checks if travel exists, if client is current user and if it does not have a driver.
+     *
+     * @Route("/removeMyTravel/{travel}")
+     * @param Travel $travel
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    final public function removeMyTravelAction(Travel $travel)
+    {
+        //if travel client is not current user, error:
+        if ($travel->getClient() != $this->getUser()) {
+            return new Response(json_encode(array("status" => -2, "message" => "Jūs negalite trinti ne savo kelionę")));
+        }
+        //if traval has a driver, it could not be canceled, error:
+        if ($travel->getDriver() != null) {
+            return new Response(json_encode(array("status" => -3, "message" => "Ši kelionė jau priimta, jos trinti nebegalima")));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($travel);
+        $em->flush();
+        return new Response(json_encode(array("status" => 1, "message" => "Jūsų kelionė buvo sėkmingai ištrinta")));
+
+    }
+
+    /**
+     * @param Travel $travels[]
+     * @return TravelResponse $travelResponse[]
+     */
+    final static function travelsToResponse($travels) {
+        $travelResponse = array();
+        for ($i = 0;$i<count($travels);$i++) {
+            $t = $travels[$i];
+            $tr = new TravelResponse($t);
+            $travelResponse[$i] = $tr;
+        }
+        return $travelResponse;
+    }
+
+}
