@@ -4,6 +4,8 @@ namespace Webtaxi\MainBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Webtaxi\MainBundle\Controller\AbstractTravelsControler;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 
 class MyTravelHistoryController extends AbstractTravelsController

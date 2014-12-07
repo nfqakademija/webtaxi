@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Webtaxi\MainBundle\Entity\CommunicationHelper\TravelResponse;
 use Webtaxi\MainBundle\Entity\Travel;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 
 abstract class AbstractTravelsController extends Controller

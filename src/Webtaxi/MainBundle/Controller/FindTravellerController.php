@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Webtaxi\MainBundle\Entity\Travel;
 use Webtaxi\MainBundle\Controller\AbstractTravelsControler;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class FindTravellerController extends AbstractTravelsController
 {
