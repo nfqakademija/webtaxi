@@ -21,7 +21,8 @@ class TravelRepository extends EntityRepository
     {
 
         return $this->getEntityManager()
-            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t WHERE t.id < ' . $id .  ' ORDER BY t.timeCall DESC')
+            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t WHERE t.id < :id '  .  ' ORDER BY t.timeCall DESC')
+            ->setParameter("id", $id)
             ->setMaxResults($queryLimit)
             ->getResult();
 
@@ -36,9 +37,10 @@ class TravelRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t
-            WHERE t.id < ' . $id .
+            WHERE t.id < :id'  .
                 ' AND t.driver is null' .
                 ' ORDER BY t.timeCall DESC')
+            ->setParameter("id", $id)
             ->setMaxResults($queryLimit)
             ->getResult();
     }
@@ -53,10 +55,13 @@ class TravelRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t
-            WHERE t.id < ' . $id .
-                ' AND ( t.client = ' . $user->getId() .
-                ' OR t.driver = ' . $user->getId() . ' ) ' .
+            WHERE t.id < :id' .
+                ' AND ( t.client = :clientId' .
+                ' OR t.driver = :driverId' . ' ) ' .
                 ' ORDER BY t.timeCall DESC')
+            ->setParameter("id", $id)
+            ->setParameter("clientId", $user->getId())
+            ->setParameter("driverId", $user->getId())
             ->setMaxResults($queryLimit)
             ->getResult();
     }
