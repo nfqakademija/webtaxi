@@ -43,4 +43,11 @@ a {
   box-shadow: 2px 2px 1px #888888;
   -moz-box-shadow: 2px 2px 1px #888888;
   -webkit-box-shadow: 2px 2px 1px #888888;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.navbar.navbar-fixed-bottom.navbar-default {
+  background-color: black;
+  height: 2em;
 }
