@@ -2,12 +2,8 @@
 
 namespace Webtaxi\MainBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Webtaxi\MainBundle\Entity\Travel;
 use Webtaxi\MainBundle\Controller\AbstractTravelsControler;
 
@@ -48,17 +44,22 @@ class FindTravellerController extends AbstractTravelsController
     {
         //if travel client is current user, error:
         if ($travel->getClient() == $this->getUser()) {
-            return new Response(json_encode(array("status" => -4, "message" => "Negalite priimti savo paties kelionės")));
+            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT, "message" => "Negalite priimti savo paties kelionės")));
         }
         //if travel already has a driver, it could not be accepted, error:
         if ($travel->getDriver() != null) {
-            return new Response(json_encode(array("status" => -5, 'message' => "Deja, ši kelionė jau turi vairuotoją")));
+            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED, 'message' => "Deja, ši kelionė jau turi vairuotoją")));
         }
+        //if travel is expired, error:
+        if ($travel->isTravelExpired()) {
+            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED, "message" => "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos priimti nebegalima")));
+        }
+
         $travel->setDriver($this->getUser());
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return new Response(json_encode(array("status" => 1, 'message' => "Jūs priėmėte šią kelionę")));
+        return new Response(json_encode(["status" => AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, 'message' => "Jūs priėmėte šią kelionę"]));
 
     }
 

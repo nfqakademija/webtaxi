@@ -23,6 +23,7 @@
     var stringYouWereDriver = 'Jūs vairuotojas';
     var stringRemoveThisTravel = 'Panaikinti šią kelionę';
     var stringAcceptThisTravel = 'Priimti šią kelionę';
+    var stringTravelWasNotAcceptedAndIsExpired = 'Ši kelionė nebuvo priimta ir nebegalioja';
     /**
      * OnClick - ajax function - load some more travels
      */
@@ -43,6 +44,7 @@
                 if (travels !== null) {
                     for (var i = 0; i < travels.length; i++) {
                         var t = travels[i];
+                        var isTravelExpired = travels[i].isTravelExpired;
                         var tr = document.createElement('tr');
                         var td;
                         var img;
@@ -119,11 +121,18 @@
                             if (t.isMyTravel) {
                                 if (t.driver !== null) {
                                     name = '(' + t.driver.username + ') ' + t.driver.firstName + ' ' + t.driver.lastName;
+                                } else {
+                                    if (isTravelExpired) {
+                                        name = ' - ';
+                                    }
                                 }
                             } else {
                                 name = '(' + t.driver.username + ') ' + t.client.firstName + ' ' + t.client.lastName;
                             }
                             text = document.createTextNode(name);
+                            if (isTravelExpired) {
+                                text.title = stringTravelWasNotAcceptedAndIsExpired;
+                            }
                             td.appendChild(text);
                             tr.appendChild(td);
                         }
@@ -133,21 +142,26 @@
                         img = document.createElement('img');
                         if (t.driver === null) {
                             if (t.isMyTravel) {
-                                img.src = imageLinkRemove;
-                                img.title = stringRemoveThisTravel;
-                                img.alt = stringRemoveThisTravel;
-                                $( img ).click(createTravelRemovalConfirmationFunction(t.id, t.sourceAddress, t.destinationAddress));
-
+                                if (!isTravelExpired) {
+                                    img.src = imageLinkRemove;
+                                    img.title = stringRemoveThisTravel;
+                                    img.alt = stringRemoveThisTravel;
+                                    $( img ).click(createTravelRemovalConfirmationFunction(t.id, t.sourceAddress, t.destinationAddress));
+                                }
                             } else {
-                                img.src = imageLinkTick;
-                                img.alt = stringAcceptThisTravel;
-                                $( img ).click(createTravelAcceptanceConfirmationFunction(t.id, fullName, t.sourceAddress, t.destinationAddress));
+                                if (!isTravelExpired) {
+                                    img.src = imageLinkTick;
+                                    img.alt = stringAcceptThisTravel;
+                                    $( img ).click(createTravelAcceptanceConfirmationFunction(t.id, fullName, t.sourceAddress, t.destinationAddress));
+                                }
                             }
                         }
                         if (t.isMyTravel) {
                             tr.className += ' myTravel ';
                         }
-
+                        if (isTravelExpired && t.driver === null) {
+                            tr.className += ' travelExpired ';
+                        }
 
                         td.appendChild(img);
                         tr.appendChild(td);

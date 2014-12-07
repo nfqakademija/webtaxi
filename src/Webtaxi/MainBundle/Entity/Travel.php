@@ -2,10 +2,13 @@
 
 namespace Webtaxi\MainBundle\Entity;
 
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Doctrine\ORM\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Webtaxi\MainBundle\WebtaxiMainBundle;
 
 /**
  * Travel
@@ -479,5 +482,18 @@ class Travel
         $this->sourceLatitude = $travel->getSourceLatitude();
         $this->sourceLongitude = $travel->getSourceLongitude();
         $this->timeCall = $travel->getTimeCall();
+    }
+
+    /**
+     * @return bool is travel this travel expired or not. If it is expired, it can not be accepted or removed.
+     */
+    public function isTravelExpired() {
+        $dateNowBeforeTravelExpireTime = new DateTime();
+        $dateNowBeforeTravelExpireTime->sub(new DateInterval('PT' . WebtaxiMainBundle::TRAVEL_EXPIRE_TIME . 'M'));
+        if ($this->getTimeCall() < $dateNowBeforeTravelExpireTime) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

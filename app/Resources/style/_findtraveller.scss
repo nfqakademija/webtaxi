@@ -20,6 +20,10 @@
   background-color: #f9ffe2;
 }
 
+#travelsList table tr.travelExpired {
+  color: #d1c5d8;
+}
+
 #travelsList table tr.myTravel:hover {
   background-color: #f9ffb2 !important;
 }

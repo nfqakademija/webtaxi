@@ -82,7 +82,7 @@ class TravelResponse extends Travel  implements JsonSerializable
     {
         return $this->isMyRelatedTravel;
     }
-    
+
 
     /**
      * @return array|mixed encoded json (for travel table)
@@ -108,6 +108,7 @@ class TravelResponse extends Travel  implements JsonSerializable
             'profit' => $this->profit,
             'isMyTravel' => $this->isMyTravel,
             'isMyRelatedTravel' => $this->isMyRelatedTravel,
+            'isTravelExpired' => $this->isTravelExpired(),
         ];
     }
 }
