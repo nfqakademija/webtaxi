@@ -1,15 +1,29 @@
-
 (function($) {
     'use strict';
-
+    /*START OF GETTING PARAMS*/
+    var paramsObject = document.getElementById('parameters');
+    var loadMoreTravelsLink = paramsObject.getAttribute('data-loadMoreTravelsLink');
+    var isMyTravelsSection = paramsObject.getAttribute('data-isMyTravels');
+    var imageLinkAlert = paramsObject.getAttribute('data-imageLinkAlert');
+    var imageLinkRemove = paramsObject.getAttribute('data-imageLinkRemove');
+    var imageLinkTick = paramsObject.getAttribute('data-imageLinkTick');
+    var imageLinkInfo = paramsObject.getAttribute('data-imageLinkInfo');
+    var imageLinkTraveler = paramsObject.getAttribute('data-imageLinkTraveler');
+    var imageLinkSteeringWheel = paramsObject.getAttribute('data-imageLinkSteeringWheel');
+    /*END OF GETTING PARAMS*/
     var lastId = -1;
     var count = 5;
 
     var modalTitle = 'Klaida';
     var modalText = '';
-    var modalImage = 'http://webtaxi.dev/bundles/webtaximain/images/alert.png';
+    var modalImage = imageLinkAlert;
     var currentTravelId = -1;
 
+    var stringYouWereClient = 'Jūs keliautojas';
+    var stringYouWereDriver = 'Jūs vairuotojas';
+    var stringRemoveThisTravel = 'Panaikinti šią kelionę';
+    var stringAcceptThisTravel = 'Priimti šią kelionę';
+    var stringTravelWasNotAcceptedAndIsExpired = 'Ši kelionė nebuvo priimta ir nebegalioja';
     /**
      * OnClick - ajax function - load some more travels
      */
@@ -17,7 +31,7 @@
     {
         $('#loadingMore').show();
         $.ajax({
-            url: 'loadMoreTravels',
+            url: loadMoreTravelsLink,
             type: 'GET',
             data: { count : count, fromId : lastId },
             contentType: 'application/json; charset=utf-8',
@@ -27,64 +41,126 @@
                 var obj = JSON && JSON.parse(json) || $.parseJSON(json);
                 var travels = obj.travels;
                 var tableBody = document.getElementById('travelsTBody');
-                if (travels != null) {
+                if (travels !== null) {
                     for (var i = 0; i < travels.length; i++) {
-
                         var t = travels[i];
-                        var tr = document.createElement("tr");
+                        var isTravelExpired = travels[i].isTravelExpired;
+                        var tr = document.createElement('tr');
+                        var td;
+                        var img;
+                        if (isMyTravelsSection) {
+                            //show image is driver or is traveler:
+                            td = document.createElement('td');
+                            img = document.createElement('img');
+                            if (t.isMyTravel) {
+                                img.src = imageLinkTraveler;
+                                img.title = stringYouWereClient;
+                                img.alt = stringYouWereClient;
+                            } else {
+                                img.src = imageLinkSteeringWheel;
+                                img.title = stringYouWereDriver;
+                                img.alt = stringYouWereDriver;
+                            }
+                            td.appendChild(img);
+                            tr.appendChild(td);
+                        }
+
+
+
                         //time call:
-                        var td = document.createElement("td");
+                        td = document.createElement('td');
                         var text = document.createTextNode(t.timeCall);
                         td.appendChild(text);
                         tr.appendChild(td);
                         //source:
-                        td = document.createElement("td");
+                        td = document.createElement('td');
                         text = document.createTextNode(t.sourceAddress);
                         td.appendChild(text);
                         tr.appendChild(td);
                         //destination:
-                        td = document.createElement("td");
+                        td = document.createElement('td');
                         text = document.createTextNode(t.destinationAddress);
                         td.appendChild(text);
                         tr.appendChild(td);
+
+                        var fullName;
                         //client:
-                        td = document.createElement("td");
-                        var fullName = t.client.firstName + " " + t.client.lastName;
-                        text = document.createTextNode(t.client.username + " (" + fullName + ")");
-                        td.appendChild(text);
-                        tr.appendChild(td);
+                        if (!isMyTravelsSection) {
+                            td = document.createElement('td');
+                            fullName = t.client.firstName + ' ' + t.client.lastName;
+                            text = document.createTextNode(t.client.username + ' (' + fullName + ')');
+                            td.appendChild(text);
+                            tr.appendChild(td);
+                        }
+
                         //price:
-                        td = document.createElement("td");
+                        td = document.createElement('td');
                         text = document.createTextNode(t.price);
                         td.appendChild(text);
                         tr.appendChild(td);
                         //passenger count:
-                        td = document.createElement("td");
+                        td = document.createElement('td');
                         text = document.createTextNode(t.passengerCount);
                         td.appendChild(text);
                         tr.appendChild(td);
                         //distance:
-                        td = document.createElement("td");
+                        td = document.createElement('td');
                         text = document.createTextNode(t.distance);
                         td.appendChild(text);
                         tr.appendChild(td);
                         //profit:
-                        td = document.createElement("td");
+                        td = document.createElement('td');
                         text = document.createTextNode(t.profit);
                         td.appendChild(text);
                         tr.appendChild(td);
-                        //action:
-                        td = document.createElement("td");
-                        var img = document.createElement("img");
-                        if (t.isMyTravel) {
-                            tr.className += " myTravel ";
-                            img.src = "http://webtaxi.dev/bundles/webtaximain/images/remove.png";
-                            //$( img ).click(createRemoveFunction(t.id));
-                            $( img ).click(createTravelRemovalConfirmationFunction(t.id, t.sourceAddress, t.destinationAddress));
+                        //with:
+                        //print person, who is a your assocaite - driver or a client
+                        if (isMyTravelsSection) {
+                            td = document.createElement('td');
+                            var name = '';
+                            if (t.isMyTravel) {
+                                if (t.driver !== null) {
+                                    name = '(' + t.driver.username + ') ' + t.driver.firstName + ' ' + t.driver.lastName;
+                                } else {
+                                    if (isTravelExpired) {
+                                        name = ' - ';
+                                    }
+                                }
+                            } else {
+                                name = '(' + t.client.username + ') ' + t.client.firstName + ' ' + t.client.lastName;
+                            }
+                            text = document.createTextNode(name);
+                            if (isTravelExpired) {
+                                text.title = stringTravelWasNotAcceptedAndIsExpired;
+                            }
+                            td.appendChild(text);
+                            tr.appendChild(td);
+                        }
 
-                        } else {
-                            img.src = "http://webtaxi.dev/bundles/webtaximain/images/tick.png";
-                            $( img ).click(createTravelAcceptanceConfirmationFunction(t.id, fullName, t.sourceAddress, t.destinationAddress));
+                        //action:
+                        td = document.createElement('td');
+                        img = document.createElement('img');
+                        if (t.driver === null) {
+                            if (t.isMyTravel) {
+                                if (!isTravelExpired) {
+                                    img.src = imageLinkRemove;
+                                    img.title = stringRemoveThisTravel;
+                                    img.alt = stringRemoveThisTravel;
+                                    $( img ).click(createTravelRemovalConfirmationFunction(t.id, t.sourceAddress, t.destinationAddress));
+                                }
+                            } else {
+                                if (!isTravelExpired) {
+                                    img.src = imageLinkTick;
+                                    img.alt = stringAcceptThisTravel;
+                                    $( img ).click(createTravelAcceptanceConfirmationFunction(t.id, fullName, t.sourceAddress, t.destinationAddress));
+                                }
+                            }
+                        }
+                        if (t.isMyTravel) {
+                            tr.className += ' myTravel ';
+                        }
+                        if (isTravelExpired && t.driver === null) {
+                            tr.className += ' travelExpired ';
                         }
 
                         td.appendChild(img);
@@ -95,7 +171,7 @@
                     }
                 }
 
-                if (travels == null || travels.length == 0 || travels.length < count) {
+                if (travels === null || travels.length === 0 || travels.length < count) {
                     $('#loadMore').hide();
                     $('#noMoreToLoad').show();
                 }
@@ -106,14 +182,14 @@
 
             error: function () {
                 $('#loadingMore').hide();
-                alert('Nenumatyta klaida. Praneškite apie klaidą');
+                //alert('Nenumatyta klaida. Praneškite apie klaidą');
             }
         });
 
     });
 
     $(document).ready(function() {
-        $("#loadMore").click();
+        $('#loadMore').click();
 
     });
     /**
@@ -129,7 +205,7 @@
             modalTitle = 'Ar Jūs įsitikinęs?';
             modalText = 'Ar tikrai norite panaikinti kelionę iš ' + sourceAddress + ' į ' + destinationAddress + '?';
             $('#deleteModal').modal();
-        }
+        };
     }
 
     /**
@@ -146,7 +222,7 @@
             modalTitle = 'Ar Jūs įsitikinęs?';
             modalText = 'Ar tikrai norite pavežėti ' + client + ' iš ' + sourceAddress + ' į ' + destinationAddress + '?';
             $('#acceptModal').modal();
-        }
+        };
     }
 
     /**
@@ -177,7 +253,7 @@
                     $.parseResponse();
                 }
             });
-        }
+        };
     }
 
     /**
@@ -207,7 +283,7 @@
 
                 }
             });
-        }
+        };
     }
 
     /**
@@ -219,17 +295,17 @@
         if((_obj)){
             var status = _obj.status;
             modalText = _obj.message;
-            if (status == 1) {
-                modalTitle = "Operacija sėkminga";
-                modalImage = 'http://webtaxi.dev/bundles/webtaximain/images/info.png';
+            if (status === 1) {
+                modalTitle = 'Operacija sėkminga';
+                modalImage = imageLinkInfo;
             } else {
-                modalTitle = "Klaida";
-                modalImage = 'http://webtaxi.dev/bundles/webtaximain/images/alert.png';
+                modalTitle = 'Klaida';
+                modalImage = imageLinkAlert;
             }
         } else {
-            modalTitle = "Klaida";
-            modalText = "Ši kelionė neegiztuoja";
-            modalImage = 'http://webtaxi.dev/bundles/webtaximain/images/alert.png';
+            modalTitle = 'Klaida';
+            modalText = 'Ši kelionė neegiztuoja';
+            modalImage = imageLinkAlert;
         }
         $('#infoModal').modal();
     };
@@ -237,7 +313,7 @@
     /**
      * OnShow, set correct values to info dialog
      */
-    $('#infoModal').on('show.bs.modal', function (event) {
+    $('#infoModal').on('show.bs.modal', function () {
         var modal = $(this);
         modal.find('.modal-title').text(modalTitle);
         modal.find('.modal-message').text(modalText);
@@ -247,18 +323,24 @@
     /**
      * reload the page when user closes info dialog
      */
-    $('#infoModal').on('hide.bs.modal', function (e) {
+    $('#infoModal').on('hide.bs.modal', function () {
         window.location.reload(true);
     });
 
-    $('#deleteModal').on('show.bs.modal', function (event) {
+    /**
+     * on show, set correct values
+     */
+    $('#deleteModal').on('show.bs.modal', function () {
         var modal = $(this);
         modal.find('.modal-title').text(modalTitle);
         modal.find('.modal-message').text(modalText);
         modal.find('.btn-primary').click(createRemoveFunction(currentTravelId));
     });
 
-    $('#acceptModal').on('show.bs.modal', function (event) {
+    /**
+     * on show, set correct values
+     */
+    $('#acceptModal').on('show.bs.modal', function () {
         var modal = $(this);
         modal.find('.modal-title').text(modalTitle);
         modal.find('.modal-message').text(modalText);

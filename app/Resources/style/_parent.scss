@@ -34,42 +34,6 @@ a {
   text-decoration: none !important;
 }
 
-.formlbl{
-  width: 100px;
-}
-
-.wrap{
-  height: 100%;
-  height: auto;
-  margin-bottom: -60px;
-}
-
-.wrap:after{
-  content: "";
-  display: block;
-  height: 60px;
-}
-
-.navbar{
-  background-color: black;
-  height: 30px;
-}
-
-.formlbl{
-  width: 200px;
-}
-
-.form-control{
-  vertical-align:middle;
-  height: 3em;
-}
-
-.btn{
-  height: 3em;
-  color: #000000;
-  padding-bottom: 10px;
-}
-
 #container {
   background-color: rgba(0, 0, 0, 0.2);
   height: 100%;
@@ -79,4 +43,11 @@ a {
   box-shadow: 2px 2px 1px #888888;
   -moz-box-shadow: 2px 2px 1px #888888;
   -webkit-box-shadow: 2px 2px 1px #888888;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.navbar.navbar-fixed-bottom.navbar-default {
+  background-color: black;
+  height: 2em;
 }

@@ -6,8 +6,11 @@ namespace Webtaxi\MainBundle\Model;
  * Date: 14-12-01
  * Time: 20:25
  */
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Translation\Tests\String;
+use Webtaxi\MainBundle\WebtaxiMainBundle;
 
 
 class TravelRepository extends EntityRepository
@@ -21,10 +24,10 @@ class TravelRepository extends EntityRepository
     {
 
         return $this->getEntityManager()
-            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t WHERE t.id < ' . $id .  ' ORDER BY t.timeCall DESC')
+            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t WHERE t.id < :id '  .  ' ORDER BY t.timeCall DESC')
+            ->setParameter("id", $id)
             ->setMaxResults($queryLimit)
             ->getResult();
-
     }
 
     /**
@@ -34,15 +37,40 @@ class TravelRepository extends EntityRepository
      */
     public function getNotAcceptedTravelsAfterId($id, $queryLimit)
     {
+        $dateNowBeforeTravelExpireTime = new DateTime();
+        $dateNowBeforeTravelExpireTime->sub(new DateInterval('PT' . WebtaxiMainBundle::TRAVEL_EXPIRE_TIME . 'M'));
 
         return $this->getEntityManager()
             ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t
-            WHERE t.id < ' . $id .
+            WHERE t.id < :id'  .
                 ' AND t.driver is null' .
+                ' AND t.timeCall > :dateBefore' .
                 ' ORDER BY t.timeCall DESC')
+            ->setParameter("id", $id)
+            ->setParameter("dateBefore", $dateNowBeforeTravelExpireTime->format('Y-m-d H:i:s'))
             ->setMaxResults($queryLimit)
             ->getResult();
+    }
 
+    /**
+     * @param $user
+     * @param $id
+     * @param $queryLimit
+     * @return array travels followed by $id related with $user
+     */
+    public function getMyTravels($user, $id, $queryLimit)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t
+            WHERE t.id < :id' .
+                ' AND ( t.client = :clientId' .
+                ' OR t.driver = :driverId' . ' ) ' .
+                ' ORDER BY t.timeCall DESC')
+            ->setParameter("id", $id)
+            ->setParameter("clientId", $user->getId())
+            ->setParameter("driverId", $user->getId())
+            ->setMaxResults($queryLimit)
+            ->getResult();
     }
 
 }

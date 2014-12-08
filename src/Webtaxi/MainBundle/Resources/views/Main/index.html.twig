@@ -1,4 +1,4 @@
-{% extends 'WebtaxiMainBundle::grandparent.html.twig' %}
+{% extends 'WebtaxiMainBundle::firstpage.html.twig' %}
 
 {% block contentParent %}
 
@@ -8,10 +8,11 @@
         <div id="fore-word">
             <img src="{{ asset('bundles/webtaximain/images/foreword-bg.png') }}" id="fore-word-img" >
             <img src="{{ asset('bundles/webtaximain/images/LOGO.png') }}" id="fore-word-logo" >
+            {% block forewordParent %}
             <div id="fore-word-content">
                 <span>Ieškai pakeleivių?</span><br>
                 <span>Ieškai vairuotojo?</span><br>
-                <span>Tau rūpi Tavo saugumas?</span>
+                <span>Mėgsti riziką?</span>
                 <br>
                 <div id="join-us">Sistema nemokama. Prisijunk prie mūsų!</div>
                 <br>
@@ -25,7 +26,8 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+                <div id="fore-word-content">
+            {% endblock %}
         </div>
     </div>
 

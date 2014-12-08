@@ -1,0 +1,30 @@
+#create-travel-form .formlbl {
+  width: 100px;
+}
+
+#create-travel-form .wrap{
+  height: 100%;
+  height: auto;
+  margin-bottom: -60px;
+}
+
+#create-travel-form .wrap:after{
+  content: "";
+  display: block;
+  height: 60px;
+}
+
+#create-travel-form .formlbl{
+  width: 200px;
+}
+
+#create-travel-form .form-control{
+  vertical-align:middle;
+  height: 3em;
+}
+
+#create-travel-form .btn{
+  height: 3em;
+  color: #000000;
+  padding-bottom: 10px;
+}

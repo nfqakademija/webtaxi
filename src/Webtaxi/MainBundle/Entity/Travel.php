@@ -2,10 +2,13 @@
 
 namespace Webtaxi\MainBundle\Entity;
 
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Doctrine\ORM\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Webtaxi\MainBundle\WebtaxiMainBundle;
 
 /**
  * Travel
@@ -13,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Webtaxi\MainBundle\Model\TravelRepository")
  */
-class Travel implements JsonSerializable
+class Travel
 {
     /**
      * @var integer
@@ -22,14 +25,14 @@ class Travel implements JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected  $id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="time_call", type="datetime")
      */
-    private $timeCall;
+    protected $timeCall;
 
     /**
      * @var string
@@ -37,7 +40,7 @@ class Travel implements JsonSerializable
      * @ORM\Column(name="source_longitude", type="decimal", precision=11, scale=8)
      * @Assert\NotBlank()
      */
-    private $sourceLongitude;
+    protected $sourceLongitude;
 
     /**
      * @var string
@@ -45,7 +48,7 @@ class Travel implements JsonSerializable
      * @ORM\Column(name="source_latitude", type="decimal", precision=10, scale=8)
      * @Assert\NotBlank()
      */
-    private $sourceLatitude;
+    protected $sourceLatitude;
 
     /**
      * @var string
@@ -53,7 +56,7 @@ class Travel implements JsonSerializable
      * @ORM\Column(name="destination_longitude", type="decimal", precision=11, scale=8)
      * @Assert\NotBlank()
      */
-    private $destinationLongitude;
+    protected $destinationLongitude;
 
     /**
      * @var string
@@ -61,7 +64,7 @@ class Travel implements JsonSerializable
      * @ORM\Column(name="destination_latitude", type="decimal", precision=10, scale=8)
      * @Assert\NotBlank()
      */
-    private $destinationLatitude;
+    protected $destinationLatitude;
 
     /**
      * @var string
@@ -69,7 +72,7 @@ class Travel implements JsonSerializable
      * @ORM\Column(name="source_address", type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $sourceAddress;
+    protected $sourceAddress;
 
     /**
      * @var string
@@ -77,7 +80,7 @@ class Travel implements JsonSerializable
      * @ORM\Column(name="destination_address", type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $destinationAddress;
+    protected $destinationAddress;
 
     /**
      * @var User
@@ -86,7 +89,7 @@ class Travel implements JsonSerializable
      * @ORM\ManyToOne(targetEntity="User", inversedBy="users")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
-    private $client;
+    protected $client;
 
     /**
      * @var integer
@@ -95,7 +98,7 @@ class Travel implements JsonSerializable
      * @ORM\ManyToOne(targetEntity="User", inversedBy="user")
      * @ORM\JoinColumn(name="driver_id", nullable=true, referencedColumnName="id")
      */
-    private $driver;
+    protected $driver;
 
     /**
      * @var string
@@ -110,7 +113,7 @@ class Travel implements JsonSerializable
      *      maxMessage = "Kaina negali būti didesnė nei 1000 litų"
      * )
      */
-    private $price;
+    protected $price;
 
     /**
      * @var integer
@@ -125,7 +128,7 @@ class Travel implements JsonSerializable
      *      maxMessage = "Keleivių negali būti daugiau nei 10"
      * )
      */
-    private $passengerCount;
+    protected $passengerCount;
 
     /**
      * @var string
@@ -140,7 +143,7 @@ class Travel implements JsonSerializable
      *      maxMessage = "Negalima skelbti kelionių, kurių atstumas didesnis nei 500km"
      * )
      */
-    private $distance;
+    protected $distance;
 
 
     /**
@@ -148,15 +151,7 @@ class Travel implements JsonSerializable
      *
      * @ORM\Column(name="profit", type="decimal", precision=4, scale=2)
      */
-    private $profit;
-
-
-    /**
-     * @var boolean
-     *
-     *
-     */
-    private $isMyTravel;
+    protected $profit;
 
 
     /**
@@ -469,51 +464,36 @@ class Travel implements JsonSerializable
     }
 
     /**
-     * Set isMyTravel
-     *
-     * @param string $distance
-     * @return Travel
+     * @param Travel $travel
+     * @return void
      */
-    public function setIsMyTravel($isMyTravel)
-    {
-        $this->isMyTravel = $isMyTravel;
-
-        return $this;
+    public function setFromExisting($travel) {
+        $this->id = $travel->getId();
+        $this->profit = $travel->getProfit();
+        $this->client = $travel->getClient();
+        $this->destinationAddress = $travel->getDestinationAddress();
+        $this->destinationLatitude = $travel->getDestinationLatitude();
+        $this->destinationLongitude = $travel->getDestinationLongitude();
+        $this->distance = $travel->getDistance();
+        $this->driver = $travel->getDriver();
+        $this->passengerCount = $travel->getPassengerCount();
+        $this->price = $travel->getPrice();
+        $this->sourceAddress = $travel->getSourceAddress();
+        $this->sourceLatitude = $travel->getSourceLatitude();
+        $this->sourceLongitude = $travel->getSourceLongitude();
+        $this->timeCall = $travel->getTimeCall();
     }
 
     /**
-     * Get isMyTravel
-     *
-     * @return string
+     * @return bool is travel this travel expired or not. If it is expired, it can not be accepted or removed.
      */
-    public function getIsMyTravel()
-    {
-        return $this->isMyTravel;
-    }
-
-    /**
-     * @return array|mixed encoded json (for travel table)
-     */
-    public function jsonSerialize() {
-        $timeCallFormated = "";
-        if (date('Ymd') == date('Ymd', $this->timeCall->getTimestamp())) {
-            //today, show only time:
-            $timeCallFormated = $this->timeCall->format("H:i");
+    public function isTravelExpired() {
+        $dateNowBeforeTravelExpireTime = new DateTime();
+        $dateNowBeforeTravelExpireTime->sub(new DateInterval('PT' . WebtaxiMainBundle::TRAVEL_EXPIRE_TIME . 'M'));
+        if ($this->getTimeCall() < $dateNowBeforeTravelExpireTime) {
+            return true;
         } else {
-            $timeCallFormated = $this->timeCall->format("n-d H:i");
+            return false;
         }
-        return [
-            'id' => $this->id,
-            'timeCall' => $timeCallFormated,
-            'sourceAddress' => $this->sourceAddress,
-            'client' => $this->client,
-            'destinationAddress' => $this->destinationAddress,
-            'price' => $this->price,
-            'passengerCount' => $this->passengerCount,
-            'distance' => $this->distance,
-            'isMyTravel' => false,
-            'profit' => $this->profit,
-            'isMyTravel' => $this->isMyTravel
-        ];
     }
 }
