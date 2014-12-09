@@ -1,6 +1,11 @@
 jQuery(document).ready(function () {
 
     var map;
+    var markers = [];
+    var infoBoxes = [];
+    var boxTextArray = [];
+    var idArray = [null, null, null, null];
+    var check;
 
     var style = [
         {
@@ -32,6 +37,10 @@ jQuery(document).ready(function () {
         }
     ];
 
+    /**
+     * Array of marker coordinates
+     * @type {*[]}
+     */
     var locations = [
         [54.724392, 25.323830],
         [54.729844, 25.269756],
@@ -43,6 +52,10 @@ jQuery(document).ready(function () {
         [54.724590, 25.280571]
     ];
 
+    /**
+     * Array of strings for infoBoxes
+     * @type {string[]}
+     */
     var strings = [
         'Labas, pavežėkit iki Užupio :) ',
         'Sveiki, kas į Saulėtekį?',
@@ -54,6 +67,10 @@ jQuery(document).ready(function () {
         'Hai, vykstu į Lazdynus, kas su manim? '
     ];
 
+    /**
+     * Array of possible icons for markers
+     * @type {string[]}
+     */
     var icons = [
 
         'http://webtaxi.dev/bundles/webtaximain/images/user_1_marker.png',
@@ -62,8 +79,10 @@ jQuery(document).ready(function () {
         'http://webtaxi.dev/bundles/webtaximain/images/user_4_marker.png'
     ];
 
-    var markers = [];
 
+    /**
+     * Fills array with markers ( with randomly selected icons)
+     */
    function addMarkers() {
         var i;
         for ( i=0; i<locations.length; i++) {
@@ -72,16 +91,16 @@ jQuery(document).ready(function () {
                 position: new google.maps.LatLng(location[0], location[1]),
                 draggable: false,
                 animation: google.maps.Animation.DROP,
-                title: 'Tomas',
                 icon: icons[Math.floor(Math.random() * icons.length)]
             });
             markers.push(marker);
         }
    }
 
-    var infoBoxes = [];
-    var boxTextArray = [];
 
+    /**
+     *
+     */
     function createInfoBoxes(){
         var i;
         for ( i=0; i<strings.length; i++) {
@@ -95,11 +114,10 @@ jQuery(document).ready(function () {
                 disableAutoPan: false,
                 maxWidth: 150,
                 pixelOffset: new google.maps.Size(-140, 0),
-                zIndex: null,
                 boxStyle: {
                     background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat",
                     opacity: 0.75,
-                    width: "280px"
+                    width: "auto"
                 },
                 closeBoxMargin: "12px 4px 2px 2px",
                 closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
@@ -110,7 +128,7 @@ jQuery(document).ready(function () {
     }
 
     var options = {
-        zoom: 13,
+        zoom: 12,
         center:  new google.maps.LatLng(54.6833, 25.2833),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true
@@ -121,8 +139,7 @@ jQuery(document).ready(function () {
         styles: style
     });
 
-    var idArray = [null, null, null, null];
-    var check;
+
 
     function openInfoBox(infobox, marker){
         infobox.open(map,  marker);
@@ -164,12 +181,12 @@ jQuery(document).ready(function () {
     }
 
   function randomMarkerAppearance(){
-      var first, second, third, oldFirst, oldSecond, oldThird;
+      var first, oldFirst;
       setInterval(function () {
           first = Math.floor(Math.random() * markers.length);
           setMarker(markers[first], infoBoxes[first], oldFirst);
           oldFirst=first;
-      }, 2000);
+      }, 8000);
   }
 
     var center;

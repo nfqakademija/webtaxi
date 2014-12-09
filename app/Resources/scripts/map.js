@@ -5,6 +5,8 @@
         directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer(),
         infowindow = new google.maps.InfoWindow(),
+        destinationMarkerCreated = false,
+        destinationMarker,
         map,
         start,
         dest;
@@ -13,9 +15,7 @@
      * @param location
      */
     function initialise(location) {
-        var destinationMarkerCreated = false,
-            destinationMarker,
-            currentLocation  = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+        var currentLocation  = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
 
         var style = [
             {
@@ -45,7 +45,7 @@
                     { lightness: "50" }
                 ]
             }
-        ]
+        ];
         map = new google.maps.Map(document.getElementById("map-canvas"), {
             center: currentLocation,
             zoom: 14,
@@ -75,6 +75,8 @@
             testMovement(startMarker.getPosition().lat(), startMarker.getPosition().lng());
         });
     }
+
+
 
     /**
      * @param pos
@@ -122,7 +124,7 @@
                 document.getElementById('travel_sourceLongitude').value =marker.getPosition().lng();
             } else {
                 document.getElementById('dest_address').value = address;
-                dest = marker.getPosition()
+                dest = marker.getPosition();
                 document.getElementById('travel_destinationLatitude').value =marker.getPosition().lat();
                 document.getElementById('travel_destinationLongitude').value =marker.getPosition().lng();
             }
@@ -138,12 +140,19 @@
 
     function codeAddress(addressToCode, marker) {
         var address = addressToCode;
+
+
+
+
         var callback = function (responses) {
             if (!responses || !responses.length) {
                 return;
             }
                 map.setCenter(responses[0].geometry.location);
-                marker.setPosition(responses[0].geometry.location);
+            if (typeof marker === "undefined"){
+                marker = createMarker(responses[0].geometry.location, 'destination');
+                destinationMarkerCreated = true;
+            }else{marker.setPosition(responses[0].geometry.location);}
                 geocodePosition(responses[0].geometry.location, marker);
         };
 
@@ -195,40 +204,6 @@
             }
         });
     }
-
-    /**
-     *
-     * @param lat
-     * @param lng
-     */
-    function testMovement(lat, lng) {
-        var i = 1;
-        lat = lat-0.01;
-        lng = lng-0.01;
-        var image= 'car.png';
-
-        var loc = new google.maps.LatLng(lat,lng);
-        var marker = new google.maps.Marker({
-            position: loc,
-            map: map,
-            title: 'labas',
-            icon: 'http://google-maps-icons.googlecode.com/files/car.png'
-        });
-        myLoop();
-        function myLoop() {
-            setTimeout(function () {
-                lat = lat + 0.001;
-                lng = lng + 0.001;
-                loc = new google.maps.LatLng(lat,lng);
-                marker.setPosition(loc);
-                i++;
-                if (i < 10) {
-                    myLoop();
-                }
-            }, 2000)
-        }
-    }
-
 
     navigator.geolocation.getCurrentPosition(initialise);
 })(window.jQuery);
