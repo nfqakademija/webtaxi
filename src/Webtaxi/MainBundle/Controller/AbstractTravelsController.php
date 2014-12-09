@@ -81,21 +81,21 @@ abstract class AbstractTravelsController extends Controller
     {
         //if travel client is not current user, error:
         if ($travel->getClient() != $this->getUser()) {
-            return new Response(json_encode(array("status" => STATUS_TRAVEL_NOT_YOURS, "message" => "Jūs negalite trinti ne savo kelionę")));
+            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_NOT_YOURS, "message" => "Jūs negalite trinti ne savo kelionę")));
         }
         //if traval has a driver, it could not be canceled, error:
         if ($travel->getDriver() != null) {
-            return new Response(json_encode(array("status" => STATUS_TRAVEL_ALREADY_ACCEPTED, "message" => "Ši kelionė jau priimta, jos trinti nebegalima")));
+            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED, "message" => "Ši kelionė jau priimta, jos trinti nebegalima")));
         }
         //if travel is expired, error:
         if ($travel->isTravelExpired()) {
-            return new Response(json_encode(array("status" => STATUS_TRAVEL_IS_EXPIRED, "message" => "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos trinti nebegalima")));
+            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED, "message" => "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos trinti nebegalima")));
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($travel);
         $em->flush();
-        return new Response(json_encode(array("status" => STATUS_TRAVEL_ACTION_OK, "message" => "Jūsų kelionė buvo sėkmingai ištrinta")));
+        return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "message" => "Jūsų kelionė buvo sėkmingai ištrinta")));
 
     }
 
