@@ -1,6 +1,6 @@
 #map-canvas {
   height: 300px;
-  width: 100%;
+  width: 95%;
 }
 
 html, body {
@@ -18,4 +18,26 @@ html, body {
   #map_canvas {
     height: 650px;
   }
+}
+
+.button-panel{
+  display: inline-block;
+
+}
+.field{
+  display: inline;
+  width: 100% !important;
+}
+
+#currency{
+  display: inline;
+  color:#000000;
+  background-color: #ffffff;
+  height: 3em;
+  margin-left: -40px;
+  z-index: 5;
+}
+
+.form-control{
+  max-width: 190px;
 }
