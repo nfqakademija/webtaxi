@@ -17,7 +17,7 @@ class TravelFormType extends AbstractType
             ->add('destinationLatitude', 'hidden')
             ->add('sourceAddress', 'text',  array('label' => 'Išvykimas'))
             ->add('destinationAddress', 'text',  array('label' => 'Atvykimas'))
-            ->add('price', 'money',  array('currency' => 'LTL', 'label' => 'Siūloma kaina'))
+            ->add('price', 'number',  array( 'label' => 'Siūloma kaina'))
             ->add('passengerCount', 'integer',  array('label' => 'Keleivių skaičius'))
             ->add('distance', 'number',  array('label' => 'Apskaičiuotas atstumas'))
             ->add('save', 'submit', array('label' => 'Pateikti'));

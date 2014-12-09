@@ -6,19 +6,19 @@
 
     <div class="input-group-form">
         <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_email.png') }}"/></span>
-        {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':'Email'}, }) }}
+        {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':'El paštas'}, }) }}
     </div>
 
     <div class="input-group-form">
         <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_user.png') }}"/></span>
-        {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':'User name'}, }) }}
+        {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':'Vartotojo vardas'}, }) }}
     </div>
 
     {% for passwordField in form.plainPassword %}
-        {% set passwordText = 'Password' %}
+        {% set passwordText = 'Slaptažodis' %}
 
         {% if secondPass is defined %}
-            {% set passwordText = 'Confirm password' %}
+            {% set passwordText = 'Patvirtinkite slaptažodį' %}
         {% endif %}
 
         <div class="input-group-form">
@@ -32,13 +32,13 @@
     <div class="input-group-form">
         <span class="input-group-addon invisible-item"><img src="{{ asset('bundles/webtaximain/images/ic_key.png') }}"
                                                             class="invisible-item"/></span>
-        {{ form_widget(form.firstName, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':"First name"}, }) }}
+        {{ form_widget(form.firstName, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':"Vardas"}, }) }}
     </div>
 
     <div class="input-group-form">
         <span class="input-group-addon invisible-item"><img src="{{ asset('bundles/webtaximain/images/ic_key.png') }}"
                                                             class="invisible-item"/></span>
-        {{ form_widget(form.lastName, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':"Last name"}, }) }}
+        {{ form_widget(form.lastName, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':"Pavardė"}, }) }}
     </div>
 
     {#{{ form_widget(form.username, { 'attr': {'class': 'form-control', 'size': inputSize} }) }}#}
@@ -46,6 +46,6 @@
     {{ form_rest(form) }}
 
     <div>
-        <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-default btn-lg"/>
+        <input type="submit" value="Registruotis" class="btn btn-default btn-lg"/>
     </div>
 </form>

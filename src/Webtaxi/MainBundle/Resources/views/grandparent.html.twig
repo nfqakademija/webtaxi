@@ -9,6 +9,10 @@
     {% set imageLinkInfo = asset('bundles/webtaximain/images/info.png') %}
     {% set imageLinkTraveler = asset('bundles/webtaximain/images/traveler.png') %}
     {% set imageLinkSteeringWheel = asset('bundles/webtaximain/images/steering_wheel.png') %}
+    {% set userIcon1 = asset('bundles/webtaximain/images/user_1_marker.png') %}
+    {% set userIcon2 = asset('bundles/webtaximain/images/user_2_marker.png') %}
+    {% set userIcon3 = asset('bundles/webtaximain/images/user_3_marker.png') %}
+    {% set userIcon4 = asset('bundles/webtaximain/images/user_4_marker.png') %}
     {% if app.request.attributes.get('_route') == 'webtaxi_main_findtraveller_index' %}
         {% set loadMoreTravelsLink = path('webtaxi_main_findtraveller_loadmoretravels' )  %}
         {% set isMyTravels = false %}
@@ -19,6 +23,7 @@
             data-imageLinkAlert="{{ imageLinkAlert }}" data-imageLinkRemove="{{ imageLinkRemove }}"
             data-imageLinkTick="{{ imageLinkTick }}" data-imageLinkInfo="{{ imageLinkInfo }}"
             data-imageLinkTraveler="{{ imageLinkTraveler }}" data-imageLinkSteeringWheel="{{ imageLinkSteeringWheel }}"
+            data-userIcon1="{{ userIcon1 }}" data-userIcon2="{{ userIcon2 }}" data-userIcon3="{{ userIcon3 }}" data-userIcon4="{{ userIcon4 }}"
             >
     </span>
     {#END OF JAVASCIPT PARAMS#}

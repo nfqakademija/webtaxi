@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-
+    var paramsObject = document.getElementById('parameters');
     var map;
     var markers = [];
     var infoBoxes = [];
@@ -72,13 +72,11 @@ jQuery(document).ready(function () {
      * @type {string[]}
      */
     var icons = [
-
-        'http://webtaxi.dev/bundles/webtaximain/images/user_1_marker.png',
-        'http://webtaxi.dev/bundles/webtaximain/images/user_2_marker.png',
-        'http://webtaxi.dev/bundles/webtaximain/images/user_3_marker.png',
-        'http://webtaxi.dev/bundles/webtaximain/images/user_4_marker.png'
+        paramsObject.getAttribute('data-userIcon1'),
+        paramsObject.getAttribute('data-userIcon2'),
+        paramsObject.getAttribute('data-userIcon3'),
+        paramsObject.getAttribute('data-userIcon4')
     ];
-
 
     /**
      * Fills array with markers ( with randomly selected icons)

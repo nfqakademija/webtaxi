@@ -7,9 +7,9 @@
         {% else %}
             <h1>
                 {% if app.request.attributes.get('_route') == 'fos_user_registration_register' %}
-                    Already a user?
+                    Jau turi paskyrą?
                 {% endif %}
-                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                <a href="{{ path('fos_user_security_login') }}">Prisijunk</a>
             </h1>
         {% endif %}
     </div>
