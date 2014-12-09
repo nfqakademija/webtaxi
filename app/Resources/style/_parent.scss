@@ -51,3 +51,20 @@ a {
   background-color: black;
   height: 2em;
 }
+
+ul#reviewContainer {
+  text-align: center;
+  display: block;
+  list-style: none;
+  -webkit-padding: 0;
+  padding: 0;
+}
+
+ul#reviewContainer li {
+  display: inline;
+  -webkit-padding: 0;
+  padding: 0;
+}
+#reviewCountLeftSymbols, #reviewCountLeftSymbolsValue {
+ color: #5e5e5e;
+}
