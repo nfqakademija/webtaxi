@@ -19,6 +19,7 @@ abstract class AbstractTravelsController extends Controller
     const STATUS_TRAVEL_ALREADY_ACCEPTED = -3;
     const STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT = -4;
     const STATUS_TRAVEL_IS_EXPIRED = -6;
+    const STATUS_TRAVEL_ACTION_ARGUMENTS_INVALID = -7;
 
     abstract protected function indexAction();
 

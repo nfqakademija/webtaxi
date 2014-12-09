@@ -9,6 +9,16 @@
     {% set imageLinkInfo = asset('bundles/webtaximain/images/info.png') %}
     {% set imageLinkTraveler = asset('bundles/webtaximain/images/traveler.png') %}
     {% set imageLinkSteeringWheel = asset('bundles/webtaximain/images/steering_wheel.png') %}
+    {% set imageLinkComment = asset('bundles/webtaximain/images/comment.png') %}
+    {% set imageLinkCommentActive = asset('bundles/webtaximain/images/commentActive.gif') %}
+
+    {% set imageLinkRatingStar = asset('bundles/webtaximain/images/star.png') %}
+    {% set imageLinkRatingStar1 = asset('bundles/webtaximain/images/star1.png') %}
+    {% set imageLinkRatingStar2 = asset('bundles/webtaximain/images/star2.png') %}
+    {% set imageLinkRatingStar3 = asset('bundles/webtaximain/images/star3.png') %}
+    {% set imageLinkRatingStar4 = asset('bundles/webtaximain/images/star4.png') %}
+    {% set imageLinkRatingStar5 = asset('bundles/webtaximain/images/star5.png') %}
+
     {% if app.request.attributes.get('_route') == 'webtaxi_main_findtraveller_index' %}
         {% set loadMoreTravelsLink = path('webtaxi_main_findtraveller_loadmoretravels' )  %}
         {% set isMyTravels = false %}
@@ -19,6 +29,11 @@
             data-imageLinkAlert="{{ imageLinkAlert }}" data-imageLinkRemove="{{ imageLinkRemove }}"
             data-imageLinkTick="{{ imageLinkTick }}" data-imageLinkInfo="{{ imageLinkInfo }}"
             data-imageLinkTraveler="{{ imageLinkTraveler }}" data-imageLinkSteeringWheel="{{ imageLinkSteeringWheel }}"
+            data-imageLinkComment="{{ imageLinkComment }}" data-imageLinkCommentActive="{{ imageLinkCommentActive }}"
+            data-imageLinkRatingStar="{{ imageLinkRatingStar }}"
+            data-imageLinkRatingStar1="{{ imageLinkRatingStar1 }}" data-imageLinkRatingStar2="{{ imageLinkRatingStar2 }}"
+            data-imageLinkRatingStar3="{{ imageLinkRatingStar3 }}" data-imageLinkRatingStar4="{{ imageLinkRatingStar4 }}"
+            data-imageLinkRatingStar5="{{ imageLinkRatingStar5 }}"
             >
     </span>
     {#END OF JAVASCIPT PARAMS#}

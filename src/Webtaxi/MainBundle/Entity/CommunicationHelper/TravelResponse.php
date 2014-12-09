@@ -109,6 +109,10 @@ class TravelResponse extends Travel  implements JsonSerializable
             'isMyTravel' => $this->isMyTravel,
             'isMyRelatedTravel' => $this->isMyRelatedTravel,
             'isTravelExpired' => $this->isTravelExpired(),
+            'reviewClientRating' => $this->getReviewClientRating(),
+            'reviewClientComment' => $this->getReviewClientComment(),
+            'reviewDriverRating' => $this->getReviewDriverRating(),
+            'reviewDriverComment' => $this->getReviewDriverComment(),
         ];
     }
 }

@@ -155,6 +155,38 @@ class Travel
 
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="review_client_rating", nullable=true, type="integer")
+     */
+    protected $reviewClientRating;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="review_client_comment", nullable=true, type="string", length=255)
+     */
+    protected $reviewClientComment;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="review_driver_rating", nullable=true, type="integer")
+     */
+    protected $reviewDriverRating;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="review_driver_comment", nullable=true, type="string", length=255)
+     */
+    protected $reviewDriverComment;
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -464,6 +496,70 @@ class Travel
     }
 
     /**
+     * @return string
+     */
+    public function getReviewClientComment()
+    {
+        return $this->reviewClientComment;
+    }
+
+    /**
+     * @param string $reviewClientComment
+     */
+    public function setReviewClientComment($reviewClientComment)
+    {
+        $this->reviewClientComment = $reviewClientComment;
+    }
+
+    /**
+     * @return int
+     */
+    public function getReviewClientRating()
+    {
+        return $this->reviewClientRating;
+    }
+
+    /**
+     * @param int $reviewClientRating
+     */
+    public function setReviewClientRating($reviewClientRating)
+    {
+        $this->reviewClientRating = $reviewClientRating;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReviewDriverComment()
+    {
+        return $this->reviewDriverComment;
+    }
+
+    /**
+     * @param string $reviewDriverComment
+     */
+    public function setReviewDriverComment($reviewDriverComment)
+    {
+        $this->reviewDriverComment = $reviewDriverComment;
+    }
+
+    /**
+     * @return int
+     */
+    public function getReviewDriverRating()
+    {
+        return $this->reviewDriverRating;
+    }
+
+    /**
+     * @param int $reviewDriverRating
+     */
+    public function setReviewDriverRating($reviewDriverRating)
+    {
+        $this->reviewDriverRating = $reviewDriverRating;
+    }
+
+    /**
      * @param Travel $travel
      * @return void
      */
@@ -482,10 +578,15 @@ class Travel
         $this->sourceLatitude = $travel->getSourceLatitude();
         $this->sourceLongitude = $travel->getSourceLongitude();
         $this->timeCall = $travel->getTimeCall();
+        $this->reviewClientRating = $travel->getReviewClientRating();
+        $this->reviewClientComment = $travel->getReviewClientComment();
+        $this->reviewDriverRating = $travel->getReviewDriverRating();
+        $this->reviewDriverComment = $travel->getReviewDriverComment();
     }
 
     /**
-     * @return bool is travel this travel expired or not. If it is expired, it can not be accepted or removed.
+     * is this travel expired or not. If it is expired, it can not be accepted or removed.
+     * @return bool
      */
     public function isTravelExpired() {
         $dateNowBeforeTravelExpireTime = new DateTime();
@@ -496,4 +597,53 @@ class Travel
             return false;
         }
     }
+
+    /**
+     * Determines is user is a creator of this travel
+     * @param $user
+     * @return bool
+     */
+    public function isUserClient($user) {
+        if ($this->client == $user) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines is user a driver of this travel
+     * @param $user
+     * @return bool
+     */
+    public function isUserDriver($user) {
+        if ($this->driver == $user) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines has this travel a client review
+     * @return bool
+     */
+    public function isClientReviewGiven() {
+        //we dont care about comment because we know its not our responsibility: both comment and rating are mandatory
+        if ($this->reviewClientRating != null && $this->reviewClientRating > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines has this travel a driver review
+     * @return bool
+     */
+    public function isDriverReviewGiven() {
+        //we dont care about comment because we know its not our responsibility: both comment and rating are mandatory
+        if ($this->reviewDriverRating != null && $this->reviewDriverRating > 0) {
+            return true;
+        }
+        return false;
+    }
+
 }

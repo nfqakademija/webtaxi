@@ -10,6 +10,15 @@
     var imageLinkInfo = paramsObject.getAttribute('data-imageLinkInfo');
     var imageLinkTraveler = paramsObject.getAttribute('data-imageLinkTraveler');
     var imageLinkSteeringWheel = paramsObject.getAttribute('data-imageLinkSteeringWheel');
+    var imageLinkComment = paramsObject.getAttribute('data-imageLinkComment');
+    var imageLinkCommentActive = paramsObject.getAttribute('data-imageLinkCommentActive');
+
+    var imageLinkimageLinkRatingStar = paramsObject.getAttribute('data-imageLinkRatingStar');
+    var imageLinkimageLinkRatingStar1 = paramsObject.getAttribute('data-imageLinkRatingStar1');
+    var imageLinkimageLinkRatingStar2 = paramsObject.getAttribute('data-imageLinkRatingStar2');
+    var imageLinkimageLinkRatingStar3 = paramsObject.getAttribute('data-imageLinkRatingStar3');
+    var imageLinkimageLinkRatingStar4 = paramsObject.getAttribute('data-imageLinkRatingStar4');
+    var imageLinkimageLinkRatingStar5 = paramsObject.getAttribute('data-imageLinkRatingStar5');
     /*END OF GETTING PARAMS*/
     var lastId = -1;
     var count = 5;
@@ -24,6 +33,9 @@
     var stringRemoveThisTravel = 'Panaikinti šią kelionę';
     var stringAcceptThisTravel = 'Priimti šią kelionę';
     var stringTravelWasNotAcceptedAndIsExpired = 'Ši kelionė nebuvo priimta ir nebegalioja';
+    var stringRateThisTravel = 'Įvertinkite šią kelionę';
+    var stringError = 'Klaida';
+    var stringErrorInReview = 'Neįvertinote ir/arba nepalikote komentaro';
     /**
      * OnClick - ajax function - load some more travels
      */
@@ -64,8 +76,6 @@
                             td.appendChild(img);
                             tr.appendChild(td);
                         }
-
-
 
                         //time call:
                         td = document.createElement('td');
@@ -140,7 +150,7 @@
                         //action:
                         td = document.createElement('td');
                         img = document.createElement('img');
-                        if (t.driver === null) {
+                        if (t.driver === null) {//if its not accepted, it could be removed or accepted
                             if (t.isMyTravel) {
                                 if (!isTravelExpired) {
                                     img.src = imageLinkRemove;
@@ -155,6 +165,31 @@
                                     $( img ).click(createTravelAcceptanceConfirmationFunction(t.id, fullName, t.sourceAddress, t.destinationAddress));
                                 }
                             }
+                        } else {
+                            //travel has a driver, show review icon, if travel was not reviewed;
+                            //ToDo cia galima graziau padaryti:
+                            console.log("ratings " + t.reviewClientRating + " " + t.reviewDriverRating);
+                            if (t.isMyTravel) { //I was a client
+                                if (t.reviewClientRating <= 0 || t.reviewClientRating == null) {
+                                    console.log("ratings 1");
+                                    img.src = imageLinkCommentActive;
+                                    img.title = stringRateThisTravel;
+                                    img.alt = stringRateThisTravel;
+                                } else {
+                                }
+                            }
+                            else
+                            if ((t.isMyRelatedTravel && !t.isMyTravel)) { //I was a driver:
+                                if (t.reviewDriverRating <= 0 || t.reviewDriverRating == null  ) {
+                                    img.src = imageLinkCommentActive;
+                                    img.title = stringRateThisTravel;
+                                    img.alt = stringRateThisTravel;
+                                } else {
+                                }
+
+                            }
+                            $( img ).click(createTravelReviewFunction(t.id));
+
                         }
                         if (t.isMyTravel) {
                             tr.className += ' myTravel ';
@@ -347,5 +382,251 @@
         modal.find('.btn-primary').click(createTravelAcceptFunction(currentTravelId));
     });
 
+    function createTravelReviewFunction(travelId) {
+        return function() {
+            currentTravelId = travelId;
+            $('#reviewModal').modal();
+        };
+    }
+
+    /* START OF SEND REVIEW */
+    // ToDo this solution for setting hover, click stars images is really really bad.
+
+    /**
+     * Stars image objects
+     */
+    var ratingStar1 = document.getElementById('ratingStar1');
+    var ratingStar2 = document.getElementById('ratingStar2');
+    var ratingStar3 = document.getElementById('ratingStar3');
+    var ratingStar4 = document.getElementById('ratingStar4');
+    var ratingStar5 = document.getElementById('ratingStar5');
+
+    var reviewCountLeftSymbolsValueObject = document.getElementById('reviewCountLeftSymbolsValue');
+    var reviewCommentObject = document.getElementById('reviewComment');
+
+    var isRatingGiven = false;
+    var isCommentGiven = false;
+
+    var ratingCurrent = 0;
+
+    /**
+     * function for setting back rating stars if rating is not selected
+     */
+    var ratingStarsHoverOutFunction = function() {
+        if (ratingCurrent !== 0) {
+            return;
+        }
+        ratingStar1.src = imageLinkimageLinkRatingStar;
+        ratingStar2.src = imageLinkimageLinkRatingStar;
+        ratingStar3.src = imageLinkimageLinkRatingStar;
+        ratingStar4.src = imageLinkimageLinkRatingStar;
+        ratingStar5.src = imageLinkimageLinkRatingStar;
+    };
+
+    var clearAllStarsFunction = function() {
+        ratingStar1.src = imageLinkimageLinkRatingStar;
+        ratingStar2.src = imageLinkimageLinkRatingStar;
+        ratingStar3.src = imageLinkimageLinkRatingStar;
+        ratingStar4.src = imageLinkimageLinkRatingStar;
+        ratingStar5.src = imageLinkimageLinkRatingStar;
+    };
+
+    var ratingStar1HoverInFunction = function()
+    {
+        if (ratingCurrent > 0) {
+            return;
+        }
+        ratingStar1.src = imageLinkimageLinkRatingStar1;
+        ratingStar2.src = imageLinkimageLinkRatingStar;
+        ratingStar3.src = imageLinkimageLinkRatingStar;
+        ratingStar4.src = imageLinkimageLinkRatingStar;
+        ratingStar5.src = imageLinkimageLinkRatingStar;
+    };
+
+    var ratingStar2HoverInFunction = function()
+    {
+        if (ratingCurrent > 0) {
+            return;
+        }
+        ratingStar1.src = imageLinkimageLinkRatingStar2;
+        ratingStar2.src = imageLinkimageLinkRatingStar2;
+        ratingStar3.src = imageLinkimageLinkRatingStar;
+        ratingStar4.src = imageLinkimageLinkRatingStar;
+        ratingStar5.src = imageLinkimageLinkRatingStar;
+    };
+
+    var ratingStar3HoverInFunction = function()
+    {
+        if (ratingCurrent > 0) {
+            return;
+        }
+        ratingStar1.src = imageLinkimageLinkRatingStar3;
+        ratingStar2.src = imageLinkimageLinkRatingStar3;
+        ratingStar3.src = imageLinkimageLinkRatingStar3;
+        ratingStar4.src = imageLinkimageLinkRatingStar;
+        ratingStar5.src = imageLinkimageLinkRatingStar;
+    };
+
+    var ratingStar4HoverInFunction = function()
+    {
+        if (ratingCurrent > 0) {
+            return;
+        }
+        ratingStar1.src = imageLinkimageLinkRatingStar4;
+        ratingStar2.src = imageLinkimageLinkRatingStar4;
+        ratingStar3.src = imageLinkimageLinkRatingStar4;
+        ratingStar4.src = imageLinkimageLinkRatingStar4;
+        ratingStar5.src = imageLinkimageLinkRatingStar;
+    };
+
+    var ratingStar5HoverInFunction = function()
+    {
+        if (ratingCurrent > 0) {
+            return;
+        }
+        ratingStar1.src = imageLinkimageLinkRatingStar5;
+        ratingStar2.src = imageLinkimageLinkRatingStar5;
+        ratingStar3.src = imageLinkimageLinkRatingStar5;
+        ratingStar4.src = imageLinkimageLinkRatingStar5;
+        ratingStar5.src = imageLinkimageLinkRatingStar5;
+    };
+
+    $('#ratingStar1').hover(ratingStar1HoverInFunction, ratingStarsHoverOutFunction);
+
+    $('#ratingStar2').hover(ratingStar2HoverInFunction, ratingStarsHoverOutFunction);
+
+    $('#ratingStar3').hover(ratingStar3HoverInFunction, ratingStarsHoverOutFunction);
+
+    $('#ratingStar4').hover(ratingStar4HoverInFunction, ratingStarsHoverOutFunction);
+
+    $('#ratingStar5').hover(ratingStar5HoverInFunction, ratingStarsHoverOutFunction);
+
+    $('#ratingStar1').click(function()
+    {
+        clearAllStarsFunction();
+        ratingCurrent = 0;
+        ratingStar1HoverInFunction();
+        ratingCurrent = 1;
+        isRatingGiven = true;
+
+    });
+    $('#ratingStar2').click(function()
+    {
+        clearAllStarsFunction();
+        ratingCurrent = 0;
+        ratingStar2HoverInFunction();
+        ratingCurrent = 2;
+        isRatingGiven = true;
+
+    });
+    $('#ratingStar3').click(function()
+    {
+        clearAllStarsFunction();
+        ratingCurrent = 0;
+        ratingStar3HoverInFunction();
+        ratingCurrent = 3;
+        isRatingGiven = true;
+    });
+    $('#ratingStar4').click(function()
+    {
+        clearAllStarsFunction();
+        ratingCurrent = 0;
+        ratingStar4HoverInFunction();
+        ratingCurrent = 4;
+        isRatingGiven = true;
+    });
+    $('#ratingStar5').click(function()
+    {
+        clearAllStarsFunction();
+        ratingCurrent = 0;
+        ratingStar5HoverInFunction();
+        ratingCurrent = 5;
+        isRatingGiven = true;
+    });
+
+    /**
+     * OnShow, dismiss last values to review dialog:
+     */
+    $('#reviewModal').on('show.bs.modal', function () {
+        var modal = $(this);
+        ratingCurrent = 0;
+        clearAllStarsFunction();
+        isCommentGiven = false;
+        isRatingGiven = false;
+        reviewCommentObject.value = '';
+        document.getElementById('errorInReview').style.display = 'none';
+        modal.find('.btn-primary').click(createTryToSendReviewFunction());
+    });
+
+    /**
+     * old comment value
+     */
+    var oldVal = '';
+
+    /**
+     * on comment field change updates symbols left count and and also sets correct value to isCommentGiven
+     */
+    $('#reviewComment').on('change keyup paste', function()
+    {
+        var currentVal = $(this).val();
+        if(currentVal === oldVal) {
+            return; //check to prevent multiple simultaneous triggers
+        }
+        oldVal = currentVal;
+        var commentLenght = currentVal.length;
+        reviewCountLeftSymbolsValueObject.innerHTML = '' +  (255 - commentLenght);
+        if (commentLenght > 0) {
+            isCommentGiven = true;
+        } else {
+            isCommentGiven = false;
+        }
+    });
+
+    /**
+     * Creates a function which determines can review be sent now and if yes, send
+     * @returns {Function}
+     */
+    function createTryToSendReviewFunction() {
+        return function() {
+            if (isCommentGiven && isRatingGiven) {
+                console.log('allow to send');
+                sendReview(currentTravelId, ratingCurrent, reviewCommentObject.value);
+            } else {
+                console.log('dont allow to send');
+                document.getElementById('errorInReview').style.display = 'block';
+            }
+        };
+    }
+
+    /**
+     * ajax function for sending a review
+     * @param travelId
+     * @param rating
+     * @param comment2
+     */
+    function sendReview(travelId, ratingCurrent, commentCurrent) {
+        console.log('try ' + travelId + ' ' + ratingCurrent + ' ' + commentCurrent);
+        $('#reviewModal').modal('hide');
+        var comment = '';
+        $.ajax({
+            url: 'reviewTravel/' + travelId,
+            type: 'GET',//ToDo need to change to PUT
+            data: { rating : ratingCurrent, comment : commentCurrent },
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                console.log(response);
+                var json = response;
+                var obj = JSON && JSON.parse(json) || $.parseJSON(json);
+                $.parseResponse(obj);
+            },
+            complete: function () {
+                //window.location.reload(true);
+            },
+            error: function () {
+                $.parseResponse();
+            }
+        });
+    }
+    /* END OF SEND REVIEW */
 })(window.jQuery);
 
