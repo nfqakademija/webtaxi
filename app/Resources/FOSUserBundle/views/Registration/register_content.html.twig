@@ -4,14 +4,19 @@
       class="fos_user_registration_register">
     {#{{ form_widget(form) }}#}
 
-    <div class="input-group-form">
-        <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_email.png') }}"/></span>
-        {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':'El paštas'}, }) }}
-    </div>
+<div class="container " id="reg-container">
+    <div class="signup">
+
 
     <div class="input-group-form">
-        <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_user.png') }}"/></span>
-        {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':'Vartotojo vardas'}, }) }}
+        {{ form_widget(form.email, { 'attr': {'class': 'form-control ', 'size': inputSize, 'placeholder':'El paštas'}, }) }}
+    </div>
+
+
+
+
+    <div class="input-group-form">
+        {{ form_widget(form.username, { 'attr': {'class': 'form-control ', 'size': inputSize, 'placeholder':'Vartotojo vardas'}, }) }}
     </div>
 
     {% for passwordField in form.plainPassword %}
@@ -21,24 +26,21 @@
             {% set passwordText = 'Patvirtinkite slaptažodį' %}
         {% endif %}
 
-        <div class="input-group-form">
-            <span class="input-group-addon"><img src="{{ asset('bundles/webtaximain/images/ic_key.png') }}"/></span>
-            {{ form_widget(passwordField, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':passwordText}, }) }}
+        <div class="input-group-form reg-field">
+            {{ form_widget(passwordField, { 'attr': {'class': 'form-control ', 'size': inputSize, 'placeholder':passwordText}, }) }}
         </div>
 
         {% set secondPass = 'true' %}
     {% endfor %}
 
     <div class="input-group-form">
-        <span class="input-group-addon invisible-item"><img src="{{ asset('bundles/webtaximain/images/ic_key.png') }}"
-                                                            class="invisible-item"/></span>
-        {{ form_widget(form.firstName, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':"Vardas"}, }) }}
+
+        {{ form_widget(form.firstName, { 'attr': {'class': 'form-control ', 'size': inputSize, 'placeholder':"Vardas"}, }) }}
     </div>
 
     <div class="input-group-form">
-        <span class="input-group-addon invisible-item"><img src="{{ asset('bundles/webtaximain/images/ic_key.png') }}"
-                                                            class="invisible-item"/></span>
-        {{ form_widget(form.lastName, { 'attr': {'class': 'form-control', 'size': inputSize, 'placeholder':"Pavardė"}, }) }}
+
+        {{ form_widget(form.lastName, { 'attr': {'class': 'form-control  ', 'size': inputSize, 'placeholder':"Pavardė"}, }) }}
     </div>
 
     {#{{ form_widget(form.username, { 'attr': {'class': 'form-control', 'size': inputSize} }) }}#}
@@ -46,6 +48,10 @@
     {{ form_rest(form) }}
 
     <div>
-        <input type="submit" value="Registruotis" class="btn btn-default btn-lg"/>
+        <input type="submit" value="Registruotis" class="btn btn-default btn-lg register-btn"/>
     </div>
+
+        </div>
+    </div>
+
 </form>
