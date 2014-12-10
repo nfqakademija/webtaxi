@@ -10,16 +10,18 @@
     {% set stringRating3 = "Pusė velnio" %}
     {% set stringRating4 = "Gerai" %}
     {% set stringRating5 = "Puiku" %}
+    {% set stringNoReview = "Apžvalgos nėra" %}
+
     <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 id="myModalLabel"><img src="{{ asset('bundles/webtaximain/images/comment.png') }}" class="modal-image"><span class="modal-title">Įvertinkite šią kelionę</span></h4>
+                    <h4><img src="{{ asset('bundles/webtaximain/images/comment.png') }}" class="modal-image"><span class="modal-title">Įvertinkite šią kelionę</span></h4>
                 </div>
                 <div class="modal-body">
-                    <span class="modal-message">
-                        <ul id="reviewContainer">
+                    <div class="modal-message">
+                        <ul class="reviewContainer">
                             <li>
                                 <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" id="ratingStar1" alt="{{ stringRating1 }}" title="{{ stringRating1 }}">
                             </li>
@@ -40,11 +42,76 @@
                         <textarea class="form-control" rows="5" id="reviewComment" maxlength="255"></textarea>
                         <span id="reviewCountLeftSymbols">Liko simbolių: </span><span id="reviewCountLeftSymbolsValue">255</span>
                         <div id="errorInReview">Įvertinimas ir komentaras yra būtini</div>
-                    </span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                     <button type="button" class="btn btn-primary">Pateikti</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal travel show given reviews showGivenReviewsModal -->
+    <div class="modal fade" id="showGivenReviewsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4><img src="{{ asset('bundles/webtaximain/images/comment.png') }}" class="modal-image"><span class="modal-title">Kelionės apžvalgos</span></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-message">
+                        <div id="review1">
+                            <span class="reviewGivenAuthor">Keleivio </span><span class="reviewGivenAuthor"></span>
+                            <ul class="reviewContainer">
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating1 }}" title="{{ stringRating1 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating2 }}" title="{{ stringRating2 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating3 }}" title="{{ stringRating3 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating4 }}" title="{{ stringRating4 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating5 }}" title="{{ stringRating5 }}">
+                                </li>
+                            </ul>
+                            <span class="form-control" id="reviewComment1"></span>
+                            <span class="reviewModalNoReview" id="reviewComment1NoReview">{{ stringNoReview }}</span>
+                        </div>
+
+                        <div id="review2">
+                            <span class="reviewGivenAuthor">Vairuotojo </span><span class="reviewGivenAuthor"></span>
+                            <ul class="reviewContainer" >
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating1 }}" title="{{ stringRating1 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating2 }}" title="{{ stringRating2 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating3 }}" title="{{ stringRating3 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating4 }}" title="{{ stringRating4 }}">
+                                </li>
+                                <li>
+                                    <img src="{{ asset('bundles/webtaximain/images/star.png') }}" class="modal-image" alt="{{ stringRating5 }}" title="{{ stringRating5 }}">
+                                </li>
+                            </ul>
+                            <span class="form-control" id="reviewComment2"></span>
+                            <span class="reviewModalNoReview" id="reviewComment2NoReview">{{ stringNoReview }}</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
                 </div>
             </div>
         </div>
