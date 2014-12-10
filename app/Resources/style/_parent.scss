@@ -91,3 +91,21 @@ ul.reviewContainer li {
 #reviewComment1NoReview, #reviewComment2NoReview {
   display: none;
 }
+
+span.form-control.reviewComment {
+  width: 50%;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+div.singleReview ul {
+  text-align: left;
+}
+
+div.singleReview:not(:last-child) {
+  margin-bottom: 3.5em;
+}
+
+span.singleReviewTitle {
+  font-weight: bold;
+}

@@ -1,0 +1,12 @@
+table#profileInfo , table#profileInfo tr, table#profileInfo tr td {
+  border: 0px;
+}
+
+table#profileInfo tr td {
+  padding-right: 1em;
+  padding-top: 1em;
+}
+
+table#profileInfo tr td:first-child {
+  font-weight: bold;
+}

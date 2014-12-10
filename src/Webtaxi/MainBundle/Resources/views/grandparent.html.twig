@@ -102,12 +102,13 @@
                     <div class="collapse navbar-collapse pull-right">
                         <ul class="nav navbar-nav">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                {% if app.request.attributes.get('_route') == 'fos_user_profile_edit' %}
+                                {% if app.request.attributes.get('_route') == 'fos_user_profile_edit' or
+                                app.request.attributes.get('_route') == 'fos_user_profile_show' %}
                                     <li class="active">
                                 {% else %}
                                     <li>
                                 {% endif %}
-                                <a href="{{ path('fos_user_profile_edit') }}">Prisijungęs
+                                <a href="{{ path('fos_user_profile_show') }}">Prisijungęs
                                     kaip {{ app.security.getToken().getUser() }} </a>
                                 </li>
                                 <li>

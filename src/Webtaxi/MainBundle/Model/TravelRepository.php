@@ -73,4 +73,25 @@ class TravelRepository extends EntityRepository
             ->getResult();
     }
 
+
+    /**
+     * @param $user
+     * @param $queryLimit
+     * @return mixed
+     */
+    public function getLastRelatedTravels($user, $queryLimit)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT t FROM Webtaxi\MainBundle\Entity\Travel t WHERE
+
+            ( t.client = :user AND t.reviewDriverRating is not null )
+            OR
+             ( t.driver = :user AND t.reviewClientRating is not null ) '  .  ' ORDER BY t.timeCall DESC')
+            ->setParameter("user", $user)
+            ->setMaxResults($queryLimit)
+            ->getResult();
+    }
+
+
+
 }
