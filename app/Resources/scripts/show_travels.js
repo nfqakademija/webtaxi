@@ -395,6 +395,7 @@
         var modal = $(this);
         modal.find('.modal-title').text(modalTitle);
         modal.find('.modal-message').text(modalText);
+        modal.find('.btn-primary').off();
         modal.find('.btn-primary').click(createRemoveFunction(currentTravelId));
     });
 
@@ -405,6 +406,7 @@
         var modal = $(this);
         modal.find('.modal-title').text(modalTitle);
         modal.find('.modal-message').text(modalText);
+        modal.find('.btn-primary').off();
         modal.find('.btn-primary').click(createTravelAcceptFunction(currentTravelId));
     });
 
@@ -581,6 +583,7 @@
         isRatingGiven = false;
         reviewCommentObject.value = '';
         document.getElementById('errorInReview').style.display = 'none';
+        modal.find('.btn-primary').off();
         modal.find('.btn-primary').click(createTryToSendReviewFunction());
     });
 

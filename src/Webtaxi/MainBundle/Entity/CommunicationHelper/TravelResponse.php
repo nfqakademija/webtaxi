@@ -40,7 +40,7 @@ class TravelResponse extends Travel  implements JsonSerializable
 
     /**
      * Set isMyTravel
-     * @param string $isMyTravel
+     * @param boolean $isMyTravel
      * @return Travel
      */
     public function setIsMyTravel($isMyTravel)
@@ -63,7 +63,7 @@ class TravelResponse extends Travel  implements JsonSerializable
     /**
      * Set isMyRelatedTravel
      *
-     * @param string $isMyRelatedTravel
+     * @param boolean $isMyRelatedTravel
      * @return Travel
      */
     public function setIsMyRelatedTravel($isMyRelatedTravel)
@@ -88,7 +88,6 @@ class TravelResponse extends Travel  implements JsonSerializable
      * @return array|mixed encoded json (for travel table)
      */
     public function jsonSerialize() {
-        $timeCallFormated = "";
         if (date('Ymd') == date('Ymd', $this->timeCall->getTimestamp())) {
             //today, show only time:
             $timeCallFormated = $this->timeCall->format("H:i");
