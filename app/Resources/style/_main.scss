@@ -5,6 +5,7 @@
   position: absolute;
   top: 0;
   z-index: -1;
+  margin-bottom: 50px;
 }
 
 #transbox {
@@ -210,4 +211,8 @@
 
 #map-button{
   width: auto !important;
+}
+
+.container{
+  margin-bottom: 50px;
 }
