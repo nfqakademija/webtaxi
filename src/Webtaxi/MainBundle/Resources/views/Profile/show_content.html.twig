@@ -46,9 +46,7 @@
 {% if reviews is null %}
     Apžvalgų nėra
 {% else %}
-
     {% for item in reviews %}
-
         {% set role = driver %}
         {% if item.isReviewerAsAClient%}
             {% set role = client %}

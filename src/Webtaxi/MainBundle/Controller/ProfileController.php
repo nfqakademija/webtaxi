@@ -17,10 +17,12 @@ use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Webtaxi\MainBundle\Entity\SingleReview;
+use Webtaxi\MainBundle\Entity\TravelRepository;
 
 /**
  * Controller managing the user profile
@@ -39,9 +41,11 @@ class ProfileController extends Controller
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $travels = $this->getDoctrine()->
-        getRepository('WebtaxiMainBundle:Travel')
-            ->getLastRelatedTravels($user, 20);
+        $repTravels = $this->getDoctrine()->getRepository('WebtaxiMainBundle:Travel');
+        if (!$repTravels instanceof TravelRepository) {
+            throw new InvalidTypeException('must return correct TravelRepository');
+        }
+        $travels = $repTravels->getLastRelatedTravels($user, 20);
 
         $reviews = SingleReview::travelsToReviews($travels, $user);
 
@@ -85,6 +89,9 @@ class ProfileController extends Controller
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
 
+            //save update history:
+
+            //end of save update history
             $userManager->updateUser($user);
 
             if (null === $response = $event->getResponse()) {

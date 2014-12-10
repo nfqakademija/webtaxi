@@ -14,7 +14,7 @@ use Webtaxi\MainBundle\WebtaxiMainBundle;
  * Travel
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Webtaxi\MainBundle\Model\TravelRepository")
+ * @ORM\Entity(repositoryClass="Webtaxi\MainBundle\Entity\TravelRepository")
  */
 class Travel
 {
@@ -92,7 +92,7 @@ class Travel
     protected $client;
 
     /**
-     * @var integer
+     * @var User
      *
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="user")

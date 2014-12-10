@@ -36,14 +36,9 @@
     var stringTravelWasNotAcceptedAndIsExpired = 'Ši kelionė nebuvo priimta ir nebegalioja';
     var stringRateThisTravel = 'Įvertinkite šią kelionę';
     var stringShowReviews = 'Peržiūrėti šios kelionės įvertinimus';
-    var stringError = 'Klaida';
-    var stringErrorInReview = 'Neįvertinote ir/arba nepalikote komentaro';
 
     var stringYours = 'Tavo';
-    var stringDriver = 'Vairuotojo';
-    var stringClient = 'Keleivio';
     var stringReview = 'apžvalga';
-    var stringNoReview = 'apžvalgos nėra';
     /**
      * OnClick - ajax function - load some more travels
      */
@@ -176,11 +171,11 @@
                         } else {
                             //travel has a driver, show review icon, if travel was not reviewed;
                             //ToDo cia galima graziau padaryti:
-                            console.log("ratings " + t.reviewClientRating + " " + t.reviewDriverRating);
+                            console.log('ratings ' + t.reviewClientRating + ' ' + t.reviewDriverRating);
                             var showAbilityToReview = false;
                             var showAbilityToSeeReview = false;
                             if (t.isMyTravel) { //I was a client
-                                if (t.reviewClientRating <= 0 || t.reviewClientRating == null) {
+                                if (t.reviewClientRating <= 0 || t.reviewClientRating === null) {
                                     showAbilityToReview = true;
                                 } else {
                                     showAbilityToSeeReview = true;
@@ -188,7 +183,7 @@
                             }
                             else
                             if ((t.isMyRelatedTravel && !t.isMyTravel)) { //I was a driver:
-                                if (t.reviewDriverRating <= 0 || t.reviewDriverRating == null  ) {
+                                if (t.reviewDriverRating <= 0 || t.reviewDriverRating === null  ) {
                                     showAbilityToReview = true;
                                 } else {
                                     showAbilityToSeeReview = true;
@@ -636,7 +631,6 @@
     function sendReview(travelId, ratingCurrent, commentCurrent) {
         console.log('try ' + travelId + ' ' + ratingCurrent + ' ' + commentCurrent);
         $('#reviewModal').modal('hide');
-        var comment = '';
         $.ajax({
             url: 'reviewTravel/' + travelId,
             type: 'GET',//ToDo need to change to PUT
@@ -722,7 +716,7 @@
                     stars[i].src = imageLinkimageLinkRatingStar;
                 }
             }
-            objDOM.getElementsByClassName("form-control")[0].innerHTML  = reviewEntity.comment;
+            objDOM.getElementsByClassName('form-control')[0].innerHTML  = reviewEntity.comment;
         }
     }
     /* END OF SHOW REVIEWS */

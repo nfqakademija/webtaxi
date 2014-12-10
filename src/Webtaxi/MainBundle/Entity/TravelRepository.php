@@ -1,5 +1,5 @@
 <?php
-namespace Webtaxi\MainBundle\Model;
+namespace Webtaxi\MainBundle\Entity;
 /**
  * Created by PhpStorm.
  * User: grt

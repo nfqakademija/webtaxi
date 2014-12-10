@@ -1,6 +1,6 @@
 <?php
 
-namespace Webtaxi\MainBundle\Model;
+namespace Webtaxi\MainBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

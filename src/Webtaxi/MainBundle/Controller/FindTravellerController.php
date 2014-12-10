@@ -8,6 +8,7 @@ use Webtaxi\MainBundle\Entity\Travel;
 use Webtaxi\MainBundle\Controller\AbstractTravelsControler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Webtaxi\MainBundle\Entity\TravelRepository;
 
 class FindTravellerController extends AbstractTravelsController
 {
@@ -44,31 +45,48 @@ class FindTravellerController extends AbstractTravelsController
      */
     public function acceptTravelAction(Travel $travel)
     {
+        //if current user did not set car license plate:
+        $user = $this->getUser();
+//        $licensePlate = $user->getCarLicensePlate;
+//        if ($licensePlate == null || strlen($licensePlate) == 0) {
+//            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
+//                "Jūs nepridėjote savo automobilio numerio, todėl negalite priimti kelionės.
+//                Nueikite į nustatymus ir pridėkite");
+//        }
+        //
+
         //if travel client is current user, error:
         if ($travel->getClient() == $this->getUser()) {
-            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT, "message" => "Negalite priimti savo paties kelionės")));
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
+                "Negalite priimti savo paties kelionės");
         }
         //if travel already has a driver, it could not be accepted, error:
         if ($travel->getDriver() != null) {
-            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED, 'message' => "Deja, ši kelionė jau turi vairuotoją")));
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED,
+                "Deja, ši kelionė jau turi vairuotoją");
         }
         //if travel is expired, error:
         if ($travel->isTravelExpired()) {
-            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED, "message" => "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos priimti nebegalima")));
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED,
+                "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos priimti nebegalima");
         }
 
         $travel->setDriver($this->getUser());
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return new Response(json_encode(["status" => AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, 'message' => "Jūs priėmėte šią kelionę"]));
+        return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "Jūs priėmėte šią kelionę");
 
     }
 
     protected function getTravels($idFrom, $queryLimit)
     {
-        $travels = $this->getDoctrine()->
-        getRepository('WebtaxiMainBundle:Travel')
+        $repTravels = $this->getDoctrine()->
+        getRepository('WebtaxiMainBundle:Travel');
+        if (!$repTravels instanceof TravelRepository) {
+            throw new InvalidTypeException('must return correct TravelRepository');
+        }
+        $travels = $repTravels
             ->getNotAcceptedTravelsAfterId($idFrom, (int) $queryLimit);
         return $travels;
     }
