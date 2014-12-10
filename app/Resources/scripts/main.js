@@ -109,7 +109,7 @@ jQuery(document).ready(function () {
 
             var infobox = new InfoBox({
                 content: boxTextArray[i],
-                disableAutoPan: false,
+                disableAutoPan: true,
                 maxWidth: 150,
                 pixelOffset: new google.maps.Size(-140, 0),
                 boxStyle: {
@@ -127,7 +127,7 @@ jQuery(document).ready(function () {
 
     var options = {
         zoom: 12,
-        center:  new google.maps.LatLng(54.6833, 25.2833),
+        center:  new google.maps.LatLng(54.685709, 25.102901),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true
     };
@@ -196,7 +196,6 @@ jQuery(document).ready(function () {
     });
     google.maps.event.addDomListener(window, 'resize', function() {
         map.setCenter(center);
-        map.infowindow.open(map,marker);
     });
 
     createInfoBoxes();
