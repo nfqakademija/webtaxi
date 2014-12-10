@@ -1,3 +1,4 @@
+// SPAGHETTI..... my eyes are bleeding
 (function($) {
     'use strict';
     /*START OF GETTING PARAMS*/
@@ -34,8 +35,15 @@
     var stringAcceptThisTravel = 'Priimti šią kelionę';
     var stringTravelWasNotAcceptedAndIsExpired = 'Ši kelionė nebuvo priimta ir nebegalioja';
     var stringRateThisTravel = 'Įvertinkite šią kelionę';
+    var stringShowReviews = 'Peržiūrėti šios kelionės įvertinimus';
     var stringError = 'Klaida';
     var stringErrorInReview = 'Neįvertinote ir/arba nepalikote komentaro';
+
+    var stringYours = 'Tavo';
+    var stringDriver = 'Vairuotojo';
+    var stringClient = 'Keleivio';
+    var stringReview = 'apžvalga';
+    var stringNoReview = 'apžvalgos nėra';
     /**
      * OnClick - ajax function - load some more travels
      */
@@ -169,26 +177,44 @@
                             //travel has a driver, show review icon, if travel was not reviewed;
                             //ToDo cia galima graziau padaryti:
                             console.log("ratings " + t.reviewClientRating + " " + t.reviewDriverRating);
+                            var showAbilityToReview = false;
+                            var showAbilityToSeeReview = false;
                             if (t.isMyTravel) { //I was a client
                                 if (t.reviewClientRating <= 0 || t.reviewClientRating == null) {
-                                    console.log("ratings 1");
-                                    img.src = imageLinkCommentActive;
-                                    img.title = stringRateThisTravel;
-                                    img.alt = stringRateThisTravel;
+                                    showAbilityToReview = true;
                                 } else {
+                                    showAbilityToSeeReview = true;
                                 }
                             }
                             else
                             if ((t.isMyRelatedTravel && !t.isMyTravel)) { //I was a driver:
                                 if (t.reviewDriverRating <= 0 || t.reviewDriverRating == null  ) {
-                                    img.src = imageLinkCommentActive;
-                                    img.title = stringRateThisTravel;
-                                    img.alt = stringRateThisTravel;
+                                    showAbilityToReview = true;
                                 } else {
+                                    showAbilityToSeeReview = true;
                                 }
-
                             }
-                            $( img ).click(createTravelReviewFunction(t.id));
+                            if (showAbilityToReview) {
+                                img.src = imageLinkCommentActive;
+                                img.title = stringRateThisTravel;
+                                img.alt = stringRateThisTravel;
+                                $( img ).click(createTravelReviewFunction(t.id));
+                            } else
+                            if (showAbilityToSeeReview) {
+                                img.src = imageLinkComment;
+                                img.title = stringShowReviews;
+                                img.alt = stringShowReviews;
+                                var review1 = null;
+                                review1 = {rating:t.reviewClientRating, comment:t.reviewClientComment,
+                                    name: '(' + t.client.username + ') ' + t.client.firstName + ' ' + t.client.lastName,
+                                    isYour: t.isMyTravel};
+                                var review2 = null;
+                                review2 = {rating:t.reviewDriverRating, comment:t.reviewDriverComment,
+                                    name: '(' + t.driver.username + ') ' + t.driver.firstName + ' ' + t.driver.lastName,
+                                    isYour: !t.isMyTravel};
+                                var reviews = [review1, review2];
+                                $( img ).click(createShowTravelReviewsFunction(reviews));
+                            }
 
                         }
                         if (t.isMyTravel) {
@@ -628,5 +654,75 @@
         });
     }
     /* END OF SEND REVIEW */
+
+    /* START OF SHOW REVIEWS */
+
+    /**
+     * creates function for showing review dialog;
+     * @param reviews
+     * @returns {Function}
+     */
+    function createShowTravelReviewsFunction(reviews) {
+        return function() {
+            setSingleReviewValues(reviews[0], 'review1');
+            setSingleReviewValues(reviews[1], 'review2');
+            $('#showGivenReviewsModal').modal();
+        };
+
+    }
+
+    /**
+     * sets correct values to show-reviews dialog
+     * @param reviewEntity
+     * @param reviewIDInDocument
+     */
+    function setSingleReviewValues(reviewEntity, reviewIDInDocument) {
+        var objDOM = document.getElementById('' + reviewIDInDocument);
+        var authorMessage = objDOM.getElementsByClassName('reviewGivenAuthor')[1];
+        var yours = '';
+        if (reviewEntity.isYour) {
+            yours = ' (' + stringYours + ')';
+        }
+        authorMessage.innerHTML = reviewEntity.name +  yours + ' ' + stringReview + ':';
+        if (reviewEntity.rating === null || reviewEntity.rating === 0) {
+            objDOM.getElementsByClassName('reviewModalNoReview')[0].style.display = 'block';
+            objDOM.getElementsByClassName('reviewContainer')[0].style.display = 'none';
+            objDOM.getElementsByClassName('form-control')[0].style.display = 'none';
+
+        } else {
+            objDOM.getElementsByClassName('form-control')[0].style.display = 'block';
+            objDOM.getElementsByClassName('reviewContainer')[0].style.display = 'block';
+            objDOM.getElementsByClassName('reviewModalNoReview')[0].style.display = 'none';
+            var stars = objDOM.getElementsByTagName('img');
+            var imageLink = null;
+            switch(reviewEntity.rating) {
+                case 1:
+                    imageLink = imageLinkimageLinkRatingStar1;
+                    break;
+                case 2:
+                    imageLink = imageLinkimageLinkRatingStar2;
+                    break;
+                case 3:
+                    imageLink = imageLinkimageLinkRatingStar3;
+                    break;
+                case 4:
+                    imageLink = imageLinkimageLinkRatingStar4;
+                    break;
+                case 5:
+                    imageLink = imageLinkimageLinkRatingStar5;
+                    break;
+            }
+            for (var i=0;i<5;i++) {
+                if (i<reviewEntity.rating) {
+                    stars[i].src = imageLink;
+                } else {
+                    stars[i].src = imageLinkimageLinkRatingStar;
+                }
+            }
+            objDOM.getElementsByClassName("form-control")[0].innerHTML  = reviewEntity.comment;
+        }
+    }
+    /* END OF SHOW REVIEWS */
+
 })(window.jQuery);
 

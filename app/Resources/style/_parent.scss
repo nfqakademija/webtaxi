@@ -52,7 +52,7 @@ a {
   height: 2em;
 }
 
-ul#reviewContainer {
+ul.reviewContainer {
   text-align: center;
   display: block;
   list-style: none;
@@ -60,11 +60,29 @@ ul#reviewContainer {
   padding: 0;
 }
 
-ul#reviewContainer li {
+ul.reviewContainer li {
   display: inline;
   -webkit-padding: 0;
   padding: 0;
 }
 #reviewCountLeftSymbols, #reviewCountLeftSymbolsValue {
  color: #5e5e5e;
+}
+
+.reviewGivenAuthor {
+  font-weight: bold;
+}
+
+#showGivenReviewsModal .reviewContainer {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#showGivenReviewsModal #review1, #showGivenReviewsModal #review2 {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+#reviewComment1NoReview, #reviewComment2NoReview {
+  display: none;
 }
