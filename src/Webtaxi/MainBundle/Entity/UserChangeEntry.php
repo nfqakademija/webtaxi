@@ -22,13 +22,13 @@ class UserChangeEntry
     private $id;
 
     /**
-     * @var integer
+     * @var User
      *
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="user")
      * @ORM\JoinColumn(name="user_id", nullable=false, referencedColumnName="id")
      */
-    protected $userId;
+    protected $user;
 
     /**
      * @var string
@@ -160,4 +160,22 @@ class UserChangeEntry
     {
         return $this->dateChange;
     }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
 }

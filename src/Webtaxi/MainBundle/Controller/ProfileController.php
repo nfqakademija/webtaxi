@@ -21,8 +21,10 @@ use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Webtaxi\MainBundle\Entity\SingleReview;
 use Webtaxi\MainBundle\Entity\TravelRepository;
+use Webtaxi\MainBundle\Entity\UserChangeEntry;
 
 /**
  * Controller managing the user profile
@@ -90,7 +92,15 @@ class ProfileController extends Controller
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
 
             //save update history:
-
+            $userHistoryEntry = new UserChangeEntry();
+            $userHistoryEntry->setUser($user);
+            $userHistoryEntry->setCarLicensePlate($user->getCarLicensePlate());
+            $userHistoryEntry->setDateChange(new \DateTime());
+            $userHistoryEntry->setFirstName($user->getFirstName());
+            $userHistoryEntry->setLastName($user->getLastName());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($userHistoryEntry);
+            $em->flush();
             //end of save update history
             $userManager->updateUser($user);
 

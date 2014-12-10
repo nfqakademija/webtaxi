@@ -46,13 +46,14 @@ class FindTravellerController extends AbstractTravelsController
     public function acceptTravelAction(Travel $travel)
     {
         //if current user did not set car license plate:
+        /** @var User $user */
         $user = $this->getUser();
-//        $licensePlate = $user->getCarLicensePlate;
-//        if ($licensePlate == null || strlen($licensePlate) == 0) {
-//            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
-//                "Jūs nepridėjote savo automobilio numerio, todėl negalite priimti kelionės.
-//                Nueikite į nustatymus ir pridėkite");
-//        }
+        $licensePlate = $user->getCarLicensePlate();
+        if ($licensePlate == null || strlen($licensePlate) == 0) {
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
+                "Jūs nepridėjote savo automobilio numerio, todėl negalite priimti kelionės.
+                Nueikite į nustatymus ir pridėkite");
+        }
         //
 
         //if travel client is current user, error:
