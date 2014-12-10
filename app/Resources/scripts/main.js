@@ -117,8 +117,7 @@ jQuery(document).ready(function () {
                     opacity: 0.75,
                     width: "auto"
                 },
-                closeBoxMargin: "12px 4px 2px 2px",
-                closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+                closeBoxURL: "",
                 infoBoxClearance: new google.maps.Size(1, 1)
             });
             infoBoxes.push(infobox);
