@@ -46,22 +46,25 @@ class FindTravellerController extends AbstractTravelsController
     {
         //if travel client is current user, error:
         if ($travel->getClient() == $this->getUser()) {
-            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT, "message" => "Negalite priimti savo paties kelionės")));
+            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
+                "Negalite priimti savo paties kelionės");
         }
         //if travel already has a driver, it could not be accepted, error:
         if ($travel->getDriver() != null) {
-            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED, 'message' => "Deja, ši kelionė jau turi vairuotoją")));
+            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED,
+                "Deja, ši kelionė jau turi vairuotoją");
         }
         //if travel is expired, error:
         if ($travel->isTravelExpired()) {
-            return new Response(json_encode(array("status" => AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED, "message" => "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos priimti nebegalima")));
+            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED,
+                "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos priimti nebegalima");
         }
 
         $travel->setDriver($this->getUser());
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return new Response(json_encode(["status" => AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, 'message' => "Jūs priėmėte šią kelionę"]));
+        return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "Jūs priėmėte šią kelionę");
 
     }
 

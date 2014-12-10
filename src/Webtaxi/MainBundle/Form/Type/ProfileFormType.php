@@ -59,7 +59,7 @@ class ProfileFormType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    protected function buildUserForm(FormBuilderInterface $builder, array $options)
+    protected function buildUserForm(FormBuilderInterface $builder)
     {
         $builder
             ->add('firstName', null, array('label' => 'Vardas'))

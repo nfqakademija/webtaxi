@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * UserChangeEntry
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Webtaxi\MainBundle\Model\UserChangeEntryRepository")
+ * @ORM\Entity(repositoryClass="Webtaxi\MainBundle\Entity\UserChangeEntryRepository")
  */
 class UserChangeEntry
 {
