@@ -10,3 +10,25 @@ table#profileInfo tr td {
 table#profileInfo tr td:first-child {
   font-weight: bold;
 }
+
+.inline-group{
+  display: inline;
+  margin: 0;
+}
+
+#profile-container{
+  margin: 0 !important;
+}
+
+.label{
+  font-size: 35%;
+  vertical-align: super;
+}
+
+#update-btn:hover{
+  text-decoration: none !important;
+}
+
+.formlbl{
+  width: 120px;
+}
