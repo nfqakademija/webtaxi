@@ -30,7 +30,7 @@ class ProfileFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->buildUserForm($builder, $options);
+        $this->buildUserForm($builder);
 
 //        $builder->add('current_password', 'password', array(
 //            'label' => 'form.current_password',

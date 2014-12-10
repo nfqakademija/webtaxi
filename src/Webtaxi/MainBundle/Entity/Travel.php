@@ -92,7 +92,7 @@ class Travel
     protected $client;
 
     /**
-     * @var integer
+     * @var User
      *
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="user")

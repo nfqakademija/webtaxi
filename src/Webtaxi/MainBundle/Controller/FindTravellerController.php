@@ -8,6 +8,7 @@ use Webtaxi\MainBundle\Entity\Travel;
 use Webtaxi\MainBundle\Controller\AbstractTravelsControler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Webtaxi\MainBundle\Entity\TravelRepository;
 
 class FindTravellerController extends AbstractTravelsController
 {
@@ -80,8 +81,12 @@ class FindTravellerController extends AbstractTravelsController
 
     protected function getTravels($idFrom, $queryLimit)
     {
-        $travels = $this->getDoctrine()->
-        getRepository('WebtaxiMainBundle:Travel')
+        $repTravels = $this->getDoctrine()->
+        getRepository('WebtaxiMainBundle:Travel');
+        if (!$repTravels instanceof TravelRepository) {
+            throw new InvalidTypeException('must return correct TravelRepository');
+        }
+        $travels = $repTravels
             ->getNotAcceptedTravelsAfterId($idFrom, (int) $queryLimit);
         return $travels;
     }
