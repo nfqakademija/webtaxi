@@ -81,25 +81,25 @@ abstract class AbstractTravelsController extends Controller
     {
         //if travel client is not current user, error:
         if ($travel->getClient() != $this->getUser()) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_NOT_YOURS,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_NOT_YOURS,
                 "Jūs negalite trinti ne savo kelionę");
         }
         //if traval has a driver, it could not be canceled, error:
         if ($travel->getDriver() != null) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED,
                 "Ši kelionė jau priimta, jos trinti nebegalima");
 //            return toJsonResponse(AbstractTravelsController::, "");
         }
         //if travel is expired, error:
         if ($travel->isTravelExpired()) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED,
                 "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos trinti nebegalima");
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($travel);
         $em->flush();
-        return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK,
+        return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK,
             "Jūsų kelionė buvo sėkmingai ištrinta");
 
     }
@@ -118,7 +118,7 @@ abstract class AbstractTravelsController extends Controller
         return $travelResponse;
     }
 
-    public static function toJsonResponse($status, $message) {
+    public function toJsonResponse($status, $message) {
         return new Response(json_encode(array("status" => $status, "message" => $message)));
     }
 

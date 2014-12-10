@@ -44,19 +44,29 @@ class FindTravellerController extends AbstractTravelsController
      */
     public function acceptTravelAction(Travel $travel)
     {
+        //if current user did not set car license plate:
+        $user = $this->getUser();
+//        $licensePlate = $user->getCarLicensePlate;
+//        if ($licensePlate == null || strlen($licensePlate) == 0) {
+//            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
+//                "Jūs nepridėjote savo automobilio numerio, todėl negalite priimti kelionės.
+//                Nueikite į nustatymus ir pridėkite");
+//        }
+        //
+
         //if travel client is current user, error:
         if ($travel->getClient() == $this->getUser()) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_YOURS_CAN_NOT_ACCEPT,
                 "Negalite priimti savo paties kelionės");
         }
         //if travel already has a driver, it could not be accepted, error:
         if ($travel->getDriver() != null) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ALREADY_ACCEPTED,
                 "Deja, ši kelionė jau turi vairuotoją");
         }
         //if travel is expired, error:
         if ($travel->isTravelExpired()) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_IS_EXPIRED,
                 "Ši kelionė sukurta labai seniai. Ji nebegalioja ir jos priimti nebegalima");
         }
 
@@ -64,7 +74,7 @@ class FindTravellerController extends AbstractTravelsController
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "Jūs priėmėte šią kelionę");
+        return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "Jūs priėmėte šią kelionę");
 
     }
 

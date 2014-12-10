@@ -53,7 +53,7 @@ class MyTravelHistoryController extends AbstractTravelsController
 
         // if rating is not between [1, 5] and if comment length is more than 255 symbols, error:
         if ($rating <= 0  || $rating > 5 || $comment == '' || strlen($comment) > 255) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_ARGUMENTS_INVALID,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_ARGUMENTS_INVALID,
                 "Netinkami užklausos parametrai  ir/arba jų reikšmes. " . $rating . " " . $comment);
         }
 
@@ -63,7 +63,7 @@ class MyTravelHistoryController extends AbstractTravelsController
         $isUserAsADriver = $travel->isUserDriver($user);
         // this travel is not related to current user:
         if (!$isUserAsAClient && !$isUserAsADriver) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_NOT_YOURS,
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_NOT_YOURS,
                 "Jūs negalite vertinti ne savo kelionių");
         }
         if ($isUserAsAClient) {
@@ -84,12 +84,12 @@ class MyTravelHistoryController extends AbstractTravelsController
         }
         // review already was given before, error:
         if ($reviewWasAleadyGiven) {
-            return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_REVIEW_GIVEN, "Šios kelionės vertinimą jau atlikote");
+            return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_REVIEW_GIVEN, "Šios kelionės vertinimą jau atlikote");
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "Ačiū. Vertinimas išsaugotas");
+        return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "Ačiū. Vertinimas išsaugotas");
     }
 
     /**
