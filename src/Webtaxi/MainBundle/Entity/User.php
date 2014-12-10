@@ -5,6 +5,7 @@ namespace Webtaxi\MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -66,6 +67,15 @@ class User extends BaseUser implements JsonSerializable
      * @ORM\Column(name="location_updated_at", nullable=true, type="datetimetz")
      */
     private $locationUpdatedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="car_license_plate", nullable=true, type="string", length=20)
+     * @Assert\Length(max = "20")
+     * @Assert\Type(type="string")
+     */
+    private $carLicensePlate;
 
 
     public function __construct()
@@ -266,6 +276,23 @@ class User extends BaseUser implements JsonSerializable
     {
         return $this->locationUpdatedAt;
     }
+
+    /**
+     * @return string
+     */
+    public function getCarLicensePlate()
+    {
+        return $this->carLicensePlate;
+    }
+
+    /**
+     * @param string $carLicensePlate
+     */
+    public function setCarLicensePlate($carLicensePlate)
+    {
+        $this->carLicensePlate = $carLicensePlate;
+    }
+
 
     /**
      * @return array|mixed encoded json (for travel table)

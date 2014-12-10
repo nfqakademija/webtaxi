@@ -145,7 +145,6 @@ class Travel
      */
     protected $distance;
 
-
     /**
      * @var string
      *
