@@ -171,7 +171,7 @@
      */
     function createMarker(pos, t) {
         if(t==='start'){
-        var image = paramsObject.getAttribute('data-userIcon');
+        var image = paramsObject.getAttribute('data-userIcon1');
         } else {var image = paramsObject.getAttribute('data-finishIcon');}
 
             var marker = new google.maps.Marker({
