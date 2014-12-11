@@ -101,10 +101,11 @@ ul.reviewContainer li {
   display: none;
 }
 
-span.form-control.reviewComment {
+span.reviewComment {
   width: 50%;
   min-width: 300px;
   max-width: 400px;
+  height: auto;
 }
 
 div.singleReview ul {
