@@ -51,15 +51,13 @@ class MyTravelHistoryController extends AbstractTravelsController
     {
         $rating = $request->get('rating', 0);
         $comment = $request->get('comment', '');
-
         // if rating is not between [1, 5] and if comment length is more than 255 symbols, error:
         if ($rating <= 0  || $rating > 5 || $comment == '' || strlen($comment) > 255) {
             return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_ARGUMENTS_INVALID,
                 "Netinkami užklausos parametrai  ir/arba jų reikšmes. " . $rating . " " . $comment);
         }
-
         $user = $this->getUser();
-        $reviewWasAleadyGiven = false;
+        $reviewWasAlreadyGiven = false;
         $isUserAsAClient = $travel->isUserClient($user);
         $isUserAsADriver = $travel->isUserDriver($user);
         // this travel is not related to current user:
@@ -68,29 +66,43 @@ class MyTravelHistoryController extends AbstractTravelsController
                 "Jūs negalite vertinti ne savo kelionių");
         }
         if ($isUserAsAClient) {
-            if ($travel->isClientReviewGiven()) {
-                $reviewWasAleadyGiven = true;
-            } else {
-                $travel->setReviewClientRating($rating);
-                $travel->setReviewClientComment($comment);
-            }
+            $reviewWasAlreadyGiven = $this->setReviewClient($travel, $rating, $comment);
         }
         if ($isUserAsADriver) {
-            if ($travel->isDriverReviewGiven()) {
-                $reviewWasAleadyGiven = true;
-            } else {
-                $travel->setReviewDriverRating($rating);
-                $travel->setReviewDriverComment($comment);
-            }
+            $reviewWasAlreadyGiven = $this->setReviewDriver($travel, $rating, $comment);
+
         }
         // review already was given before, error:
-        if ($reviewWasAleadyGiven) {
+        if ($reviewWasAlreadyGiven) {
             return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_REVIEW_GIVEN, "Šios kelionės vertinimą jau atlikote");
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
+        $this->getDoctrine()->getManager()->flush();
         return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_OK, "Ačiū. Vertinimas išsaugotas");
+    }
+
+    private function setReviewClient($travel, $rating, $comment)
+    {
+        $reviewWasAlreadyGiven = false;
+        if ($travel->isClientReviewGiven()) {
+            $reviewWasAlreadyGiven = true;
+        } else {
+            $travel->setReviewClientRating($rating);
+            $travel->setReviewClientComment($comment);
+        }
+        return $reviewWasAlreadyGiven;
+    }
+
+    private function setReviewDriver($travel, $rating, $comment)
+    {
+        $reviewWasAlreadyGiven = false;
+        if ($travel->isDriverReviewGiven()) {
+            $reviewWasAlreadyGiven = true;
+        } else {
+            $travel->setReviewDriverRating($rating);
+            $travel->setReviewDriverComment($comment);
+        }
+        return $reviewWasAlreadyGiven;
     }
 
     /**
