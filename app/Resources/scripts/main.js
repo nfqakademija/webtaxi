@@ -1,4 +1,5 @@
 jQuery(document).ready(function () {
+    'use strict';
     var paramsObject = document.getElementById('parameters');
     var map;
     var markers = [];
@@ -7,35 +8,53 @@ jQuery(document).ready(function () {
     var idArray = [null, null, null, null];
     var check;
 
+    /**
+     * Style options for the map
+     * @type {*[]}
+     */
     var style = [
         {
             stylers: [
-                { saturation: "-100" },
-                { lightness: "20" }
+                { saturation: '-100' },
+                { lightness: '20' }
             ]
         },{
-            featureType: "poi",
+            featureType: 'poi',
             stylers: [
-                { visibility: "off" }
+                { visibility: 'off' }
             ]
         },{
-            featureType: "transit",
+            featureType: 'transit',
             stylers: [
-                { visibility: "off" }
+                { visibility: 'off' }
             ]
         },{
-            featureType: "road",
+            featureType: 'road',
             stylers: [
-                { lightness: "50" },
-                { visibility: "on" }
+                { lightness: '50' },
+                { visibility: 'on' }
             ]
         },{
-            featureType: "landscape",
+            featureType: 'landscape',
             stylers: [
-                { lightness: "50" }
+                { lightness: '50' }
             ]
         }
     ];
+    /**
+     * Options for map initialization and initialization itself
+     * @type {{zoom: number, center: google.maps.LatLng, mapTypeId: *, disableDefaultUI: boolean}}
+     */
+    var options = {
+        zoom: 12,
+        center:  new google.maps.LatLng(54.685709, 25.102901),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true
+    };
+    map = new google.maps.Map($('#map-canvas_main')[0], options);
+    map.setOptions({
+        styles: style
+    });
 
     /**
      * Array of marker coordinates
@@ -79,7 +98,7 @@ jQuery(document).ready(function () {
     ];
 
     /**
-     * Fills array with markers ( with randomly selected icons)
+     * Function for filling array with markers ( with randomly selected icons)
      */
    function addMarkers() {
         var i;
@@ -97,14 +116,14 @@ jQuery(document).ready(function () {
 
 
     /**
-     *
+     *Function for filling array with infoboxes
      */
     function createInfoBoxes(){
         var i;
         for ( i=0; i<strings.length; i++) {
 
-            boxTextArray[i] = document.createElement("div");
-            boxTextArray[i].className = "infobox";
+            boxTextArray[i] = document.createElement('div');
+            boxTextArray[i].className = 'infobox';
             boxTextArray[i].innerHTML = strings[i];
 
             var infobox = new InfoBox({
@@ -115,68 +134,73 @@ jQuery(document).ready(function () {
                 boxStyle: {
                     background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat",
                     opacity: 0.75,
-                    width: "auto"
+                    width: 'auto'
                 },
-                closeBoxURL: "",
+                closeBoxURL: '',
                 infoBoxClearance: new google.maps.Size(1, 1)
             });
             infoBoxes.push(infobox);
         }
     }
 
-    var options = {
-        zoom: 12,
-        center:  new google.maps.LatLng(54.685709, 25.102901),
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        disableDefaultUI: true
-    };
-
-    map = new google.maps.Map($('#map-canvas_main')[0], options);
-    map.setOptions({
-        styles: style
-    });
-
-
-
+    /**
+     * Function to apen infobox of specified marker
+     * @param infobox
+     * @param marker
+     */
     function openInfoBox(infobox, marker){
         infobox.open(map,  marker);
     }
 
-
+    /**
+     * Function to check if specified marker is already set on the map (is in array)
+     * @param array
+     * @param search
+     * @returns {boolean}
+     */
     function isInArray(array, search)
     {
         var i;
         var result = false;
         for (i=0; i<array.length-1; i++){
-            if (search === array[i]) result = true;
+            if (search === array[i]){ result = true; }
         }
         return result;
     }
 
-
+    /**
+     * Set marker on the map (if it is not already opened) and calls other function
+     * to open infobox for that marker
+     * @param marker
+     * @param infobox
+     * @param id
+     */
     function setMarker(marker, infobox, id) {
         idArray[0] = idArray[1];
         idArray[1] = idArray[2];
         idArray[2] = idArray[3];
         idArray[3] = id;
 
-        if (idArray[0] != null) {
+        if (idArray[0] !== null) {
             check = isInArray(idArray, id);
-            if(!check) {
+            if(check) {
                 markers[idArray[0]].setMap(null);
                 infoBoxes[idArray[0]].close();
             }
         }
-
         if(!check){
             marker.setAnimation(google.maps.Animation.DROP);
             marker.setMap(map);
             setTimeout(function () {
-                openInfoBox(infobox, marker)
+                openInfoBox(infobox, marker);
             }, 1000);
         }
     }
 
+    /**
+     * With 8 second interval takes random marker from an array
+     * and call function to put it on the map
+     */
   function randomMarkerAppearance(){
       var first, oldFirst;
       setInterval(function () {
@@ -186,6 +210,9 @@ jQuery(document).ready(function () {
       }, 8000);
   }
 
+    /**
+     * Calculates map centre if window is resized
+     */
     var center;
     function calculateCenter() {
         center = map.getCenter();

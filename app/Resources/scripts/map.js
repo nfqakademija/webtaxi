@@ -12,41 +12,42 @@
         dest;
 
     /**
+     * Initialises map
      * @param location
      */
     function initialise(location) {
         var currentLocation  = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
-
         var style = [
             {
                 stylers: [
-                    { saturation: "-100" },
-                    { lightness: "20" }
+                    { saturation: '-100' },
+                    { lightness: '20' }
                 ]
             },{
-                featureType: "poi",
+                featureType: 'poi',
                 stylers: [
-                    { visibility: "off" }
+                    { visibility: 'off' }
                 ]
             },{
-                featureType: "transit",
+                featureType: 'transit',
                 stylers: [
-                    { visibility: "off" }
+                    { visibility: 'off' }
                 ]
             },{
-                featureType: "road",
+                featureType: 'road',
                 stylers: [
-                    { lightness: "50" },
-                    { visibility: "on" }
+                    { lightness: '50' },
+                    { visibility: 'on' }
                 ]
             },{
-                featureType: "landscape",
+                featureType: 'landscape',
                 stylers: [
-                    { lightness: "50" }
+                    { lightness: '50' }
                 ]
             }
         ];
-        map = new google.maps.Map(document.getElementById("map-canvas"), {
+
+        map = new google.maps.Map(document.getElementById('map-canvas'), {
             center: currentLocation,
             zoom: 14,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -71,14 +72,13 @@
             codeAddress(document.getElementById('dest_address').value, destinationMarker);
         }, false);
 
-        document.getElementById('Kviesti').addEventListener('click', function() {
-            testMovement(startMarker.getPosition().lat(), startMarker.getPosition().lng());
-        });
     }
 
 
 
     /**
+     * Gets position of specific marker when it is created or dragged and geocodes
+     * its position into human readable address
      * @param pos
      * @param marker
      */
@@ -89,35 +89,35 @@
             }
             //var address = responses[0].formatted_address;
 
-            var address = "";
-            var city = "";
-            var state = "";
-            var number = "";
+            var address = '';
+            var city = '';
+            var state = '';
+            var number = '';
 
                     $.each(responses[0].address_components, function(){
                         switch(this.types[0]){
-                            case "route":
+                            case 'route':
                                 address = this.short_name;
                                 break;
-                            case "administrative_area_level_1":
+                            case 'administrative_area_level_1':
                                 state = this.long_name;
                                 break;
-                            case "locality":
+                            case 'locality':
                                 city = this.short_name;
                                 break;
-                            case "street_number":
+                            case 'street_number':
                                 number = this.short_name;
                                 break;
                         }
                     });
-                address=address+" "+number+" "+city;
+                address=address+' '+number+' '+city;
 
 
 
             infowindow.setContent(address);
             infowindow.open(map, marker);
 
-            if (marker.title == 'start') {
+            if (marker.title === 'start') {
                 document.getElementById('address').value = address;
                 start = marker.getPosition();
                 document.getElementById('travel_sourceLatitude').value =marker.getPosition().lat();
@@ -128,8 +128,9 @@
                 document.getElementById('travel_destinationLatitude').value =marker.getPosition().lat();
                 document.getElementById('travel_destinationLongitude').value =marker.getPosition().lng();
             }
-
+            if (typeof dest !== 'undefined'){
             calcRoute(start, dest);
+            }
         };
 
         geocoder.geocode({
@@ -137,19 +138,19 @@
         }, callback);
     }
 
-
+    /**
+     * Geocodes human readable address into coordinates and puts(or creates) marker on these coordinates
+     * @param addressToCode
+     * @param marker
+     */
     function codeAddress(addressToCode, marker) {
         var address = addressToCode;
-
-
-
-
         var callback = function (responses) {
             if (!responses || !responses.length) {
                 return;
             }
                 map.setCenter(responses[0].geometry.location);
-            if (typeof marker === "undefined"){
+            if (typeof marker === 'undefined'){
                 marker = createMarker(responses[0].geometry.location, 'destination');
                 destinationMarkerCreated = true;
             }else{marker.setPosition(responses[0].geometry.location);}
@@ -162,7 +163,7 @@
     }
 
     /**
-     *
+     * Creates marker either on user current position or on clicked spot on the map
      * @param pos
      * @param t
      * @returns {google.maps.Marker}
@@ -175,32 +176,30 @@
             map: map,
             title: t
         });
-
         geocodePosition(pos, marker);
-
         google.maps.event.addListener(marker, 'dragend', function () {
             geocodePosition(marker.getPosition(),marker);
         });
-
         return marker;
     }
 
     /**
+     * Calculates and shows route between start and destination points
      * @param start
      * @param dest
      */
     function calcRoute(start, dest) {
 
         var request = {
-            origin: start,
-            destination: dest,
+            origin: start.toString(),
+            destination: dest.toString(),
             travelMode: google.maps.TravelMode.DRIVING
         };
 
         directionsService.route(request, function (response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
+            if (status === google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
-                document.getElementById("distance").value = response.routes[0].legs[0].distance.value / 1000;
+                document.getElementById('distance').value = response.routes[0].legs[0].distance.value / 1000;
             }
         });
     }
