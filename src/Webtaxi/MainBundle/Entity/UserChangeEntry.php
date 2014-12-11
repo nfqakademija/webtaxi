@@ -33,21 +33,21 @@ class UserChangeEntry
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=255)
+     * @ORM\Column(name="firstName", nullable=true, type="string", length=255)
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=255)
+     * @ORM\Column(name="lastName", nullable=true, type="string", length=255)
      */
     private $lastName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="carLicensePlate", type="string", length=20)
+     * @ORM\Column(name="carLicensePlate", nullable=true, type="string", length=20)
      */
     private $carLicensePlate;
 
