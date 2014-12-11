@@ -26,7 +26,13 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+{% if app.request.attributes.get('_route') == 'fos_user_security_login' or
+app.request.attributes.get('_route') == 'webtaxi_main_main_index' %}
+<body class="mainPage">
+    {% else %}
 <body>
+    {% endif %}
+
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->

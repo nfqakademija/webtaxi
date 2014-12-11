@@ -18,7 +18,7 @@ use Webtaxi\MainBundle\Form\Type\TravelFormType;
 class MapController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/map")
      * @Template()
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
