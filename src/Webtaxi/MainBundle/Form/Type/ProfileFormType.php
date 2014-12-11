@@ -65,6 +65,7 @@ class ProfileFormType extends AbstractType
             ->add('firstName', null, array('label' => 'Vardas'))
             ->add('lastName', null, array('label' => 'Pavardė'))
             ->add('carLicensePlate', null, array('label' => 'Automobilio numeris'))
+            ->add('mobile', null, array('label' => 'Tel nr.'))
         ;
     }
 }

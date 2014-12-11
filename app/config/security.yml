@@ -29,3 +29,4 @@ security:
         - { path: ^/findtraveller, roles: ROLE_USER }
         - { path: ^/calltaxi, roles: ROLE_USER }
         - { path: ^/mytravelhistory, roles: ROLE_USER }
+        - { path: ^/map, roles: ROLE_USER }

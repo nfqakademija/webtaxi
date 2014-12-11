@@ -1,8 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div id="header-btn">
-        <h1>Tavo profilis <a id="update-btn" href="{{ path('fos_user_profile_edit') }}"><span class="label label-primary">Redaguoti</span></a></h1>
-</div>
+<h1>Tavo profilis <a id="update-btn" href="{{ path('fos_user_profile_edit') }}"><span class="label label-primary">Redaguoti</span></a></h1>
 
 
 <div class="fos_user_user_show">
@@ -26,6 +24,11 @@
         <tr>
             <td>Pavardė</td>
             <td>{{ user.lastName }}</td>
+        </tr>
+
+        <tr>
+            <td>Tel nr.</td>
+            <td>{{ user.mobile }}</td>
         </tr>
 
         <tr>

@@ -231,6 +231,7 @@
                     $('#loadMore').hide();
                     $('#noMoreToLoad').show();
                 }
+                window.scrollTo(0,document.body.scrollHeight);
             },
             complete: function(){
                 $('#loadingMore').hide();

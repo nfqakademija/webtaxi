@@ -35,6 +35,16 @@
     </div>
 </div>
 
+        <div class="field">
+            <div class="form-group">
+                <div class="form-inline">
+                    {{ form_label(form.mobile, null, { 'label_attr': {'class': 'formlbl'} }) }}
+                    {{ form_widget(form.mobile, { 'attr': {'class': 'form-control imput-fields'} , 'id': 'carLicensePlate'}  ) }}
+                    {{ form_errors(form.mobile) }}
+                </div>
+            </div>
+        </div>
+
 
     {{ form_rest(form) }}
 
