@@ -1,4 +1,7 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
+{% set title = 'Profilio redagavimas' %}
+{% block title %} {{ title }}{% endblock %}
+{% block description %} {{ title }}{% endblock %}
 
 {% block fos_user_content %}
 {% include "FOSUserBundle:Profile:edit_content.html.twig" %}

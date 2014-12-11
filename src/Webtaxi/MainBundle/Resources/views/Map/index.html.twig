@@ -1,7 +1,10 @@
 {% extends 'WebtaxiMainBundle::parent.html.twig' %}
-
+{% set title = 'Rask Vežėją' %}
+{% block title %} {{ title }}{% endblock %}
+{% block description %} {{ title }}{% endblock %}
 
 {% block content %}
+    <h1>{{ title }}</h1>
 
     {{ form_start(form, {'attr': {'id': 'create-travel-form'}}) }}
     {#{% form_theme form 'WebtaxiMainBundle:Form:form_errors.html.twig' %}#}
@@ -9,13 +12,15 @@
 
 
 
-        {#<input type="text" name="distance" id="distance" readonly="true" />#}
+
 
     <div class="form-group">
         <div class="form-inline">
                 {{ form_label(form.distance, null, { 'label_attr': {'class': 'formlbl'} }) }}
                 {{ form_widget(form.distance, { 'attr': {'class': 'form-control imput-fields'} , 'id': 'distance', 'value':'', 'read_only':true}  ) }}
                 {{ form_errors(form.distance) }}
+
+            <span id="">Paspausk žemėlapyje vietą į kurią nori vykti</span>
         </div>
     </div>
 

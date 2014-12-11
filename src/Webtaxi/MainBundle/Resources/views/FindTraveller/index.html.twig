@@ -1,8 +1,11 @@
 {% extends 'WebtaxiMainBundle::travels.html.twig' %}
+{% set title = 'Rask pakeleivių' %}
+{% block title %} {{ title }}{% endblock %}
+{% block description %} {{ title }}{% endblock %}
 
 {% block travelsContent %}
 
-<h1>Rask pakeleivių</h1>
+<h1>{{ title }}</h1>
 
     <div class="table-responsive" id="travelsList">
         <table class="table">
