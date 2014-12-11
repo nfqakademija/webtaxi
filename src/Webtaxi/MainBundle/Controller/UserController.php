@@ -35,6 +35,11 @@ class UserController extends Controller
             throw new InvalidTypeException('must return correct TravelRepository');
         }
         $travels = $repTravels->getLastRelatedTravels($user, 20);
-        return SingleReview::travelsToReviews($travels, $user);
+        $reviews =  SingleReview::travelsToReviews($travels, $user);
+
+        if (count($reviews) == 0) {
+            $reviews = null;
+        }
+        return $reviews;
     }
 }
