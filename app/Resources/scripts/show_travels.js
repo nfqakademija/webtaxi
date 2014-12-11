@@ -102,7 +102,12 @@
                         if (!isMyTravelsSection) {
                             td = document.createElement('td');
                             fullName = t.client.firstName + ' ' + t.client.lastName;
-                            text = document.createTextNode(t.client.username + ' (' + fullName + ')');
+                            if (fullName.length == 1) {
+                                text = document.createTextNode(t.client.username);
+                            } else {
+                                text = document.createTextNode(t.client.username + ' (' + fullName + ')');
+                            }
+
                             a = document.createElement('a');
                             a.href = 'user/' + t.client.id;
                             a.appendChild(text);

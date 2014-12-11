@@ -94,6 +94,21 @@ class TravelResponse extends Travel  implements JsonSerializable
         } else {
             $timeCallFormated = $this->timeCall->format("n-d H:i");
         }
+        if ($this->client->getLastName() == null) {
+            $this->client->setLastName("");
+        }
+        if ($this->client->getFirstName() == null) {
+            $this->client->setFirstName("");
+        }
+        if ($this->driver != null) {
+            if ($this->driver->getLastName() == null) {
+                $this->driver->setLastName("");
+            }
+            if ($this->driver->getFirstName() == null) {
+                $this->driver->setFirstName("");
+            }
+        }
+
         return [
             'id' => $this->id,
             'timeCall' => $timeCallFormated,
