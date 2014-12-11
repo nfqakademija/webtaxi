@@ -46,16 +46,10 @@ class ProfileController extends Controller
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $repTravels = $this->getDoctrine()->getRepository('WebtaxiMainBundle:Travel');
-        if (!$repTravels instanceof TravelRepository) {
-            throw new InvalidTypeException('must return correct TravelRepository');
-        }
-        $travels = $repTravels->getLastRelatedTravels($user, 20);
-
-        $reviews = SingleReview::travelsToReviews($travels, $user);
+        $reviews = UserController::getReviewsGivenToThisUser($this, $user);
 
         return $this->render('FOSUserBundle:Profile:show.html.twig', array(
-            'user' => $user, 'reviews' => $reviews
+            'user' => $user, 'reviews' => $reviews, 'isCurrentUser'=>true
         ));
     }
 

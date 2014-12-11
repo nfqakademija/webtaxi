@@ -27,7 +27,11 @@ input[type="text"], input[type="password"], input[type="email"] {
 }
 
 a {
-  color: yellow;
+  color: #B5B010;
+}
+
+a:active, a:hover {
+  color: #A39E05;
 }
 
 .navbar-inverse a {

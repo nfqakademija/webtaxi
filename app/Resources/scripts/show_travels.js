@@ -97,12 +97,16 @@
                         tr.appendChild(td);
 
                         var fullName;
+                        var a;
                         //client:
                         if (!isMyTravelsSection) {
                             td = document.createElement('td');
                             fullName = t.client.firstName + ' ' + t.client.lastName;
                             text = document.createTextNode(t.client.username + ' (' + fullName + ')');
-                            td.appendChild(text);
+                            a = document.createElement('a');
+                            a.href = 'user/' + t.client.id;
+                            a.appendChild(text);
+                            td.appendChild(a);
                             tr.appendChild(td);
                         }
 
@@ -146,7 +150,11 @@
                             if (isTravelExpired) {
                                 text.title = stringTravelWasNotAcceptedAndIsExpired;
                             }
-                            td.appendChild(text);
+                            a = document.createElement('a');
+                            a.href = 'user/' + t.client.id;
+                            a.appendChild(text);
+
+                            td.appendChild(a);
                             tr.appendChild(td);
                         }
 

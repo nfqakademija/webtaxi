@@ -92,6 +92,4 @@ class TravelRepository extends EntityRepository
             ->getResult();
     }
 
-
-
 }
