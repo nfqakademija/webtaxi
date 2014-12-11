@@ -5,6 +5,7 @@
         directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer(),
         infowindow = new google.maps.InfoWindow(),
+        paramsObject = document.getElementById('parameters'),
         destinationMarkerCreated = false,
         destinationMarker,
         map,
@@ -169,12 +170,16 @@
      * @returns {google.maps.Marker}
      */
     function createMarker(pos, t) {
+        if(t==='start'){
+        var image = paramsObject.getAttribute('data-userIcon');
+        } else {var image = paramsObject.getAttribute('data-finishIcon');}
 
             var marker = new google.maps.Marker({
             position: pos,
             draggable: true,
             map: map,
-            title: t
+            title: t,
+            icon: image
         });
         geocodePosition(pos, marker);
         google.maps.event.addListener(marker, 'dragend', function () {
@@ -189,7 +194,7 @@
      * @param dest
      */
     function calcRoute(start, dest) {
-
+        directionsDisplay.setOptions( { suppressMarkers: true } );
         var request = {
             origin: start.toString(),
             destination: dest.toString(),
