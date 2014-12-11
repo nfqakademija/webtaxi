@@ -169,45 +169,35 @@ jQuery(document).ready(function () {
     }
 
     /**
-     * Set marker on the map (if it is not already opened) and calls other function
+     * Deletes old marker, sets the new one and calls other function
      * to open infobox for that marker
      * @param marker
      * @param infobox
      * @param id
      */
+    var oldId = null;
     function setMarker(marker, infobox, id) {
-        idArray[0] = idArray[1];
-        idArray[1] = idArray[2];
-        idArray[2] = idArray[3];
-        idArray[3] = id;
-
-        if (idArray[0] !== null) {
-            check = isInArray(idArray, id);
-            if(check) {
-                markers[idArray[0]].setMap(null);
-                infoBoxes[idArray[0]].close();
+        if (oldId !== null) {
+                markers[oldId].setMap(null);
+                infoBoxes[oldId].close();
             }
-        }
-        if(!check){
+
             marker.setAnimation(google.maps.Animation.DROP);
             marker.setMap(map);
-            setTimeout(function () {
                 openInfoBox(infobox, marker);
-            }, 1000);
-        }
+        oldId=id;
     }
 
     /**
-     * With 8 second interval takes random marker from an array
+     * With 6 second interval takes random marker from an array
      * and call function to put it on the map
      */
   function randomMarkerAppearance(){
-      var first, oldFirst;
+      var id;
       setInterval(function () {
-          first = Math.floor(Math.random() * markers.length);
-          setMarker(markers[first], infoBoxes[first], oldFirst);
-          oldFirst=first;
-      }, 8000);
+          id = Math.floor(Math.random() * markers.length);
+          setMarker(markers[id], infoBoxes[id], id);
+      }, 6000);
   }
 
     /**
