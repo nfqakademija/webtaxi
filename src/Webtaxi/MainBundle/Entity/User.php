@@ -77,6 +77,15 @@ class User extends BaseUser implements JsonSerializable
      */
     private $carLicensePlate;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mobile", nullable=true, type="string", length=20)
+     * @Assert\Length(max = "20")
+     * @Assert\Type(type="string")
+     */
+    private $mobile;
+
 
     public function __construct()
     {
@@ -293,6 +302,21 @@ class User extends BaseUser implements JsonSerializable
         $this->carLicensePlate = $carLicensePlate;
     }
 
+    /**
+     * @return string
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * @param string $mobile
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+    }
 
     /**
      * @return array|mixed encoded json (for travel table)
