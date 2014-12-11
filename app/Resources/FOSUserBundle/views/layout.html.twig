@@ -1,7 +1,7 @@
 {% extends 'WebtaxiMainBundle::parent.html.twig' %}
 
 {% block content %}
-    <div class="container " id="reg-container">
+    <div class="container reg-container">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
         {% else %}
@@ -9,7 +9,7 @@
                 {% if app.request.attributes.get('_route') == 'fos_user_registration_register' %}
                     Jau turi paskyrą?
                 {% endif %}
-                <a href="{{ path('fos_user_security_login') }}">Prisijunk</a>
+                <a id='join-label' href="{{ path('fos_user_security_login') }}">Prisijunk</a>
             </h1>
         {% endif %}
     </div>

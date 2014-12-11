@@ -4,16 +4,14 @@
       class="fos_user_registration_register">
     {#{{ form_widget(form) }}#}
 
-<div class="container " id="reg-container">
+<div class="container " >
+    <div class="reg-container">
     <div class="signup">
 
 
     <div class="input-group-form">
         {{ form_widget(form.email, { 'attr': {'class': 'form-control ', 'size': inputSize, 'placeholder':'El paštas'}, }) }}
     </div>
-
-
-
 
     <div class="input-group-form">
         {{ form_widget(form.username, { 'attr': {'class': 'form-control ', 'size': inputSize, 'placeholder':'Vartotojo vardas'}, }) }}
@@ -51,6 +49,7 @@
         <input type="submit" value="Registruotis" class="btn btn-default btn-lg register-btn"/>
     </div>
 
+        </div>
         </div>
     </div>
 
