@@ -54,7 +54,7 @@ class MyTravelHistoryController extends AbstractTravelsController
         // if rating is not between [1, 5] and if comment length is more than 255 symbols, error:
         if ($rating <= 0  || $rating > 5 || $comment == '' || strlen($comment) > 255) {
             return $this->toJsonResponse(AbstractTravelsController::STATUS_TRAVEL_ACTION_ARGUMENTS_INVALID,
-                "Netinkami užklausos parametrai  ir/arba jų reikšmes. " . $rating . " " . $comment);
+                "Netinkami užklausos parametrai  ir/arba jų reikšmes. ");
         }
         $user = $this->getUser();
         $reviewWasAlreadyGiven = false;
